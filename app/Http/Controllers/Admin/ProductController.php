@@ -14,10 +14,17 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->get();
-        return view('admin.product.index', ['title' => 'Read'], compact('products'));
+        $categories = Category::all();
+        $products = Product::with(['category', 'variants'])
+            ->when($request->search, fn($query) => $query->where('name', 'like', '%' . $request->search . '%'))
+            ->when($request->category, fn($query) => $query->whereHas('category', fn($q) => $q->where('slug', $request->category)))
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admin.product.index', ['title' => 'Read'], compact('products', 'categories'));
     }
 
     /**
@@ -35,12 +42,18 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required','string','max:255', Rule::unique('products')->where(fn ($query) => $query->where('category_id', $request->category_id))],
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->where(fn($query) => $query->where('category_id', $request->category_id))],
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+
+            // Validasi untuk varian
+            'variants' => 'required|array|min:1',
+            'variants.*.attribute_name' => 'required|string',  // e.g., Size
+            'variants.*.attribute_value' => 'required|string', // e.g., XL
+            'variants.*.price' => 'required|numeric|min:0',
+            'variants.*.stock' => 'required|integer|min:0',
         ]);
 
         $fileName = null;
@@ -51,16 +64,24 @@ class ProductController extends Controller
             $file->storeAs('uploads', $fileName, 'public');
         }
 
-        Product::create([
+        $product = Product::create([
             'name' => $validated['name'],
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
-            'stock' => $validated['stock'],
             'description' => $validated['description'],
             'image' => $fileName
         ]);
 
-        return redirect()->route('admin.product.index')->with('success', 'Product created successfully!');
+        foreach ($request->variants as $variant) {
+            $product->variants()->create([
+                'attribute_name' => $variant['attribute_name'],
+                'attribute_value' => $variant['attribute_value'],
+                'price' => $variant['price'],
+                'stock' => $variant['stock'],
+            ]);
+        }
+
+        return redirect()->route('admin.product.index')->with('success', 'Product and variants created successfully!');
     }
 
     /**
@@ -68,6 +89,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        
         return view('admin.product.show', ['title' => 'Show'], compact('product'));
     }
 
@@ -86,7 +108,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'name' => ['required','string','max:255', Rule::unique('products')->ignore($product->id)->where(fn ($query) => $query->where('category_id', $request->category_id))],
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($product->id)->where(fn($query) => $query->where('category_id', $request->category_id))],
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',

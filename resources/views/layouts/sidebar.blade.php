@@ -1,4 +1,20 @@
-<div class="min-h-screen font-sans tracking-tight" x-data="{ sidebarOpen: false, isMinimized: false }">
+<div class="min-h-screen font-sans tracking-tight" x-data="{
+    sidebarOpen: false,
+    isMinimized: localStorage.getItem('sidebar-minimized') === 'true',
+    darkMode: document.documentElement.classList.contains('dark')
+}" x-init="$watch('darkMode', val => {
+    if (val) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('dark-mode', 'true');
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('dark-mode', 'false');
+    }
+});
+
+$watch('isMinimized', val => {
+    localStorage.setItem('sidebar-minimized', val);
+})">
     <div
         class="flex min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
@@ -12,7 +28,7 @@
             class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-50 flex flex-col lg:translate-x-0">
 
             <div
-                class="flex items-center h-20 px-8 border-b border-gray-50 dark:border-gray-800 overflow-hidden shrink-0">
+                class="flex items-center h-20 px-6 border-b border-gray-50 dark:border-gray-800 overflow-hidden shrink-0">
                 <div class="flex items-center gap-3">
                     <div
                         class="w-8 h-8 bg-gray-900 dark:bg-rose-600 rounded-lg flex items-center justify-center shadow-sm shrink-0">
@@ -44,7 +60,7 @@
                 <div class="pt-6 pb-2 px-6">
                     <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
                         Management</p>
-                    <hr x-show="isMinimized" class="border-gray-100 dark:border-gray-800" />
+                    <hr x-show="isMinimized" class="border-red-500" />
                 </div>
 
                 <div class="space-y-1">
@@ -82,8 +98,8 @@
                 </a>
 
                 <div class="pt-6 pb-2 px-6">
-                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
-                    </p>
+                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config</p>
+                    <hr x-show="isMinimized" class="border-red-500" />
                 </div>
 
                 <a href="#"
@@ -147,14 +163,14 @@
                         {{ now()->format('D, d M Y') }}
                     </div>
 
-                    <button
+                    <button @click="darkMode = !darkMode"
                         class="rounded-xl text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-rose-600 dark:hover:text-rose-500 transition-all duration-200 border border-transparent">
-                        <svg class="hidden dark:block w-5 h-5" fill="none" stroke="currentColor"
+                        <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        <svg class="block dark:hidden w-5 h-5" fill="none" stroke="currentColor"
+                        <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
