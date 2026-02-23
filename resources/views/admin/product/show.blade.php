@@ -92,7 +92,7 @@
                             <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20 rounded-2xl border border-rose-100/50">
                                 <p class="text-2xs font-bold text-rose-400 uppercase mb-1">Stock on Hand</p>
                                 <p class="text-2xl font-black text-rose-600 dark:text-rose-400">
-                                    {{ $product->variants->sum('stock') }} <span
+                                    {{ $product->getTotalStockAttribute() }} <span
                                         class="text-xs font-medium opacity-60 italic text-gray-500">units</span></p>
                             </div>
                             <div class="p-5 bg-rose-50/50 dark:bg-rose-950/20 rounded-2xl border border-rose-100/50">
@@ -159,11 +159,14 @@
                             class="flex-2 py-5 bg-gray-900 dark:bg-rose-600 text-white text-center text-xs font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-rose-600 dark:hover:bg-rose-700 transition-all shadow-lg active:scale-95">
                             Modify Product
                         </a>
-                        <form action="{{ route('admin.product.destroy', $product) }}" method="POST" class="flex-1"
-                            onsubmit="return confirm('Remove from collection?')">
-                            @csrf @method('DELETE')
-                            <button type="submit"
-                                class="w-full py-5 bg-white dark:bg-transparent border-2 border-rose-100 dark:border-rose-900 text-rose-400 hover:text-rose-600 hover:border-rose-600 transition-all text-xs font-black uppercase tracking-[0.2em] rounded-2xl active:scale-95">
+                        <form action="{{ route('admin.product.destroy', $product) }}" method="POST" class="flex-1">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button"
+                                class="confirm-delete-btn w-full py-5 bg-white dark:bg-transparent border-2 border-rose-100 dark:border-rose-900 text-rose-400 hover:text-rose-600 hover:border-rose-600 transition-all text-xs font-black uppercase tracking-[0.2em] rounded-2xl active:scale-95"
+                                data-confirm-title="Are you sure?"
+                                data-confirm-text="This action cannot be undone and may affect related data."
+                                data-confirm-button="YES, DELETE IT">
                                 Delete
                             </button>
                         </form>

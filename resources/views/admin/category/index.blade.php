@@ -49,7 +49,7 @@
                                 </td>
                                 <td class="px-8 py-6 text-right">
                                     <div class="flex justify-end gap-1 transition-opacity duration-300">
-                                        <a href="{{ route('admin.category.edit', $category) }}"
+                                        <a href="{{ route('admin.category.edit', $category) }}" title="Edit Category"
                                             class="p-2.5 text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
@@ -58,12 +58,16 @@
                                             </svg>
                                         </a>
 
-                                        <form action="{{ route('admin.category.destroy', $category) }}"
-                                            method="POST" class="inline"
-                                            onsubmit="return confirm('Delete this category? Products within it might be affected.')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit"
-                                                class="p-2.5 text-gray-400 hover:text-rose-600 hover:bg-white dark:hover:bg-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md">
+                                        {{-- Ganti form kamu menjadi seperti ini --}}
+                                        <form action="{{ route('admin.category.destroy', $category) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" 
+                                                data-confirm-title="Are you sure?"
+                                                data-confirm-text="This action cannot be undone and may affect related data."
+                                                data-confirm-button="YES, DELETE IT" title="Delete Category"
+                                                class="confirm-delete-btn p-2.5 text-gray-400 hover:text-rose-600 hover:bg-white dark:hover:bg-gray-900 rounded-xl transition-all shadow-sm hover:shadow-md">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"

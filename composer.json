@@ -11,6 +11,7 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "mallardduck/blade-lucide-icons": "^1.26",
+        "realrashid/sweet-alert": "^7.3",
         "recca0120/laravel-erd": "^0.4.0"
     },
     "require-dev": {

@@ -160,12 +160,14 @@
 
                                             {{-- Button Delete --}}
                                             <form action="{{ route('admin.product.destroy', $product) }}"
-                                                method="POST" class="inline">
+                                                method="POST" class="inline delete-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    onclick="return confirm('Are you sure you want to delete this product?')"
-                                                    class="p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all shadow-sm"
+                                                <button type="button" 
+                                                    data-confirm-title="Are you sure?"
+                                                    data-confirm-text="This action cannot be undone and may affect related data."
+                                                    data-confirm-button="YES, DELETE IT"
+                                                    class="confirm-delete-btn p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all shadow-sm"
                                                     title="Delete Product">
                                                     <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                         viewBox="0 0 24 24">

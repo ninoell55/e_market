@@ -4,9 +4,6 @@
     @endif
     
     @section('main')
-        <x-success-alert />
-        <x-error-alert />
-
         <main class="p-4 lg:p-8">
             {{ $slot }}
         </main>

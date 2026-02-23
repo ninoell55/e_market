@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
+        $middleware->web(append: [
+            \RealRashid\SweetAlert\ToSweetAlert::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

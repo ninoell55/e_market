@@ -108,20 +108,32 @@
                         <div
                             class="bg-white dark:bg-gray-900 rounded-4xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 group text-center">
                             <label
-                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 group-focus-within:text-rose-600">Product
-                                Image</label>
+                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 group-focus-within:text-rose-600">
+                                Product Image
+                            </label>
                             <div class="relative group">
-                                <input type="file" name="image"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                <div
-                                    class="aspect-square bg-gray-50 dark:bg-gray-950 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center p-6 group-hover:border-rose-400 transition-colors">
-                                    <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                    <span class="text-2xs font-black text-gray-400 uppercase tracking-widest">Select
-                                        Image</span>
+                                {{-- ID ditambahkan: imageInput --}}
+                                <input type="file" name="image" id="imageInput" accept="image/*"
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+
+                                {{-- ID ditambahkan: imagePreviewContainer --}}
+                                <div id="imagePreviewContainer"
+                                    class="aspect-square bg-gray-50 dark:bg-gray-950 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center overflow-hidden group-hover:border-rose-400 transition-colors">
+
+                                    {{-- Default Placeholder Content --}}
+                                    <div id="placeholderContent" class="flex flex-col items-center justify-center p-6">
+                                        <svg class="w-8 h-8 text-gray-300 mb-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        <span class="text-2xs font-black text-gray-400 uppercase tracking-widest">Select
+                                            Image</span>
+                                    </div>
+
+                                    {{-- Image Preview Tag (Hidden by default) --}}
+                                    <img id="imagePreview" src="#" alt="Preview"
+                                        class="hidden w-full h-full object-cover">
                                 </div>
                             </div>
                         </div>
@@ -163,5 +175,38 @@
             container.insertAdjacentHTML('beforeend', newRow);
             variantCount++;
         }
+
+        // Logic untuk Image Preview
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const placeholder = document.getElementById('placeholderContent');
+            const container = document.getElementById('imagePreviewContainer');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Set sumber gambar ke file yang dipilih
+                    preview.src = e.target.result;
+
+                    // Tampilkan gambar, sembunyikan placeholder
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+
+                    // Ubah border container agar terlihat lebih solid saat ada gambar
+                    container.classList.remove('border-dashed');
+                    container.classList.add('border-solid', 'border-rose-500/30');
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                // Reset jika tidak ada file dipilih
+                preview.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                container.classList.add('border-dashed');
+                container.classList.remove('border-solid', 'border-rose-500/30');
+            }
+        });
     </script>
 </x-admin-layout>

@@ -143,23 +143,29 @@
                         <div
                             class="bg-white dark:bg-gray-900 rounded-4xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 group">
                             <label
-                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 text-center group-focus-within:text-rose-600">Product
-                                Media</label>
+                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 text-center group-focus-within:text-rose-600">
+                                Product Media
+                            </label>
 
                             <div
                                 class="mb-6 rounded-3xl overflow-hidden bg-gray-50 dark:bg-gray-950 border border-gray-100 dark:border-gray-800">
+                                {{-- Tambahkan id="mainImagePreview" --}}
                                 @if ($product->image)
-                                    <img src="{{ asset('storage/uploads/' . $product->image) }}"
-                                        class="w-full h-48 object-cover">
+                                    <img id="mainImagePreview" src="{{ asset('storage/uploads/' . $product->image) }}"
+                                        class="w-full h-48 object-cover transition-opacity duration-300">
                                 @else
-                                    <div
+                                    <div id="imagePlaceholder"
                                         class="w-full h-48 flex items-center justify-center text-2xs font-black text-gray-300 uppercase italic">
-                                        No Image</div>
+                                        No Image
+                                    </div>
+                                    {{-- Tag img tersembunyi untuk tempat preview jika awalnya tidak ada gambar --}}
+                                    <img id="mainImagePreview" src="#" class="hidden w-full h-48 object-cover">
                                 @endif
                             </div>
 
                             <div class="relative">
-                                <input type="file" name="image"
+                                {{-- Tambahkan id="editImageInput" --}}
+                                <input type="file" name="image" id="editImageInput" accept="image/*"
                                     class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
                                 <div
                                     class="w-full py-4 bg-rose-50 dark:bg-rose-500/10 border-2 border-dashed border-rose-100 dark:border-rose-900 rounded-2xl flex flex-col items-center justify-center p-4 hover:border-rose-400 transition-colors">
@@ -169,8 +175,9 @@
                                             d="M12 4v16m8-8H4" />
                                     </svg>
                                     <span
-                                        class="text-[9px] font-black text-rose-400 uppercase tracking-widest text-center">Update
-                                        Artwork</span>
+                                        class="text-[9px] font-black text-rose-400 uppercase tracking-widest text-center">
+                                        Update Artwork
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +226,41 @@
                     if (confirm('Remove this variant?')) e.target.closest('.variant-row').remove();
                 }
             });
+
+            // Logic Preview Gambar Edit
+            const imageInput = document.getElementById('editImageInput');
+            const imagePreview = document.getElementById('mainImagePreview');
+            const placeholder = document.getElementById('imagePlaceholder');
+
+            if (imageInput) {
+                imageInput.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            // Masukkan hasil preview ke src gambar
+                            imagePreview.src = e.target.result;
+
+                            // Munculkan elemen gambar jika sebelumnya tersembunyi (kasus: No Image)
+                            imagePreview.classList.remove('hidden');
+
+                            // Sembunyikan placeholder tulisan "No Image" jika ada
+                            if (placeholder) {
+                                placeholder.classList.add('hidden');
+                            }
+
+                            // Efek transisi halus
+                            imagePreview.style.opacity = '0';
+                            setTimeout(() => {
+                                imagePreview.style.opacity = '1';
+                            }, 50);
+                        }
+
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
         });
     </script>
 </x-admin-layout>

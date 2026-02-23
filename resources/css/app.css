@@ -20,5 +20,33 @@
     --font-inter: "Inter";
     --font-bebas: "Bebas Neue";
     --font-anton: "Anton";
-    --font-rubik-vinyl: "Rubik Vinyl";   
+    --font-rubik-vinyl: "Rubik Vinyl";
+}
+
+/* Pastikan ini di luar blok @theme */
+
+/* Kondisi saat class .dark ada di elemen <html> */
+:where(.dark) .swal2-popup {
+    background-color: #1f2937 !important; /* bg-gray-800 */
+    color: #f9fafb !important; /* text-gray-50 */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+}
+
+:where(.dark) .swal2-title,
+:where(.dark) .swal2-html-container,
+:where(.dark) .swal2-content {
+    color: #f9fafb !important;
+}
+
+:where(.dark) .swal2-confirm {
+    background-color: #3b82f6 !important; /* blue-600 */
+}
+
+:where(.dark) .swal2-cancel {
+    background-color: #4b5563 !important; /* gray-600 */
+}
+
+/* Menggunakan Font dari Theme Tailwind v4 Anda */
+.swal2-popup {
+    font-family: var(--font-sans) !important;
 }

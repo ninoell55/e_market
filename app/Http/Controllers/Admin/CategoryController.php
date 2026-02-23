@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -36,7 +37,10 @@ class CategoryController extends Controller
         ]);
 
         Category::create($validated);
-        return redirect()->route('admin.category.index')->with('success', 'Category created successfully!');
+
+
+        Alert::success('Success', 'Category created successfully!');
+        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -57,7 +61,9 @@ class CategoryController extends Controller
         ]);
 
         $category->update($validated);
-        return redirect()->route('admin.category.index')->with('success', 'Category updated successfully!');
+
+        Alert::success('Success', 'Category updated successfully!');
+        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -67,9 +73,11 @@ class CategoryController extends Controller
     {
         try {
             $category->delete();
-            return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully!');
+            Alert::success('Success', 'Category deleted successfully!');
+            return redirect()->route('admin.category.index');
         } catch (QueryException $e) {
-            return redirect()->route('admin.category.index')->with('error', 'Data cannot be deleted because it is being used in another table.');
+            Alert::error('Error', 'Data cannot be deleted because it is being used in another table.');
+            return redirect()->route('admin.category.index');
         }
     }
 }

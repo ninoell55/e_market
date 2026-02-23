@@ -583,7 +583,7 @@
                     <li class="group">
                         <a href="#" class="block">
                             <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/Fila Disruptor.jpg') }}" alt=""
+                                <img src="{{ asset('assets/img/shoes/Yeezy Boost 350.jpg') }}" alt=""
                                     class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                             </div>
                             <div class="mt-4 flex justify-between items-start px-2">
@@ -600,7 +600,7 @@
                     <li class="group">
                         <a href="#" class="block">
                             <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/Adidas Samba.jpg') }}" alt=""
+                                <img src="{{ asset('assets/img/shoes/New Balance 2002R.jpg') }}" alt=""
                                     class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                             </div>
                             <div class="mt-4 flex justify-between items-start px-2">
@@ -617,7 +617,7 @@
                     <li class="group">
                         <a href="#" class="block">
                             <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/Converse Chuck Taylor All Star.jpg') }}"
+                                <img src="{{ asset('assets/img/shoes/Air Jordan 4.jpg') }}"
                                     alt=""
                                     class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
                             </div>

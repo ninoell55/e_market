@@ -8,26 +8,23 @@
 
     <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
     <script>
-        // Cek localstorage atau preferensi tema pengguna
-        if (localStorage.getItem('dark-mode') === 'true' || 
+        if (localStorage.getItem('dark-mode') === 'true' ||
             (!('dark-mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
     </script>
-    
-    <!-- Scripts -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
     {{ $slot }}
+
+    @include('sweetalert::alert')
+    <script src="{{ asset('assets/js/sweetalert2@11.js') }}"></script>
 </body>
 
 </html>

@@ -51,6 +51,8 @@
             &copy; 2026 FashionAura Boutique
         </div>
     </div>
+
+    @include('sweetalert::alert')
 </body>
 
 </html>

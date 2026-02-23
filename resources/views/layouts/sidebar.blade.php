@@ -98,7 +98,8 @@ $watch('isMinimized', val => {
                 </a>
 
                 <div class="pt-6 pb-2 px-6">
-                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config</p>
+                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
+                    </p>
                     <hr x-show="isMinimized" class="border-red-500" />
                 </div>
 
@@ -223,8 +224,11 @@ $watch('isMinimized', val => {
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault(); this.closest('form').submit();"
-                                        class="rounded-lg text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all">
+                                        class="confirm-delete-btn rounded-lg text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all cursor-pointer"
+                                        data-confirm-title="Ready to Sign Out?"
+                                        data-confirm-text="You will need to login again to manage your luxury collection."
+                                        data-confirm-button="SIGN OUT"
+                                        onclick="event.preventDefault();">
                                         {{ __('Sign Out') }}
                                     </x-dropdown-link>
                                 </form>
