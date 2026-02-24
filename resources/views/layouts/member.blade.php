@@ -14,9 +14,6 @@
             </header>
         @endisset
 
-        <x-success-alert />
-        <x-error-alert />
-
         <main>
             {{ $slot }}
         </main>

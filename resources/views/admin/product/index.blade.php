@@ -112,8 +112,25 @@
                                         </div>
                                     </td>
                                     <td class="px-8 py-6">
+                                        @php
+                                            $categoryName = strtolower($product->category->category_name);
+
+                                            $colorMap = [
+                                                'shoes' =>
+                                                    'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20',
+                                                'clothes' =>
+                                                    'bg-yellow-50 text-yellow-600 border-yellow-100 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20',
+                                                'accessories' =>
+                                                    'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/20',
+                                                'default' =>
+                                                    'bg-gray-50 text-gray-600 border-gray-100 dark:bg-gray-500/10 dark:text-gray-400 dark:border-gray-500/20',
+                                            ];
+
+                                            $appliedColor = $colorMap[$categoryName] ?? $colorMap['default'];
+                                        @endphp
+
                                         <span
-                                            class="px-3 py-1 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-500 text-[9px] font-black uppercase tracking-widest rounded-full border border-rose-100 dark:border-rose-500/20">
+                                            class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border {{ $appliedColor }}">
                                             {{ $product->category->category_name }}
                                         </span>
                                     </td>
@@ -163,8 +180,7 @@
                                                 method="POST" class="inline delete-form">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" 
-                                                    data-confirm-title="Are you sure?"
+                                                <button type="button" data-confirm-title="Are you sure?"
                                                     data-confirm-text="This action cannot be undone and may affect related data."
                                                     data-confirm-button="YES, DELETE IT"
                                                     class="confirm-delete-btn p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all shadow-sm"
@@ -194,7 +210,7 @@
                                                 </svg>
                                             </div>
                                             <span class="text-sm font-bold text-gray-400 uppercase">No products
-                                                found</span>
+                                                found.</span>
                                         </div>
                                     </td>
                                 </tr>

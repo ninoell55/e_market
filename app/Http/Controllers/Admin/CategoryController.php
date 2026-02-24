@@ -38,7 +38,6 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-
         Alert::success('Success', 'Category created successfully!');
         return redirect()->route('admin.category.index');
     }

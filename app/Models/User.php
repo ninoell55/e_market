@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -19,9 +20,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
+        'email_verified_at',
         'password',
         'role',
+        'remember_token'
     ];
 
     /**
@@ -47,7 +51,20 @@ class User extends Authenticatable
         ];
     }
 
-    // Di dalam class User
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->username = Str::slug($user->name);
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
     public function getDashboardRouteName()
     {
         return $this->role === 'admin' || $this->role === 'superadmin' ? 'admin.dashboard' : 'member.dashboard';

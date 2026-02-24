@@ -64,17 +64,14 @@ $watch('isMinimized', val => {
                 </div>
 
                 <div class="space-y-1">
-                    {{-- 1. Gunakan komponen dropdown untuk menu induk --}}
                     <x-sidebar-dropdown label="Catalog" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
                         <x-slot name="icon">
-                            {{-- Masukkan SVG asli kamu di sini --}}
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                             </svg>
                         </x-slot>
 
-                        {{-- 2. Gunakan komponen sublink untuk menu di dalamnya --}}
                         <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">
                             Products
                         </x-sidebar-sublink>
@@ -85,17 +82,24 @@ $watch('isMinimized', val => {
                     </x-sidebar-dropdown>
                 </div>
 
-                <a href="#"
-                    class="flex items-center h-11 rounded-xl text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group">
-                    <div class="w-12 shrink-0 flex items-center justify-center group-hover:text-rose-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
-                    </div>
-                    <span x-show="!isMinimized" x-transition.opacity
-                        class="text-sm font-bold uppercase tracking-widest flex-1 leading-none group-hover:text-gray-900 dark:group-hover:text-white">Orders</span>
-                </a>
+                <div class="space-y-1">
+                    <x-sidebar-dropdown label="Shopping" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
+                        <x-slot name="icon">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                        </x-slot>
+
+                        <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">
+                            Orders
+                        </x-sidebar-sublink>
+
+                        <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">
+                            Payments
+                        </x-sidebar-sublink>
+                    </x-sidebar-dropdown>
+                </div>
 
                 <div class="pt-6 pb-2 px-6">
                     <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
@@ -103,17 +107,15 @@ $watch('isMinimized', val => {
                     <hr x-show="isMinimized" class="border-red-500" />
                 </div>
 
-                <a href="#"
-                    class="flex items-center h-11 rounded-xl text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all group">
-                    <div class="w-12 shrink-0 flex items-center justify-center group-hover:text-rose-600">
+                <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.index')">
+                    <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         </svg>
-                    </div>
-                    <span x-show="!isMinimized" x-transition.opacity
-                        class="text-sm font-bold uppercase tracking-widest flex-1 leading-none group-hover:text-gray-900 dark:group-hover:text-white">Settings</span>
-                </a>
+                    </x-slot>
+                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Settings') }}</span>
+                </x-sidebar-link>
             </nav>
 
             <div class="p-4 mt-auto border-t border-gray-50 dark:border-gray-800">
@@ -209,7 +211,7 @@ $watch('isMinimized', val => {
                                 class="px-4 py-3 bg-gray-50/50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-800">
                                 <p class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-0.5">Account
                                     Info</p>
-                                <p class="text-[11px] font-black text-gray-900 dark:text-white truncate uppercase">
+                                <p class="text-[11px] font-black text-gray-900 dark:text-white truncate lowercase">
                                     {{ Auth::user()->email }}</p>
                             </div>
 
@@ -227,8 +229,7 @@ $watch('isMinimized', val => {
                                         class="confirm-delete-btn rounded-lg text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all cursor-pointer"
                                         data-confirm-title="Ready to Sign Out?"
                                         data-confirm-text="You will need to login again to manage your luxury collection."
-                                        data-confirm-button="SIGN OUT"
-                                        onclick="event.preventDefault();">
+                                        data-confirm-button="SIGN OUT" onclick="event.preventDefault();">
                                         {{ __('Sign Out') }}
                                     </x-dropdown-link>
                                 </form>

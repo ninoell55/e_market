@@ -1,4 +1,8 @@
-<x-app-layout>
+@php
+    $layout = Auth::user()->role === 'superadmin' || Auth::user()->role === 'admin' ? 'admin-layout' : 'member-layout';
+@endphp
+
+<x-dynamic-component :component="$layout">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Profile') }}
@@ -26,4 +30,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-dynamic-component>

@@ -5,14 +5,23 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-8">
-                <h3 class="text-2xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center">
-                    <span class="w-2 h-8 bg-rose-600 mr-4 rounded-full"></span>
-                    Create New Product
-                </h3>
-                <p class="text-2xs font-bold text-gray-400 uppercase tracking-[0.2em] mt-2 ml-6">
-                    Add new inventory to your store catalog
-                </p>
+            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white tracking-tighter flex items-center">
+                        <span class="w-2 h-8 bg-rose-600 mr-4 rounded-full"></span>
+                        Add New Product
+                    </h3>
+                    <p class="text-2xs font-bold text-gray-400 uppercase tracking-[0.2em] mt-2 ml-6">
+                        Create new inventory to your store catalog.
+                    </p>
+                </div>
+                <a href="{{ route('admin.product.index') }}"
+                    class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-gray-500 hover:text-rose-600 transition-all uppercase tracking-widest ml-6 md:ml-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Back to collection
+                </a>
             </div>
 
             <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
