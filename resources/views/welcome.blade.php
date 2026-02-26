@@ -19,7 +19,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
+<body class="selection:bg-rose-600">
 
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>

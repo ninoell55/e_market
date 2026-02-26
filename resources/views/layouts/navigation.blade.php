@@ -31,7 +31,7 @@
                         <x-dropdown align="left" width="64">
                             <x-slot name="trigger">
                                 <button
-                                    class="inline-flex items-center px-8 h-full border-r border-gray-100 dark:border-white/5 text-[11px] font-black uppercase tracking-[0.4em] transition-all outline-none group {{ request()->routeIs('member.collection.show') ? 'text-rose-600 bg-gray-50/50 dark:bg-white/2 shadow-[inset_0_-2px_0_0_#e11d48]' : 'text-gray-400 hover:text-gray-950 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5' }}">
+                                    class="cursor-pointer inline-flex items-center px-8 h-full border-r border-gray-100 dark:border-white/5 text-[11px] font-black uppercase tracking-[0.4em] transition-all outline-none group {{ request()->routeIs('member.collection.show') ? 'text-rose-600 bg-gray-50/50 dark:bg-white/2 shadow-[inset_0_-2px_0_0_#e11d48]' : 'text-gray-400 hover:text-gray-950 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5' }}">
 
                                     <span>Collections</span>
 
@@ -61,7 +61,7 @@
                                         @endphp
 
                                         <x-dropdown-link :href="route('member.collection.show', $category->slug)"
-                                            class="px-6 py-4 text-2xs font-black uppercase tracking-widest transition-all {{ $isCatActive ? 'bg-rose-600 text-white hover:text-black' : 'hover:bg-rose-600 hover:text-white text-gray-700 dark:text-gray-300' }}">
+                                            class="px-6 py-4 text-2xs font-black uppercase tracking-widest transition-all {{ $isCatActive ? 'bg-rose-600 hover:bg-rose-400 text-white hover:text-black' : 'hover:bg-gray-200 text-gray-700 dark:text-gray-300' }}">
                                             <div class="flex justify-between items-center">
                                                 <span>{{ $category->category_name }}</span>
                                                 <span
@@ -148,9 +148,11 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <x-dropdown-link :href="route('logout')"
-                                        class="rounded-none text-2xs font-black uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-600 hover:text-white transition-all"
-                                        onclick="event.preventDefault(); this.closest('form').submit();">
-                                        Sign Out
+                                        class="confirm-delete-btn rounded-none text-2xs font-black uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-600 hover:text-white transition-all"
+                                        data-confirm-title="Ready to Sign Out?"
+                                        data-confirm-text="You will need to login again to manage your luxury collection."
+                                        data-confirm-button="SIGN OUT" onclick="event.preventDefault();">
+                                        {{ __('Sign Out') }}
                                     </x-dropdown-link>
                                 </form>
                             </div>
