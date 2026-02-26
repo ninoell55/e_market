@@ -9,17 +9,13 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $shoes = Category::with(['products' => function ($query) {
-            $query->where('is_active', true)->take(4);
-        }])->where('slug', 'shoes')->first();
-        
-        $clothes = Category::with(['products' => function ($query) {
-            $query->where('is_active', true)->take(4);
-        }])->where('slug', 'clothes')->first();
-        
-        $accessories = Category::with(['products' => function ($query) {
-            $query->where('is_active', true)->take(4);
-        }])->where('slug', 'accessories')->first();
+        $categories = Category::with(['products' => function ($query) {
+            $query->where('is_best', true)->take(4);
+        }])->whereIn('slug', ['shoes', 'clothes', 'accessories'])->get();
+
+        $shoes = $categories->where('slug', 'shoes')->first();
+        $clothes = $categories->where('slug', 'clothes')->first();
+        $accessories = $categories->where('slug', 'accessories')->first();
 
         return view('welcome', compact('shoes', 'clothes', 'accessories'));
     }
