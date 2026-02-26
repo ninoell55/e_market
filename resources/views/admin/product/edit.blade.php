@@ -59,7 +59,7 @@
                                         Reference</label>
                                     <div class="relative">
                                         <span
-                                            class="absolute left-6 top-1/2 -translate-y-1/2 text-2xs font-black text-gray-400">RP</span>
+                                            class="absolute left-6 top-1/2 -translate-y-1/2 text-2xs font-black text-gray-400">IDR</span>
                                         <input type="number" name="price" value="{{ old('price', $product->price) }}"
                                             class="w-full pl-14 pr-6 py-4 bg-gray-50 dark:bg-gray-950 border-none rounded-2xl focus:ring-2 focus:ring-rose-600/20 dark:text-white outline-none transition-all font-bold">
                                     </div>
@@ -160,7 +160,7 @@
                             class="bg-white dark:bg-gray-900 rounded-4xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 group">
                             <label
                                 class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 text-center group-focus-within:text-rose-600">
-                                Product Media
+                                Product Image
                             </label>
 
                             <div
@@ -192,7 +192,7 @@
                                     </svg>
                                     <span
                                         class="text-[9px] font-black text-rose-400 uppercase tracking-widest text-center">
-                                        Update Artwork
+                                        Update Image
                                     </span>
                                 </div>
                             </div>

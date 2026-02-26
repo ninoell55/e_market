@@ -167,7 +167,7 @@ $watch('isMinimized', val => {
                     </div>
 
                     <button @click="darkMode = !darkMode"
-                        class="rounded-xl text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-rose-600 dark:hover:text-rose-500 transition-all duration-200 border border-transparent">
+                        class="rounded-xl text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-900 hover:text-rose-600 dark:hover:text-rose-500 transition-all duration-200 border border-transparent cursor-pointer">
                         <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

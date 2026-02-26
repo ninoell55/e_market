@@ -1,130 +1,188 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+<nav x-data="{
+    open: false,
+    darkMode: document.documentElement.classList.contains('dark')
+}" x-init="$watch('darkMode', val => {
+    if (val) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('dark-mode', 'true');
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('dark-mode', 'false');
+    }
+});"
+    class="sticky top-0 z-50 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-white/5">
+    <div class="w-full">
+        <div class="flex justify-between h-24">
             <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route(Auth::user()->getDashboardRouteName()) }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                <div class="shrink-0 flex items-center px-6 lg:px-12 border-r border-gray-100 dark:border-white/5">
+                    <a href="{{ route(Auth::user()->getDashboardRouteName()) }}"
+                        class="group transition-transform active:scale-95">
+                        <x-application-logo
+                            class="block h-10 w-auto fill-current text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors" />
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden sm:flex">
                     <x-nav-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())">
-                        {{ __('Dashboard') }}
+                        {{ __('Index') }}
+                    </x-nav-link>
+
+                    <div class="flex">
+                        <x-dropdown align="left" width="64">
+                            <x-slot name="trigger">
+                                <button
+                                    class="inline-flex items-center px-8 h-full border-r border-gray-100 dark:border-white/5 text-[11px] font-black uppercase tracking-[0.4em] transition-all outline-none group {{ request()->routeIs('member.collection.show') ? 'text-rose-600 bg-gray-50/50 dark:bg-white/2 shadow-[inset_0_-2px_0_0_#e11d48]' : 'text-gray-400 hover:text-gray-950 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5' }}">
+
+                                    <span>Collections</span>
+
+                                    <svg class="ml-2 w-3 h-3 transition-transform duration-300 {{ request()->routeIs('member.collection.show') ? 'text-rose-600' : '' }}"
+                                        :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <div
+                                    class="bg-white dark:bg-gray-950 border border-gray-100 dark:border-white/10 rounded-none shadow-2xl overflow-hidden">
+                                    <div
+                                        class="p-4 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/2 text-center">
+                                        <p
+                                            class="text-[9px] font-black text-rose-600 uppercase tracking-[0.3em] italic">
+                                            Archive // Categories</p>
+                                    </div>
+
+                                    @foreach ($categories as $category)
+                                        @php
+                                            // Check if this specific category is active in the current URL
+                                            $isCatActive = request()->route('slug') === $category->slug;
+                                        @endphp
+
+                                        <x-dropdown-link :href="route('member.collection.show', $category->slug)"
+                                            class="px-6 py-4 text-2xs font-black uppercase tracking-widest transition-all {{ $isCatActive ? 'bg-rose-600 text-white hover:text-black' : 'hover:bg-rose-600 hover:text-white text-gray-700 dark:text-gray-300' }}">
+                                            <div class="flex justify-between items-center">
+                                                <span>{{ $category->category_name }}</span>
+                                                <span
+                                                    class="{{ $isCatActive ? 'text-white/50' : 'opacity-30' }} italic">
+                                                    // {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                                                </span>
+                                            </div>
+                                        </x-dropdown-link>
+                                    @endforeach
+
+                                    <div
+                                        class="p-4 border-t border-gray-100 dark:border-white/5 text-center bg-gray-50/30 dark:bg-white/1">
+                                        <a href="{{ route(Auth::user()->getDashboardRouteName()) }}"
+                                            class="text-[9px] font-bold text-gray-400 hover:text-rose-600 uppercase tracking-tighter transition-colors">
+                                            Back to Global Feed →
+                                        </a>
+                                    </div>
+                                </div>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+
+                    <x-nav-link :href="route('member.archive')" :active="request()->routeIs('member.archive')">
+                        {{ __('Archive') }}
                     </x-nav-link>
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="56">
-                    <x-slot name="trigger">
-                        <div
-                            class="flex items-center gap-3 sm:gap-4 sm:pl-6 sm:border-l border-gray-100 dark:border-gray-800 cursor-pointer group select-none">
-                            <div class="text-right flex flex-col justify-center">
-                                <p
-                                    class="text-2xs sm:text-xs font-black text-gray-900 dark:text-white uppercase tracking-tighter leading-tight group-hover:text-rose-600 transition-colors">
-                                    {{ Auth::user()->name }}
-                                </p>
-                                <p
-                                    class="text-[8px] sm:text-[9px] text-rose-600 font-bold uppercase tracking-widest leading-none mt-0.5">
-                                    {{ ucfirst(Auth::user()->role) }}
-                                </p>
-                            </div>
+            <div class="flex items-center">
+                <div
+                    class="hidden xl:flex h-full items-center px-10 border-l border-gray-100 dark:border-white/5 text-2xs font-black text-gray-400 uppercase tracking-[0.3em] italic">
+                    {{ now()->format('D, d M Y') }}
+                </div>
 
-                            <div class="relative shrink-0 transition-transform active:scale-95 duration-200">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=111827&color=fff"
-                                    class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-sm border border-transparent group-hover:border-rose-600 transition-all duration-300"
-                                    alt="Avatar" />
-                                <div
-                                    class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-gray-950 rounded-full">
-                                </div>
-                            </div>
-                        </div>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <div
-                            class="px-4 py-3 bg-gray-50/50 dark:bg-gray-900/50 border-b border-gray-100 dark:border-gray-800">
-                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-0.5">Account
-                                Info</p>
-                            <p class="text-[11px] font-black text-gray-900 dark:text-white truncate lowercase">
-                                {{ Auth::user()->email }}</p>
-                        </div>
-
-                        <div class="p-1.5">
-                            <x-dropdown-link :href="route('profile.edit')"
-                                class="rounded-lg text-2xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-gray-600 transition-all">
-                                {{ __('Edit Profile') }}
-                            </x-dropdown-link>
-
-                            <div class="my-1.5 border-t border-gray-50 dark:border-gray-800"></div>
-
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <x-dropdown-link :href="route('logout')"
-                                    class="confirm-delete-btn rounded-lg text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all cursor-pointer"
-                                    data-confirm-title="Ready to Sign Out?"
-                                    data-confirm-text="You will need to login again to manage your luxury collection."
-                                    data-confirm-button="SIGN OUT" onclick="event.preventDefault();">
-                                    {{ __('Sign Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </div>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <button @click="darkMode = !darkMode"
+                    class="h-full px-8 border-l border-gray-100 dark:border-white/5 text-gray-400 hover:text-rose-600 hover:bg-gray-50 dark:hover:bg-white/5 transition-all focus:outline-none cursor-pointer">
+                    <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
+
+                <div class="h-full sm:flex sm:items-center">
+                    <x-dropdown align="right" width="64">
+                        <x-slot name="trigger">
+                            <div
+                                class="h-24 flex items-center gap-6 px-6 lg:px-12 border-l border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/2 cursor-pointer group select-none hover:bg-rose-600 transition-all duration-500">
+                                <div class="hidden md:flex text-right flex-col justify-center">
+                                    <p
+                                        class="text-xs font-black text-gray-900 dark:text-white uppercase tracking-tighter group-hover:text-white transition-colors">
+                                        {{ Auth::user()->name }}
+                                    </p>
+                                    <p
+                                        class="text-[9px] text-rose-600 font-bold uppercase tracking-[0.2em] mt-1 group-hover:text-rose-200 transition-colors">
+                                        {{ ucfirst(Auth::user()->role) }}
+                                    </p>
+                                </div>
+                                <div class="relative shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=111827&color=fff"
+                                        class="w-10 h-10 rounded-none border border-gray-900 dark:border-white group-hover:border-white transition-all duration-300 object-cover grayscale group-hover:grayscale-0"
+                                        alt="Avatar" />
+                                </div>
+                            </div>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div
+                                class="px-5 py-4 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-white/5">
+                                <p class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status:
+                                    Active</p>
+                                <p
+                                    class="text-xs font-black text-gray-900 dark:text-white italic lowercase tracking-tight">
+                                    {{ Auth::user()->email }}</p>
+                            </div>
+                            <div class="p-2 bg-white dark:bg-gray-950">
+                                <x-dropdown-link :href="route('profile.edit')"
+                                    class="rounded-none text-2xs font-black uppercase tracking-[0.2em] hover:bg-rose-600 hover:text-white transition-all">
+                                    Profile
+                                </x-dropdown-link>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <x-dropdown-link :href="route('logout')"
+                                        class="rounded-none text-2xs font-black uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-600 hover:text-white transition-all"
+                                        onclick="event.preventDefault(); this.closest('form').submit();">
+                                        Sign Out
+                                    </x-dropdown-link>
+                                </form>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+
+                <div class="flex items-center sm:hidden h-full border-l border-gray-100 dark:border-white/5">
+                    <button @click="open = ! open"
+                        class="px-6 h-full text-gray-500 hover:bg-gray-100 dark:hover:bg-white/5 transition-all">
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                            <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())">
-                {{ __('Dashboard') }}
+    <div x-show="open" class="sm:hidden bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-white/5">
+        <div class="py-4 space-y-1">
+            <x-responsive-nav-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())"
+                class="font-black uppercase tracking-[0.3em] text-xs">
+                Dashboard
             </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
+            <x-responsive-nav-link href="#" class="font-black uppercase tracking-[0.3em] text-xs">
+                Collections
+            </x-responsive-nav-link>
         </div>
     </div>
 </nav>

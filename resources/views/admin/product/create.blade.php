@@ -66,7 +66,7 @@
                                         Price</label>
                                     <div class="relative">
                                         <span
-                                            class="absolute left-6 top-1/2 -translate-y-1/2 text-2xs font-black text-gray-400">RP</span>
+                                            class="absolute left-6 top-1/2 -translate-y-1/2 text-2xs font-black text-gray-400">IDR</span>
                                         <input type="number" name="price" value="{{ old('price') }}" placeholder="0"
                                             class="w-full pl-14 pr-6 py-4 bg-gray-50 dark:bg-gray-950 border-none rounded-2xl focus:ring-2 focus:ring-rose-600/20 dark:text-white outline-none transition-all font-bold">
                                     </div>
@@ -108,7 +108,7 @@
                                         <div>
                                             <label
                                                 class="block text-[9px] font-black text-gray-400 uppercase mb-2 ml-1">{{ $label }}</label>
-                                            <input type="text" name="variants[0][{{ $key }}]"
+                                            <input type="{{ ($key === 'price' || $key === 'stock') ? 'number' : 'text' }}" name="variants[0][{{ $key }}]"
                                                 class="w-full bg-white dark:bg-gray-900 border-none rounded-xl text-xs font-bold uppercase focus:ring-1 focus:ring-rose-500 dark:text-white">
                                         </div>
                                     @endforeach

@@ -30,7 +30,6 @@
                             </svg>
                         </div>
 
-                        {{-- Tombol submit tersembunyi agar bisa enter --}}
                         <button type="submit" class="hidden"></button>
                     </form>
 
@@ -138,7 +137,7 @@
                                         <div class="flex flex-col">
                                             <span
                                                 class="text-sm font-black text-gray-900 dark:text-white tracking-tighter">
-                                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                                                IDR {{ number_format($product->price, 0, ',', '.') }}
                                             </span>
                                             {{-- Karena stok ada di varian, tampilkan total stok dari semua varian --}}
                                             <span

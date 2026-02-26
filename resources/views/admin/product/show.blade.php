@@ -55,7 +55,7 @@
                             class="bg-linear-to-br from-rose-600 to-rose-700 p-8 rounded-[2.5rem] shadow-lg shadow-rose-200 dark:shadow-none text-white">
                             <p class="text-rose-100 text-xs font-bold uppercase tracking-tighter mb-1">MSRP / Listing
                                 Price</p>
-                            <h2 class="text-4xl font-black italic">Rp {{ number_format($product->price, 0, ',', '.') }}
+                            <h2 class="text-4xl font-black italic">IDR {{ number_format($product->price, 0, ',', '.') }}
                             </h2>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
                                             </td>
                                             <td
                                                 class="px-8 py-5 text-right font-mono text-sm font-bold text-gray-900 dark:text-white">
-                                                {{ number_format($variant->price, 0, ',', '.') }}
+                                                IDR {{ number_format($variant->price, 0, ',', '.') }}
                                             </td>
                                             <td class="px-8 py-5 text-right">
                                                 <span

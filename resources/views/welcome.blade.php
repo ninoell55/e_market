@@ -34,9 +34,9 @@
             <div class="px-6 md:px-12 w-full xl:px-14 lg:py-4 transition-all duration-300" id="header-container">
                 <div class="flex items-center justify-between">
                     <div class="relative z-20">
-                        <a class="flex items-center gap-2 text-3xl font-extrabold text-gray-900 dark:text-white transition-transform duration-300 hover:scale-105 font-rubik-vinyl"
+                        <a class="flex items-center gap-2 text-3xl font-extrabold text-gray-900 dark:text-white transition-transform duration-300 hover:scale-105"
                             href="#">
-                            <span class="tracking-tighter">Fashion<span class="text-rose-600 italic">Aura</span></span>
+                            <span class="-tracking-widest">Fashion<span class="text-rose-600 italic">Aura</span></span>
                             <img class="h-7 w-auto" src="{{ asset('assets/img/icons/logo.png') }}" alt="Logo">
                         </a>
                     </div>
@@ -711,7 +711,7 @@
                                         class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700">
                                 </div>
                                 <h4 class="text-xs font-black uppercase dark:text-white">{{ $product->name }}</h4>
-                                <p class="text-rose-600 font-bold">Rp
+                                <p class="text-rose-600 font-bold">IDR
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
                             </a>
                         @empty
@@ -762,7 +762,7 @@
                                 <div class="space-y-1">
                                     <h4 class="text-sm font-black uppercase text-white tracking-widest">
                                         {{ $product->name }}</h4>
-                                    <p class="text-rose-500 font-black text-lg">Rp
+                                    <p class="text-rose-500 font-black text-lg">IDR
                                         {{ number_format($product->price, 0, ',', '.') }}</p>
                                 </div>
                             </a>
@@ -806,7 +806,7 @@
                                         class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700">
                                 </div>
                                 <h4 class="text-xs font-black uppercase dark:text-white">{{ $product->name }}</h4>
-                                <p class="text-rose-600 font-bold">Rp
+                                <p class="text-rose-600 font-bold">IDR
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
                             </a>
                         @empty
@@ -944,79 +944,7 @@
     <!-- ==================
         FOOTER
     ====================== -->
-    <footer class="bg-white dark:bg-black pt-24 pb-12 overflow-hidden">
-        <div class="container-fluid px-6 lg:px-12">
-
-            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
-                <div class="max-w-2xl">
-                    <h2
-                        class="text-[12vw] lg:text-[10vw] font-black leading-[0.8] uppercase tracking-tighter dark:text-white">
-                        JOIN THE <br> <span class="text-rose-600 italic">REVOLUTION.</span>
-                    </h2>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 border-y-4 border-gray-900 dark:border-white">
-
-                <div
-                    class="lg:col-span-4 border-r-4 border-gray-900 dark:border-white h-100 relative overflow-hidden group">
-                    <img src="{{ asset('assets/img/footer.jpg') }}"
-                        class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
-                </div>
-
-                <div class="lg:col-span-8 grid grid-cols-2 md:grid-cols-4">
-                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
-                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Shop</h4>
-                        <ul class="space-y-4 text-sm font-bold uppercase">
-                            <li><a href="#" class="hover:line-through">Shoes</a></li>
-                            <li><a href="#" class="hover:line-through">Clothes</a></li>
-                            <li><a href="#" class="hover:line-through">Accessories</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
-                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Support
-                        </h4>
-                        <ul class="space-y-4 text-sm font-bold uppercase">
-                            <li><a href="#" class="hover:line-through">Shipping</a></li>
-                            <li><a href="#" class="hover:line-through">Returns</a></li>
-                            <li><a href="#" class="hover:line-through">Contact</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
-                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Studio
-                        </h4>
-                        <p class="text-xs font-bold uppercase leading-relaxed">
-                            Grand Boutique St. 12<br>Menteng, Jakarta<br>Indonesia
-                        </p>
-                    </div>
-
-                    <div class="p-8 flex flex-col justify-between dark:text-white">
-                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Connect
-                        </h4>
-                        <div class="flex flex-col gap-4 text-sm font-bold uppercase">
-                            <a href="#" class="hover:text-rose-600">Instagram</a>
-                            <a href="#" class="hover:text-rose-600">TikTok</a>
-                            <a href="#" class="hover:text-rose-600">WhatsApp</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex gap-8 text-2xs font-black uppercase tracking-[0.3em] text-gray-500">
-                    <a href="#">Privacy</a>
-                    <a href="#">Terms</a>
-                    <a href="#">Legal</a>
-                </div>
-
-                <p class="text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">
-                    © 2026 AURA STUDIO — DESIGNED BY <span class="text-rose-600">ninoell55</span>
-                </p>
-            </div>
-        </div>
-    </footer>
+    <x-footer />
     <!-- ==================
         FOOTER-end
     ====================== -->
