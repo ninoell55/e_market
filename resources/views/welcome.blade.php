@@ -692,8 +692,7 @@
                         <div class="max-w-md">
                             <h3
                                 class="text-6xl font-black text-white uppercase italic tracking-tighter leading-none mb-4">
-                                Shoes
-                            </h3>
+                                Shoes</h3>
                             <p class="text-gray-300 text-lg mb-8">Engineered for comfort, designed for the streets.</p>
                             <a href="#"
                                 class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors">Shoes
@@ -704,7 +703,7 @@
 
                 <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
                     <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
-                        @foreach ($shoes->products as $product)
+                        @forelse ($shoes->products as $product)
                             <a href="#"
                                 class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
                                 <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
@@ -715,7 +714,11 @@
                                 <p class="text-rose-600 font-bold">Rp
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="col-span-2 text-center py-10">
+                                <p class="text-gray-400 italic">Shoes collection is coming soon.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -723,18 +726,15 @@
 
         <div class="group bg-gray-950">
             <div class="flex flex-col lg:flex-row-reverse items-stretch min-h-175">
-
                 <div class="relative w-full lg:w-1/2 overflow-hidden">
                     <img src="{{ asset('assets/img/clothes.jpg') }}" alt="Clothes"
                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 grayscale-50 group-hover:grayscale-0">
-
                     <div
                         class="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/20 to-transparent lg:bg-linear-to-l lg:from-gray-950 lg:via-gray-950/40 lg:to-transparent flex items-end lg:items-center p-12 lg:p-24 justify-end">
                         <div class="max-w-md text-right relative z-10">
                             <h3
                                 class="text-7xl font-black text-white uppercase italic tracking-tighter mb-6 leading-none">
-                                Clothes
-                            </h3>
+                                Clothes</h3>
                             <p class="text-gray-400 text-xl mb-10 font-medium">From essential basics to statement
                                 pieces.</p>
                             <a href="#"
@@ -752,7 +752,7 @@
                 <div
                     class="w-full lg:w-1/2 bg-gray-950 p-6 lg:p-16 xl:p-24 flex items-center border-y lg:border-y-0 lg:border-l border-white/5">
                     <div class="grid grid-cols-2 gap-6 lg:gap-10 w-full">
-                        @foreach ($clothes->products as $product)
+                        @forelse ($clothes->products as $product)
                             <a href="#"
                                 class="group/item relative bg-white/5 backdrop-blur-sm p-6 rounded-[2.5rem] border border-white/5 hover:bg-white/10 hover:border-rose-600/30 transition-all duration-700 hover:-translate-y-3">
                                 <div class="relative overflow-hidden rounded-[1.8rem] aspect-square mb-6">
@@ -766,7 +766,11 @@
                                         {{ number_format($product->price, 0, ',', '.') }}</p>
                                 </div>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="col-span-2 text-center py-10">
+                                <p class="text-gray-500 italic">No clothes available at the moment.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -786,7 +790,7 @@
                             <p class="text-gray-300 text-lg mb-8">The finishing touch that defines your unique
                                 character and style.</p>
                             <a href="#"
-                                class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors shadow-rose-600/20">Accessories
+                                class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors">Accessories
                                 Collection →</a>
                         </div>
                     </div>
@@ -794,7 +798,7 @@
 
                 <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
                     <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
-                        @foreach ($accessories->products as $product)
+                        @forelse ($accessories->products as $product)
                             <a href="#"
                                 class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
                                 <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
@@ -805,7 +809,11 @@
                                 <p class="text-rose-600 font-bold">Rp
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
                             </a>
-                        @endforeach
+                        @empty
+                            <div class="col-span-2 text-center py-10">
+                                <p class="text-gray-400 italic">Check back later for new accessories!</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>

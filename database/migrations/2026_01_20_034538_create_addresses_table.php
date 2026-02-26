@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('recipient_name');
-            $table->integer('recipient_phone');
+            $table->string('recipient_phone', 20);
             $table->string('province');
             $table->string('city');
-            $table->string('address');
+            $table->text('address');
             $table->timestamps();
         });
     }

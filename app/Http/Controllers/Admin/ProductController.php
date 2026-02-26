@@ -48,6 +48,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_best' => 'nullable|boolean',
 
             // Validasi untuk varian
             'variants' => 'required|array|min:1',
@@ -70,7 +71,8 @@ class ProductController extends Controller
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
             'description' => $validated['description'],
-            'image' => $fileName
+            'image' => $fileName,
+            'is_best' => $request->has('is_best')
         ]);
 
         foreach ($request->variants as $variant) {
@@ -120,6 +122,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_best' => 'nullable|boolean',
 
             // Validasi array variants
             'variants' => 'required|array|min:1',
@@ -147,7 +150,8 @@ class ProductController extends Controller
             'category_id' => $validated['category_id'],
             'price' => $validated['price'],
             'description' => $validated['description'],
-            'image' => $fileName
+            'image' => $fileName,
+            'is_best' => $request->has('is_best')
         ]);
 
         // --- LOGIC VARIANT SYNC ---

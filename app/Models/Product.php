@@ -4,24 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    // Nama Table
-    protected $table = "products";
-
-    // Kolom yang boleh diisi
     protected $fillable = [
+        'category_id',
         'name',
         'slug',
         'price',
         'description',
         'image',
-        'category_id'
+        'is_best'
     ];
 
-    // Boot method untuk mengisi slug secara otomatis saat membuat produk baru
     protected static function boot()
     {
         parent::boot();
@@ -31,27 +28,28 @@ class Product extends Model
         });
     }
 
-    // Gunakan slug sebagai route key
     public function getRouteKeyName()
     {
         return 'slug';
     }
 
-    // Relasi: Product milik satu Category
-    public function category(): BelongsTo
+    public function getMinPriceAttribute()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->variants->min('price') ?? 0;
     }
-
-    // Relasi: Product memiliki banyak ProductVariant
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
-
-    // Shortcut untuk ambil total stok dari semua varian
+    
     public function getTotalStockAttribute()
     {
         return $this->variants->sum('stock');
+    }
+    
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
     }   
 }

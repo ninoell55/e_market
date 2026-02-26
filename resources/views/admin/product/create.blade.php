@@ -71,6 +71,22 @@
                                             class="w-full pl-14 pr-6 py-4 bg-gray-50 dark:bg-gray-950 border-none rounded-2xl focus:ring-2 focus:ring-rose-600/20 dark:text-white outline-none transition-all font-bold">
                                     </div>
                                 </div>
+
+                                {{-- Is Best Seller --}}
+                                <div class="md:col-span-2 mt-2">
+                                    <label class="flex items-center cursor-pointer group w-fit">
+                                        <div class="relative">
+                                            <input type="checkbox" name="is_best" value="1"
+                                                {{ old('is_best') ? 'checked' : '' }} class="sr-only peer">
+                                            <div
+                                                class="w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600">
+                                            </div>
+                                        </div>
+                                        <span
+                                            class="ms-3 text-2xs font-black text-gray-400 uppercase tracking-widest group-hover:text-rose-600 transition-colors">Mark
+                                            as Best Seller</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
