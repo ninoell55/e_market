@@ -29,7 +29,7 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.user.index', compact('users', 'roles') + ['title' => 'Member List']);
+        return view('admin.user.index', ['title' => 'Read'], compact('users', 'roles'));
     }
 
     /**

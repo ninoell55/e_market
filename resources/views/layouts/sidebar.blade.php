@@ -107,7 +107,7 @@ $watch('isMinimized', val => {
                     <hr x-show="isMinimized" class="border-red-500" />
                 </div>
 
-                <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.index')">
+                <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

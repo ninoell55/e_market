@@ -21,14 +21,22 @@
     --font-bebas: "Bebas Neue";
     --font-anton: "Anton";
     --font-rubik-vinyl: "Rubik Vinyl";
+
+    @keyframes marquee {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+    --animate-marquee: marquee 25s linear infinite;
 }
 
-/* Pastikan ini di luar blok @theme */
-
-/* Kondisi saat class .dark ada di elemen <html> */
 :where(.dark) .swal2-popup {
-    background-color: #1f2937 !important; /* bg-gray-800 */
-    color: #f9fafb !important; /* text-gray-50 */
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
 }
 
@@ -39,14 +47,13 @@
 }
 
 :where(.dark) .swal2-confirm {
-    background-color: #3b82f6 !important; /* blue-600 */
+    background-color: #3b82f6 !important;
 }
 
 :where(.dark) .swal2-cancel {
-    background-color: #4b5563 !important; /* gray-600 */
+    background-color: #4b5563 !important;
 }
 
-/* Menggunakan Font dari Theme Tailwind v4 Anda */
 .swal2-popup {
     font-family: var(--font-sans) !important;
 }

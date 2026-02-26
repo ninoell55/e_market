@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\Member\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
 // WELCOME PAGE
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [ProductController::class, 'index'])->name('welcome');
 
 // PROFILE ROUTES
 Route::middleware('auth')->group(function () {

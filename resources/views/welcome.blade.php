@@ -10,6 +10,12 @@
     {{-- ICON --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Styles / Scripts -->
+    <style>
+        body:has(#hamburger:checked) {
+            overflow: hidden;
+        }
+    </style>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -23,10 +29,9 @@
     <!-- ==================
         NAVBAR
     ====================== -->
-    <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-transparent">
+    <header id="site-header" class="fixed top-0 left-0 w-full z-999 transition-all duration-300 bg-transparent">
         <div class="relative z-20 py-4">
-            <div class="px-6 md:px-12 lg:container lg:mx-auto xl:px-40 lg:py-4 transition-all duration-300"
-                id="header-container">
+            <div class="px-6 md:px-12 w-full xl:px-14 lg:py-4 transition-all duration-300" id="header-container">
                 <div class="flex items-center justify-between">
                     <div class="relative z-20">
                         <a class="flex items-center gap-2 text-3xl font-extrabold text-gray-900 dark:text-white transition-transform duration-300 hover:scale-105 font-rubik-vinyl"
@@ -53,6 +58,7 @@
                         <div
                             class="peer-checked:translate-x-0 fixed inset-0 w-full md:w-100 lg:w-auto -translate-x-full lg:translate-x-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl lg:backdrop-blur-none transition-transform duration-500 lg:static lg:bg-transparent lg:shadow-none">
                             <div class="flex flex-col justify-between h-full lg:items-center lg:flex-row">
+
                                 <ul
                                     class="px-10 pt-32 space-y-8 text-sm font-bold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-300 lg:space-y-0 lg:flex lg:space-x-10 lg:pt-0 lg:px-8">
                                     <li>
@@ -90,7 +96,8 @@
 
                                 @if (Route::has('login'))
                                     <nav
-                                        class="flex flex-col lg:flex-row items-center gap-4 px-10 py-12 border-t border-gray-100 dark:border-gray-800 lg:border-none lg:py-0 lg:pr-0 lg:pl-8">
+                                        class="flex flex-col lg:flex-row items-center gap-4 px-10 py-12 border-t border-rose-500 dark:border-white/10 lg:border-t-0 lg:border-l lg:py-0 lg:pr-0 lg:pl-10 lg:ml-4">
+
                                         @auth
                                             <a href="{{ route(Auth::user()->getDashboardRouteName()) }}"
                                                 class="w-full lg:w-auto text-center px-6 py-2.5 bg-gray-900 dark:bg-white dark:text-gray-950 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all duration-300 shadow-lg shadow-gray-200 dark:shadow-none">
@@ -121,86 +128,151 @@
     <!-- ==================
         NAVBAR-end
     ====================== -->
-    <div class="h-20 lg:h-28 bg-white dark:bg-gray-900"></div>
+    {{-- <div class="h-20 bg-white dark:bg-gray-900"></div> --}}
 
 
 
     <!-- ==================
         HERO
     ====================== -->
-    <section id="home" class="relative overflow-hidden bg-white dark:bg-gray-900">
-        <div class="container px-6 pt-8 md:pb-36 pb-8 mx-auto lg:px-12 xl:px-40">
-            <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+    <section id="home"
+        class="dark relative min-h-screen overflow-hidden bg-gray-950 flex items-center py-20 mt-15">
 
-                <div class="lg:col-span-6 xl:col-span-5 order-2 lg:order-1">
-                    <div class="space-y-8">
-                        <div class="inline-flex items-center space-x-2">
-                            <span class="w-12 h-px bg-rose-600"></span>
-                            <span class="text-sm font-bold tracking-widest text-rose-600 uppercase">Premium
+        <div class="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+            <div class="absolute -left-24 top-1/2 -translate-y-1/2 rotate-90 origin-center opacity-[0.05] select-none">
+                <h2 class="text-[20rem] font-black uppercase tracking-tighter text-white whitespace-nowrap">AURA STUDIO
+                </h2>
+            </div>
+            <div
+                class="absolute -right-24 top-1/2 -translate-y-1/2 -rotate-90 origin-center opacity-[0.05] select-none">
+                <h2 class="text-[20rem] font-black uppercase tracking-tighter text-white whitespace-nowrap">COLLECTION
+                </h2>
+            </div>
+
+            <div
+                class="absolute top-0 left-0 w-[60vw] h-[60vw] bg-rose-900/20 rounded-full blur-[120px] -translate-x-1/4 -translate-y-1/4">
+            </div>
+            <div
+                class="absolute bottom-0 right-0 w-[50vw] h-[50vw] bg-blue-900/10 rounded-full blur-[120px] translate-x-1/4 translate-y-1/4">
+            </div>
+        </div>
+
+        <div class="w-full px-6 lg:px-16 xl:px-24 mx-auto max-w-500 relative z-10">
+            <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:items-center">
+
+                <div class="lg:col-span-5 order-2 lg:order-1">
+                    <div class="space-y-12">
+                        <div class="inline-flex items-center space-x-4">
+                            <span class="w-16 h-0.5 bg-rose-600"></span>
+                            <span class="text-sm font-black tracking-[0.5em] text-rose-600 uppercase">Premium
                                 Boutique</span>
                         </div>
 
-                        <h1 class="text-5xl font-black tracking-tight text-gray-900 dark:text-white xl:text-7xl">
+                        <h1
+                            class="text-7xl font-black tracking-tighter text-white xl:text-[9rem] leading-[0.82] uppercase">
                             Elevate Your <br>
-                            <span class="text-rose-600">Daily Aura.</span>
+                            <span class="text-rose-600 italic">Daily Aura.</span>
                         </h1>
 
-                        <p class="text-lg leading-relaxed text-gray-600 dark:text-gray-400">
+                        <p class="text-xl leading-relaxed text-gray-400 max-w-xl font-medium">
                             Experience the perfect blend of comfort and high-fashion. Our 2026 collection brings you
                             curated essentials designed to redefine your personal style.
                         </p>
 
-                        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-8 pt-4">
                             <a href="#produk"
-                                class="flex items-center justify-center px-10 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-300 bg-gray-900 dark:bg-rose-600 rounded-full hover:bg-rose-600 dark:hover:bg-rose-700 shadow-xl">
-                                Shop Collection
+                                class="group relative inline-flex items-center justify-center px-12 py-5 text-xs font-black tracking-[0.3em] text-white uppercase transition-all duration-500 bg-rose-600 rounded-full overflow-hidden shadow-[0_20px_50px_rgba(225,29,72,0.4)]">
+                                <span class="relative z-10">Shop Collection</span>
+                                <div
+                                    class="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0">
+                                </div>
+                                <span
+                                    class="absolute inset-0 bg-white transition-transform duration-500 translate-y-full group-hover:translate-y-0"></span>
+                                <div
+                                    class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 text-black">
+                                    Shop Collection
+                                </div>
                             </a>
                             <a href="#tentang"
-                                class="flex items-center justify-center px-10 py-4 text-sm font-bold tracking-widest text-gray-900 dark:text-white uppercase transition-all duration-300 border-2 border-gray-200 dark:border-gray-800 rounded-full hover:border-gray-900 dark:hover:border-rose-600">
+                                class="flex items-center justify-center px-12 py-5 text-xs font-black tracking-[0.3em] text-white uppercase transition-all duration-500 border-2 border-white/10 rounded-full hover:border-rose-600 hover:text-rose-600 hover:bg-rose-600/5">
                                 Our Story
                             </a>
                         </div>
 
-                        <div class="pt-10 flex items-center justify-center gap-10">
-                            <div>
-                                <p class="text-2xl font-black text-gray-900 dark:text-white">99%</p>
-                                <p class="text-xs uppercase tracking-widest text-gray-500">Satisfaction</p>
+                        <div class="pt-12 flex items-center gap-16 border-t border-white/5">
+                            <div class="group">
+                                <p
+                                    class="text-5xl font-black text-white group-hover:text-rose-600 transition-all duration-300">
+                                    99%</p>
+                                <p class="text-2xs uppercase tracking-[0.4em] text-gray-500 font-bold mt-2">
+                                    Satisfaction</p>
                             </div>
-                            <div class="w-px h-8 bg-gray-200 dark:bg-gray-800"></div>
-                            <div>
-                                <p class="text-2xl font-black text-gray-900 dark:text-white">24h</p>
-                                <p class="text-xs uppercase tracking-widest text-gray-500">Shipping</p>
+                            <div class="w-px h-16 bg-white/10"></div>
+                            <div class="group">
+                                <p
+                                    class="text-5xl font-black text-white group-hover:text-rose-600 transition-all duration-300">
+                                    24h</p>
+                                <p class="text-2xs uppercase tracking-[0.4em] text-gray-500 font-bold mt-2">Shipping
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-6 xl:col-span-7 order-1 lg:order-2">
-                    <div class="relative grid grid-cols-12 gap-4">
+                <div class="lg:col-span-7 order-1 lg:order-2">
+                    <div class="relative grid grid-cols-12 gap-6 lg:gap-10 transform lg:scale-110 lg:translate-x-10">
+
                         <div
-                            class="col-span-8 overflow-hidden rounded-3xl shadow-2xl transition-transform duration-500 hover:scale-[1.02]">
-                            <img class="object-cover w-full h-100 lg:h-150" src="{{ asset('assets/img/hero.jpg') }}"
-                                alt="Main Fashion Look">
+                            class="group col-span-8 overflow-hidden rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] aspect-4/5 relative border border-white/5">
+                            <img class="absolute inset-0 object-cover w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
+                                src="{{ asset('assets/img/shoes-hero.jpg') }}" alt="Main Fashion Look">
+
+                            <div
+                                class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
+                                <p class="text-white text-2xl font-black uppercase tracking-[0.3em]">View Shoes</p>
+                            </div>
+
+                            <div
+                                class="absolute inset-0 bg-linear-to-t from-gray-950/40 via-transparent to-transparent pointer-events-none">
+                            </div>
                         </div>
 
-                        <div class="col-span-4 flex flex-col gap-4">
+                        <div class="col-span-4 flex flex-col gap-6 lg:gap-10">
                             <div
-                                class="h-1/2 overflow-hidden rounded-3xl shadow-xl transition-transform duration-500 hover:scale-[1.05]">
-                                <img class="object-cover w-full h-full"
-                                    src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2012&auto=format&fit=crop"
-                                    alt="Shoes Collection">
+                                class="group overflow-hidden rounded-[3rem] shadow-2xl relative border border-white/5">
+                                <img class="w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
+                                    src="{{ asset('assets/img/clothes-hero.jpg') }}" alt="Clothes">
+
+                                <div
+                                    class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
+                                    <p class="text-white text-lg font-black uppercase tracking-[0.3em]">View Clothes
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="absolute inset-0 bg-linear-to-t from-gray-950/40 via-transparent to-transparent pointer-events-none">
+                                </div>
                             </div>
+
                             <div
-                                class="h-1/2 overflow-hidden rounded-3xl shadow-xl transition-transform duration-500 hover:scale-[1.05] bg-black hover:bg-rose-600 flex items-center justify-center">
-                                <div class="text-center text-white p-4">
-                                    <p class="text-3xl font-black italic">NEW</p>
-                                    <p class="text-xs uppercase font-bold tracking-tighter">Arrivals 2026</p>
+                                class="group overflow-hidden rounded-[3rem] shadow-2xl relative border border-white/5">
+                                <img class="w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
+                                    src="{{ asset('assets/img/accessories-hero.jpg') }}" alt="Accessories">
+
+                                <div
+                                    class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
+                                    <p class="text-white text-lg font-black uppercase tracking-[0.3em]">View
+                                        Accessories</p>
+                                </div>
+
+                                <div
+                                    class="absolute inset-0 bg-linear-to-t from-gray-950/40 via-transparent to-transparent pointer-events-none">
                                 </div>
                             </div>
                         </div>
 
                         <div
-                            class="absolute -bottom-6 -right-6 -z-10 w-64 h-64 bg-rose-100 dark:bg-rose-900/20 rounded-full blur-3xl">
+                            class="absolute -bottom-12 -left-12 -z-10 w-64 h-64 bg-rose-600/10 rounded-full blur-[100px]">
                         </div>
                     </div>
                 </div>
@@ -217,72 +289,120 @@
     <!-- ==================
         second_HERO
     ====================== -->
-    <section class="py-20 bg-white dark:bg-gray-900 font-inter">
-        <div class="container px-6 mx-auto lg:px-12 xl:px-40">
-            <div
-                class="relative overflow-hidden bg-rose-50 dark:bg-gray-800 rounded-[3rem] p-8 md:p-20 shadow-sm border border-rose-100 dark:border-gray-700">
+    <section class="relative bg-white overflow-hidden py-0">
+        <div class="w-full flex flex-col lg:flex-row min-h-[80vh] items-stretch">
 
-                <div
-                    class="absolute top-0 right-0 w-64 h-64 bg-rose-200/50 dark:bg-rose-500/10 blur-3xl -translate-y-1/2 translate-x-1/2 rounded-full">
+            <div class="w-full lg:w-1/2 relative flex items-center bg-gray-50/50">
+                <div class="absolute top-10 left-0 select-none pointer-events-none opacity-[0.04]">
+                    <h2 class="text-[18rem] font-black leading-none uppercase -translate-x-20">AURA</h2>
                 </div>
 
-                <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 items-center relative z-10">
+                <div class="relative z-10 px-8 py-20 md:px-20 lg:pl-24 xl:pl-32 flex flex-col justify-center">
+                    <div class="space-y-10">
+                        <div class="inline-flex items-center gap-4">
+                            <span
+                                class="px-4 py-1.5 text-2xs font-black tracking-[0.4em] text-white uppercase bg-rose-600 rounded-full shadow-lg shadow-rose-600/20">
+                                New Era
+                            </span>
+                            <div class="h-px w-24 bg-rose-600/20"></div>
+                        </div>
 
-                    <div class="text-center lg:text-left">
                         <h2
-                            class="text-4xl font-black leading-tight tracking-tight text-gray-900 md:text-6xl dark:text-white uppercase">
+                            class="text-6xl font-black leading-[0.85] tracking-tighter text-gray-950 md:text-8xl xl:text-[7rem] uppercase">
                             This is <br>
-                            <span class="text-rose-600">Fashion Aura.</span>
+                            <span
+                                class="text-transparent bg-clip-text bg-linear-to-r from-rose-600 to-rose-400 italic">
+                                Fashion Aura.
+                            </span>
                         </h2>
 
-                        <p class="mt-6 text-lg font-medium text-gray-600 md:text-xl dark:text-gray-400">
+                        <p class="max-w-xl text-xl font-medium text-gray-600 leading-relaxed">
                             Join the revolution of style. We don't just sell clothes; we provide the confidence to
-                            redefine who you are.
+                            redefine who you are in every single thread.
                         </p>
 
-                        <div class="flex flex-wrap justify-center lg:justify-start gap-4 mt-10">
-                            <a href="#about"
-                                class="px-8 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-300 bg-rose-600 rounded-full hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/30">
-                                Learn Our Story
+                        <div class="flex flex-wrap gap-6 pt-6">
+                            <a href="#tentang"
+                                class="group relative px-10 py-5 overflow-hidden rounded-full bg-gray-950 text-white font-black tracking-[0.2em] text-xs transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)]">
+                                <span class="relative z-10">LEARN OUR STORY</span>
+                                <div
+                                    class="absolute inset-0 bg-rose-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                                </div>
                             </a>
                             <a href="https://wa.me/yournumber"
-                                class="px-8 py-4 text-sm font-bold tracking-widest text-rose-600 uppercase transition-all duration-300 border-2 border-rose-600 rounded-full hover:bg-rose-600 hover:text-white">
+                                class="px-10 py-5 text-xs font-black tracking-[0.2em] text-gray-950 uppercase border-2 border-gray-200 rounded-full hover:border-rose-600 hover:text-rose-600 transition-all duration-300">
                                 Get In Touch
                             </a>
                         </div>
                     </div>
-
-                    <div class="relative flex items-center justify-center p-6">
-                        <div
-                            class="relative z-20 p-8 md:p-12 bg-gray-900 dark:bg-white shadow-2xl rounded-3xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-                            <h3 class="text-2xl md:text-3xl font-black uppercase text-white dark:text-gray-900">
-                                Fashion.<br>Aura.<br>Global.
-                            </h3>
-                            <div class="w-12 h-1 bg-rose-500 mt-4"></div>
-                            <p class="mt-4 text-sm font-medium text-gray-400 dark:text-gray-500 italic">
-                                "Your look, your statement."
-                            </p>
-                        </div>
-
-                        <div
-                            class="absolute z-10 -top-4 -right-4 w-24 h-24 bg-rose-500 rounded-2xl rotate-12 opacity-20 animate-pulse">
-                        </div>
-                        <div
-                            class="absolute z-10 -bottom-4 -left-4 w-32 h-32 border-4 border-rose-500 rounded-full opacity-20">
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-            <div
-                class="mt-16 flex flex-wrap justify-center gap-8 opacity-40 grayscale transition-all duration-500 hover:grayscale-0">
-                <span class="text-xl font-bold tracking-tighter text-gray-400">AUTHENTIC</span>
-                <span class="text-xl font-bold tracking-tighter text-gray-400">MODERN</span>
-                <span class="text-xl font-bold tracking-tighter text-gray-400">STYLISH</span>
+            <div class="w-full lg:w-1/2 relative min-h-125 lg:min-h-full group overflow-hidden">
+                <img src="{{ asset('assets/img/second-hero.jpg') }}"
+                    class="absolute inset-0 object-cover w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
+                    alt="Style Statement">
+
+                <div
+                    class="absolute inset-0 flex items-center justify-center p-8 bg-black/10 group-hover:bg-black/0 transition-all duration-700">
+                    <div
+                        class="relative p-12 backdrop-blur-xl bg-white/10 border border-white/20 rounded-[3rem] shadow-2xl transform transition-all duration-700 group-hover:-translate-y-6">
+                        <h3 class="text-5xl font-black uppercase text-white leading-tight">
+                            Fashion.<br>
+                            <span class="text-rose-500 italic">Aura.</span><br>
+                            Global.
+                        </h3>
+                        <div class="w-20 h-2 bg-rose-500 mt-8 mb-6 rounded-full"></div>
+                        <p class="text-xs font-black tracking-[0.3em] text-white/90 uppercase italic">
+                            "Your look, your statement."
+                        </p>
+
+                        <div
+                            class="absolute -top-8 -right-8 w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-[0_20px_40px_rgba(0,0,0,0.2)] rotate-12 group-hover:rotate-0 transition-all duration-500">
+                            <span class="text-rose-600 font-black text-sm text-center leading-tight">EST<br>2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full bg-gray-950 border-y border-white/5 py-12 overflow-hidden flex">
+
+            <div class="flex whitespace-nowrap animate-marquee">
+
+                <div class="flex items-center gap-20 pr-20">
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">AUTHENTIC</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">MODERN</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">STYLISH</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+                </div>
+
+                <div class="flex items-center gap-20 pr-20">
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">AUTHENTIC</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">MODERN</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+
+                    <span
+                        class="text-4xl md:text-5xl font-black tracking-[0.5em] text-white/10 uppercase hover:text-rose-600 transition-colors cursor-default">STYLISH</span>
+                    <div class="w-3 h-3 rounded-full bg-rose-600 shadow-[0_0_15px_rgba(225,29,72,0.4)]"></div>
+                </div>
+
             </div>
         </div>
     </section>
+
+
     <!-- ==================
         second_HERO-end
     ====================== -->
@@ -292,106 +412,136 @@
     <!-- ==================
         WHY
     ====================== -->
-    <section id="tentang" class="bg-white dark:bg-gray-900 overflow-hidden">
-        <div class="container px-6 py-20 mx-auto lg:px-12 xl:px-40">
-            <div class="lg:flex lg:items-center lg:gap-16">
+    <section id="tentang"
+        class="relative bg-gray-955 dark:bg-gray-950 overflow-hidden py-24 lg:py-0 font-inter min-h-screen flex items-center">
 
-                <div class="w-full space-y-12 lg:w-1/2">
-                    <div>
-                        <div class="inline-flex items-center space-x-2 mb-4">
-                            <span class="w-8 h-px bg-rose-500"></span>
-                            <span class="text-sm font-bold tracking-widest text-rose-500 uppercase">Who We Are</span>
-                        </div>
+        <div class="absolute inset-0 pointer-events-none -z-10">
+            <div class="absolute -right-20 top-1/2 -translate-y-1/2 rotate-90 origin-center opacity-3 select-none">
+                <h2 class="text-[18rem] font-black uppercase tracking-tighter text-white whitespace-nowrap">HANDCRAFTED
+                </h2>
+            </div>
+            <div class="absolute top-1/4 left-0 w-96 h-96 bg-rose-600/10 rounded-full blur-[120px]"></div>
+        </div>
 
-                        <h2 class="text-4xl font-black text-gray-900 lg:text-5xl dark:text-white leading-tight">
-                            Crafting Style, <br>
-                            <span
-                                class="text-rose-600 underline decoration-rose-200 decoration-4 underline-offset-8">Empowering
-                                Locals.</span>
-                        </h2>
+        <div class="w-full flex flex-col lg:flex-row items-stretch gap-0">
 
-                        <p class="mt-8 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                            <span class="font-bold text-gray-900 dark:text-white">FashionAura</span> is a contemporary
-                            local brand dedicated to premium apparel, footwear, and accessories. We blend modern trends
-                            with the exceptional craftsmanship of Indonesian artisans to elevate your daily look.
+            <div class="w-full lg:w-[45%] relative">
+                <div class="h-full min-h-150 lg:min-h-screen relative group overflow-hidden">
+                    <img src="{{ asset('assets/img/about.jpg') }}"
+                        class="absolute inset-0 w-full h-full object-cover transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
+                        alt="The Craftsmanship of FashionAura">
+
+                    <div class="absolute inset-0 bg-linear-to-r from-gray-950/20 to-transparent"></div>
+
+                    <div
+                        class="absolute bottom-12 left-12 lg:left-20 bg-rose-600 p-10 rounded-[2.5rem] text-white shadow-[0_30px_60px_-15px_rgba(225,29,72,0.5)] max-w-[320px] transform transition-all duration-700 group-hover:-translate-y-4">
+                        <h4 class="text-3xl font-black mb-3 italic tracking-tighter">Vision 2026</h4>
+                        <p class="text-xs leading-relaxed font-bold tracking-widest opacity-90 uppercase">
+                            "Setting a new global standard for local luxury in every thread."
                         </p>
-                    </div>
-
-                    <div class="grid gap-8 sm:grid-cols-1">
-                        <div
-                            class="group flex items-start gap-4 p-4 transition-all duration-300 rounded-2xl hover:bg-rose-50 dark:hover:bg-gray-800">
-                            <div class="shrink-0 p-3 text-rose-600 bg-rose-100 rounded-xl dark:bg-rose-900/30">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Premium Local Quality</h3>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">Unique designs using high-grade
-                                    materials, meticulously crafted with an eye for detail and current trends.</p>
-                            </div>
-                        </div>
-
-                        <div
-                            class="group flex items-start gap-4 p-4 transition-all duration-300 rounded-2xl hover:bg-rose-50 dark:hover:bg-gray-800">
-                            <div class="shrink-0 p-3 text-rose-600 bg-rose-100 rounded-xl dark:bg-rose-900/30">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Customer-First Commitment
-                                </h3>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">We ensure a seamless shopping
-                                    experience with friendly service and a hassle-free transaction process.</p>
-                            </div>
-                        </div>
-
-                        <div
-                            class="group flex items-start gap-4 p-4 transition-all duration-300 rounded-2xl hover:bg-rose-50 dark:hover:bg-gray-800">
-                            <div class="shrink-0 p-3 text-rose-600 bg-rose-100 rounded-xl dark:bg-rose-900/30">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white">Support Local Creative</h3>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">By choosing us, you empower local
-                                    MSMEs and artisans, helping the Indonesian creative industry thrive.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative w-full mt-16 lg:w-1/2 lg:mt-0">
-                    <div class="relative flex flex-col items-center">
-                        <div
-                            class="relative z-10 overflow-hidden rounded-4xl shadow-2xl rotate-2 transition-transform duration-500 hover:rotate-0">
-                            <img class="object-cover w-full h-125 lg:h-162.5 xl:w-125"
-                                src="{{ asset('assets/img/about.jpg') }}" alt="About FashionAura">
-                        </div>
-
-                        <div
-                            class="absolute -bottom-10 -left-6 z-20 bg-white dark:bg-gray-800 p-8 shadow-2xl rounded-3xl border border-gray-100 dark:border-gray-700 max-w-62.5">
-                            <p class="text-rose-600 font-black text-4xl mb-2">100%</p>
-                            <p class="text-xs font-bold uppercase tracking-widest text-gray-500 leading-tight">
-                                Authentic Indonesian Craftsmanship</p>
-                        </div>
-
-                        <div
-                            class="absolute -top-10 -right-10 w-64 h-64 bg-rose-100 dark:bg-rose-900/20 rounded-full blur-3xl -z-10">
-                        </div>
+                        <div class="mt-6 w-16 h-1.5 bg-white/40 rounded-full"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-24 border-t border-gray-100 dark:border-gray-800"></div>
+            <div class="w-full lg:w-[55%] bg-gray-950 flex items-center py-20 lg:py-0">
+                <div class="px-8 md:px-16 lg:px-24 xl:px-32 space-y-20 w-full">
+
+                    <div class="space-y-8">
+                        <div class="inline-flex items-center gap-6 mt-6">
+                            <span class="h-0.5 w-16 bg-rose-600"></span>
+                            <span class="text-xs font-black tracking-[0.6em] text-rose-600 uppercase">Legacy &
+                                Excellence</span>
+                        </div>
+
+                        <h2
+                            class="text-6xl md:text-8xl font-black text-white leading-[0.85] tracking-[ -0.05em] uppercase">
+                            Defining The <br> <span class="text-rose-600 italic">Aura of Style.</span>
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 pt-6">
+                            <p class="text-xl text-gray-400 leading-relaxed font-medium">
+                                Founded on the principle of rebellious elegance, <span
+                                    class="text-white font-black underline decoration-rose-600 underline-offset-8">FashionAura</span>
+                                emerged to
+                                challenge the status quo. We believe that true luxury isn't just about a label.
+                            </p>
+                            <p class="text-xl text-gray-400 leading-relaxed border-l-4 border-white/5 pl-10 italic">
+                                Every stitch is a commitment. Every silhouette is a story. We fuse the world’s finest
+                                materials with the untamed spirit of Indonesian artisans.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
+
+                        <div class="relative group">
+                            <div
+                                class="absolute -top-10 -left-6 text-8xl font-black text-white/3 group-hover:text-rose-600/10 transition-colors duration-500 select-none">
+                                01</div>
+                            <div class="relative space-y-4">
+                                <h3 class="text-xl font-black text-white uppercase tracking-wider">Uncompromising
+                                    Quality</h3>
+                                <p class="text-gray-500 leading-relaxed text-base font-medium">
+                                    Premium textiles sourced directly. From high-grade cotton to sustainable leather, we
+                                    ensure your statement lasts.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <div
+                                class="absolute -top-10 -left-6 text-8xl font-black text-white/3 group-hover:text-rose-600/10 transition-colors duration-500 select-none">
+                                02</div>
+                            <div class="relative space-y-4">
+                                <h3 class="text-xl font-black text-white uppercase tracking-wider">Ethical Empowerment
+                                </h3>
+                                <p class="text-gray-500 leading-relaxed text-base font-medium">
+                                    A fair-trade ecosystem ensuring your style contributes to the prosperity of local
+                                    creative communities.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <div
+                                class="absolute -top-10 -left-6 text-8xl font-black text-white/3 group-hover:text-rose-600/10 transition-colors duration-500 select-none">
+                                03</div>
+                            <div class="relative space-y-4">
+                                <h3 class="text-xl font-black text-white uppercase tracking-wider">Modern Minimalism
+                                </h3>
+                                <p class="text-gray-500 leading-relaxed text-base font-medium">
+                                    Design lab monitoring global shifts in Milan and Tokyo, translating them into
+                                    versatile pieces.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <div
+                                class="absolute -top-10 -left-6 text-8xl font-black text-white/3 group-hover:text-rose-600/10 transition-colors duration-500 select-none">
+                                04</div>
+                            <div class="relative space-y-4">
+                                <h3 class="text-xl font-black text-white uppercase tracking-wider">Authentic Guarantee
+                                </h3>
+                                <p class="text-gray-500 leading-relaxed text-base font-medium">
+                                    Each masterpiece comes with a unique serial number, guaranteeing Indonesian
+                                    heritage.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="pt-16 border-t border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-8 mb-8">
+                        <p class="text-2xs font-black tracking-[0.5em] uppercase text-gray-600 mb-2">Our
+                            Signature</p>
+                        <h4 class="text-3xl font-serif italic text-white/70">FashionAura — Quality over quantity,
+                            always.</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- ==================
@@ -403,109 +553,95 @@
     <!-- ==================
         BLOG
     ====================== -->
-    <section id="layanan" class="bg-rose-50 dark:bg-gray-950 py-24">
-        <div class="container px-6 mx-auto lg:px-12 xl:px-40">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center justify-center space-x-2 mb-4">
-                    <span class="w-8 h-px bg-rose-500"></span>
-                    <span class="text-sm font-bold tracking-widest text-rose-500 uppercase">Our Categories</span>
-                    <span class="w-8 h-px bg-rose-500"></span>
+    <section id="layanan" class="bg-gray-950 w-full overflow-hidden">
+        <div class="flex flex-col lg:flex-row w-full min-h-screen">
+
+            <div class="relative w-full lg:w-1/2 h-[80vh] lg:h-screen group overflow-hidden">
+                <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-2000 group-hover:scale-110"
+                    src="{{ asset('assets/img/shoes-collection.jpg') }}" alt="Premium Shoes">
+
+                <div
+                    class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-700">
                 </div>
 
-                <h2 class="text-4xl font-black text-gray-900 lg:text-6xl dark:text-white uppercase leading-tight">
-                    Curated <span class="text-rose-600">Collections</span>
-                </h2>
+                <div class="absolute inset-0 flex flex-col justify-end p-10 lg:p-20">
+                    <div
+                        class="mb-6 transform translate-y-10 group-hover:translate-y-0 transition-transform duration-700">
+                        <span class="text-rose-500 font-black tracking-[0.5em] uppercase text-xs">Flagship
+                            Category</span>
+                        <h2
+                            class="text-7xl lg:text-[9vw] font-black text-white uppercase leading-[0.8] tracking-tighter mt-4">
+                            Sho<span class="text-rose-600">es.</span>
+                        </h2>
+                    </div>
 
-                <p class="max-w-2xl mx-auto mt-6 text-lg text-gray-600 dark:text-gray-400">
-                    Discover our signature ranges designed to fit every occasion, from high-street casuals to elegant
-                    essentials.
-                </p>
+                    <div
+                        class="max-w-md opacity-0 group-hover:opacity-100 transition-all duration-1000 delay-100 transform translate-y-4 group-hover:translate-y-0">
+                        <p class="text-gray-300 text-lg font-medium leading-relaxed mb-8">
+                            The foundation of your style. Engineered for the bold, crafted for the streets, and designed
+                            to leave a legacy.
+                        </p>
+                        <a href="#" class="inline-flex items-center group/btn">
+                            <span
+                                class="px-8 py-4 bg-white text-black text-xs font-black uppercase tracking-widest group-hover/btn:bg-rose-600 group-hover/btn:text-white transition-all">Shop
+                                Shoes</span>
+                            <span
+                                class="p-4 bg-rose-600 text-white transition-transform group-hover/btn:translate-x-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+            <div class="w-full lg:w-1/2 flex flex-col">
 
                 <div
-                    class="group relative overflow-hidden rounded-4xl bg-white dark:bg-gray-900 shadow-xl transition-all duration-500 hover:-translate-y-2">
-                    <div class="relative h-112.5 overflow-hidden">
-                        <img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                            src="{{ asset('assets/img/koleksi-baju.jpg') }}" alt="Apparel Collection">
-                        <div
-                            class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity">
-                        </div>
+                    class="relative h-[50vh] lg:h-1/2 group overflow-hidden border-b border-white/10 lg:border-l lg:border-white/10">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        src="{{ asset('assets/img/clothes-collection.jpg') }}" alt="Clothes">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-500">
                     </div>
 
-                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h3 class="text-3xl font-black uppercase tracking-tight">Apparel</h3>
-                        <p
-                            class="mt-2 text-sm text-gray-200 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            Modern silhouettes designed for versatility—perfect for casual days, office hours, or
-                            special nights out.
-                        </p>
+                    <div class="absolute inset-0 flex items-center justify-between p-12">
+                        <div class="max-w-xs">
+                            <h3 class="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter">Clothes
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                Modern silhouettes for urban daily life.</p>
+                        </div>
                         <a href="#"
-                            class="inline-flex items-center mt-6 text-sm font-bold tracking-widest uppercase text-rose-400 hover:text-rose-300 transition-colors">
-                            Explore Collection
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
                 </div>
 
-                <div
-                    class="group relative overflow-hidden rounded-4xl bg-white dark:bg-gray-900 shadow-xl transition-all duration-500 hover:-translate-y-2">
-                    <div class="relative h-112.5 overflow-hidden">
-                        <img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                            src="{{ asset('assets/img/koleksi-sepatu.jpg') }}" alt="Footwear Collection">
-                        <div
-                            class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity">
+                <div class="relative h-[50vh] lg:h-1/2 group overflow-hidden lg:border-l lg:border-white/10">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        src="{{ asset('assets/img/accessories-collection.jpg') }}" alt="Accessories">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-colors duration-500">
+                    </div>
+
+                    <div class="absolute inset-0 flex items-center justify-between p-12">
+                        <div class="max-w-xs">
+                            <h3 class="text-4xl lg:text-6xl font-black text-white uppercase tracking-tighter">
+                                Accessories
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                The final touch for your signature look.</p>
                         </div>
-                    </div>
-
-                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h3 class="text-3xl font-black uppercase tracking-tight">Footwear</h3>
-                        <p
-                            class="mt-2 text-sm text-gray-200 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            Step with confidence in our range of premium shoes. Trendy, durable, and crafted for maximum
-                            comfort.
-                        </p>
                         <a href="#"
-                            class="inline-flex items-center mt-6 text-sm font-bold tracking-widest uppercase text-rose-400 hover:text-rose-300 transition-colors">
-                            Explore Collection
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div
-                    class="group relative overflow-hidden rounded-4xl bg-white dark:bg-gray-900 shadow-xl transition-all duration-500 hover:-translate-y-2">
-                    <div class="relative h-112.5 overflow-hidden">
-                        <img class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-                            src="{{ asset('assets/img/koleksi-aksesoris.jpg') }}" alt="Accessories Collection">
-                        <div
-                            class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity">
-                        </div>
-                    </div>
-
-                    <div class="absolute bottom-0 left-0 right-0 p-8 text-white">
-                        <h3 class="text-3xl font-black uppercase tracking-tight">Accessories</h3>
-                        <p
-                            class="mt-2 text-sm text-gray-200 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            The finishing touch. Unique jewelry, hats, and eyewear to complete your signature
-                            FashionAura look.
-                        </p>
-                        <a href="#"
-                            class="inline-flex items-center mt-6 text-sm font-bold tracking-widest uppercase text-rose-400 hover:text-rose-300 transition-colors">
-                            Explore Collection
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
@@ -523,312 +659,156 @@
     <!-- ==================
         NEW_COLLECTION
     ====================== -->
-    <section id="produk" class="bg-white dark:bg-gray-950 py-24">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <header class="text-center mb-20">
-                <div class="inline-flex items-center space-x-2 mb-4">
-                    <span class="w-12 h-0.5 bg-rose-500"></span>
-                    <span class="text-xs font-black tracking-[0.3em] text-rose-500 uppercase">Premium Selection</span>
-                    <span class="w-12 h-0.5 bg-rose-500"></span>
-                </div>
-                <h2 class="text-4xl font-black text-gray-900 sm:text-5xl dark:text-white uppercase tracking-tighter">
-                    Featured <span class="text-rose-600">Categories</span>
-                </h2>
-                <p class="max-w-md mx-auto mt-6 text-gray-500 dark:text-gray-400">
-                    Explore our handpicked excellence. From timeless silhouettes to bold contemporary statements.
-                </p>
-            </header>
+    <section id="produk" class="bg-white dark:bg-gray-950 overflow-hidden">
+        <header class="w-full bg-gray-950 px-6 lg:px-12 text-center py-20">
 
-            <div class="mb-24">
-                <div class="group relative h-87.5 overflow-hidden rounded-4xl shadow-2xl transition-all duration-500">
-                    <img src="{{ asset('assets/img/shoes/Vans Authentic.jpg') }}" alt="Shoes"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                    <div
-                        class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent flex items-center">
-                        <div class="max-w-xl px-12">
-                            <h3 class="text-4xl font-black text-white uppercase italic tracking-widest">Footwear</h3>
-                            <p class="mt-4 text-gray-300 text-lg">Engineered for comfort, designed for the streets.
-                                Step into the new era of style.</p>
-                            <a href="#"
-                                class="mt-8 inline-flex items-center px-8 py-3 bg-rose-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-rose-700 transition-all group/btn">
-                                Shop Now
-                                <svg class="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-2"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <ul class="grid grid-cols-2 gap-6 mt-12 lg:grid-cols-4">
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/New Balance 574.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Achilles Low</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Premium Leather</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$415.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/Yeezy Boost 350.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Achilles Low</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Premium Leather</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$415.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/New Balance 2002R.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Achilles Low</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Premium Leather</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$415.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/shoes/Air Jordan 4.jpg') }}"
-                                    alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Achilles Low</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Premium Leather</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$415.00</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+            <div class="inline-flex items-center space-x-6 mb-8">
+                <span class="w-2 h-2 bg-rose-600 rotate-45 shadow-[0_0_10px_rgba(225,29,72,0.5)]"></span>
+                <span class="text-2xs md:text-xs font-black text-gray-500 uppercase tracking-[0.6em]">
+                    Curated Collection
+                </span>
+                <span class="w-2 h-2 bg-rose-600 rotate-45 shadow-[0_0_10px_rgba(225,29,72,0.5)]"></span>
             </div>
 
-            <div class="mb-24">
-                <div class="group relative h-87.5 overflow-hidden rounded-4xl shadow-2xl transition-all duration-500">
-                    <img src="{{ asset('assets/img/clothes/Denim Jacket.jpg') }}" alt="Apparel"
-                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                    <div
-                        class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent flex items-center">
-                        <div class="max-w-xl px-12">
-                            <h3 class="text-4xl font-black text-white uppercase italic tracking-widest">Apparel</h3>
-                            <p class="mt-4 text-gray-300 text-lg">From essential basics to statement pieces. Wear your
-                                aura.</p>
-                            <a href="#"
-                                class="mt-8 inline-flex items-center px-8 py-3 bg-rose-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-rose-700 transition-all group/btn">
-                                Explore All
-                                <svg class="w-5 h-5 ml-2 transition-transform group-hover/btn:translate-x-2"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="text-7xl md:text-9xl font-black text-white uppercase tracking-tighter">
+                THE <span class="text-rose-600 italic">EDITS</span>
+            </h2>
 
-                <ul class="grid grid-cols-2 gap-6 mt-12 lg:grid-cols-4">
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/clothes/Blazer.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Structured Blazer</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Tailored Fit</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$185.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/clothes/Culottes.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Structured Blazer</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Tailored Fit</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$185.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/clothes/Chino Pants.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Structured Blazer</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Tailored Fit</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$185.00</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/clothes/Button-up Shirt.jpg') }}" alt=""
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Structured Blazer</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Tailored Fit</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$185.00</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+            <div class="mt-10 flex justify-center items-center gap-4">
+                <div class="h-px w-20 bg-linear-to-r from-transparent to-white/10"></div>
+                <div class="text-2xs font-bold text-gray-600 uppercase tracking-widest">Aura Selection 2026</div>
+                <div class="h-px w-20 bg-linear-to-l from-transparent to-white/10"></div>
             </div>
 
-            <div class="mb-24">
-                <div class="group relative h-87.5 overflow-hidden rounded-4xl shadow-2xl transition-all duration-500">
-                    <img src="{{ asset('assets/img/accessories/Tote Bag.jpg') }}" alt="Accessories"
+        </header>
+
+        <div class="group">
+            <div class="flex flex-col lg:flex-row items-stretch min-h-150">
+                <div class="relative w-full lg:w-2/5 overflow-hidden">
+                    <img src="{{ asset('assets/img/shoes.jpg') }}" alt="Shoes"
                         class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
                     <div
-                        class="absolute inset-0 bg-linear-to-l from-black/80 via-black/40 to-transparent flex items-center justify-end">
-                        <div class="max-w-xl px-12 text-right">
-                            <h3 class="text-4xl font-black text-white uppercase italic tracking-widest">Accessories
+                        class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent lg:bg-linear-to-r lg:from-black lg:to-transparent flex items-end lg:items-center p-12">
+                        <div class="max-w-md">
+                            <h3
+                                class="text-6xl font-black text-white uppercase italic tracking-tighter leading-none mb-4">
+                                Shoes
                             </h3>
-                            <p class="mt-4 text-gray-300 text-lg">The finishing touch that defines your character.</p>
+                            <p class="text-gray-300 text-lg mb-8">Engineered for comfort, designed for the streets.</p>
                             <a href="#"
-                                class="mt-8 inline-flex flex-row-reverse items-center px-8 py-3 bg-rose-600 text-white text-sm font-bold uppercase tracking-widest rounded-full hover:bg-rose-700 transition-all group/btn">
-                                Explore All
-                                <svg class="w-5 h-5 mr-2 transition-transform group-hover/btn:-translate-x-2 rotate-180"
-                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                </svg>
+                                class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors">Shoes
+                                Collection →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
+                    <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
+                        @foreach ($shoes->products as $product)
+                            <a href="#"
+                                class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
+                                <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
+                                    <img src="{{ asset('storage/uploads/' . $product->image) }}"
+                                        class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700">
+                                </div>
+                                <h4 class="text-xs font-black uppercase dark:text-white">{{ $product->name }}</h4>
+                                <p class="text-rose-600 font-bold">Rp
+                                    {{ number_format($product->price, 0, ',', '.') }}</p>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="group bg-gray-950">
+            <div class="flex flex-col lg:flex-row-reverse items-stretch min-h-175">
+
+                <div class="relative w-full lg:w-1/2 overflow-hidden">
+                    <img src="{{ asset('assets/img/clothes.jpg') }}" alt="Clothes"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 grayscale-50 group-hover:grayscale-0">
+
+                    <div
+                        class="absolute inset-0 bg-linear-to-t from-gray-950 via-gray-950/20 to-transparent lg:bg-linear-to-l lg:from-gray-950 lg:via-gray-950/40 lg:to-transparent flex items-end lg:items-center p-12 lg:p-24 justify-end">
+                        <div class="max-w-md text-right relative z-10">
+                            <h3
+                                class="text-7xl font-black text-white uppercase italic tracking-tighter mb-6 leading-none">
+                                Clothes
+                            </h3>
+                            <p class="text-gray-400 text-xl mb-10 font-medium">From essential basics to statement
+                                pieces.</p>
+                            <a href="#"
+                                class="group/btn inline-flex items-center gap-4 text-white font-black uppercase tracking-[0.3em] text-sm transition-all">
+                                <span
+                                    class="border-b-2 border-rose-600 pb-2 group-hover/btn:text-rose-600 transition-colors">Clothes
+                                    Collection</span>
+                                <span
+                                    class="text-2xl transition-transform group-hover/btn:translate-x-3 text-rose-600">→</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <ul class="grid grid-cols-2 gap-6 mt-12 lg:grid-cols-4">
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/accessories/Bucket Hat.jpg') }}" alt="Classic Watch"
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Classic Chronograph</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Premium Leather</p>
+                <div
+                    class="w-full lg:w-1/2 bg-gray-950 p-6 lg:p-16 xl:p-24 flex items-center border-y lg:border-y-0 lg:border-l border-white/5">
+                    <div class="grid grid-cols-2 gap-6 lg:gap-10 w-full">
+                        @foreach ($clothes->products as $product)
+                            <a href="#"
+                                class="group/item relative bg-white/5 backdrop-blur-sm p-6 rounded-[2.5rem] border border-white/5 hover:bg-white/10 hover:border-rose-600/30 transition-all duration-700 hover:-translate-y-3">
+                                <div class="relative overflow-hidden rounded-[1.8rem] aspect-square mb-6">
+                                    <img src="{{ asset('storage/uploads/' . $product->image) }}"
+                                        class="w-full h-full object-cover transition-all duration-1000 scale-100 group-hover/item:scale-110">
                                 </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$245.00</p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/accessories/Sunglasses.jpg') }}" alt="Sunglasses"
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Aviator Noir</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">UV Protection</p>
+                                <div class="space-y-1">
+                                    <h4 class="text-sm font-black uppercase text-white tracking-widest">
+                                        {{ $product->name }}</h4>
+                                    <p class="text-rose-500 font-black text-lg">Rp
+                                        {{ number_format($product->price, 0, ',', '.') }}</p>
                                 </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$120.00</p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/accessories/Cuff Bracelet.jpg') }}" alt="Leather Bag"
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Mini Suede Tote</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">Handcrafted</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$310.00</p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <li class="group">
-                        <a href="#" class="block">
-                            <div class="relative overflow-hidden rounded-3xl aspect-3/4 bg-gray-100 dark:bg-gray-800">
-                                <img src="{{ asset('assets/img/accessories/Layered Necklace.jpg') }}" alt="Necklace"
-                                    class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
-                            </div>
-                            <div class="mt-4 flex justify-between items-start px-2">
-                                <div>
-                                    <h3
-                                        class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-rose-600 transition-colors uppercase">
-                                        Aura Gold Chain</h3>
-                                    <p class="text-xs text-gray-500 mt-1 uppercase tracking-widest">18k Plated</p>
-                                </div>
-                                <p class="text-sm font-black text-gray-900 dark:text-white">$155.00</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="border-t border-gray-100 dark:border-gray-800 pt-10"></div>
+        <div class="group">
+            <div class="flex flex-col lg:flex-row items-stretch min-h-150">
+                <div class="relative w-full lg:w-2/5 overflow-hidden">
+                    <img src="{{ asset('assets/img/accessories.jpg') }}" alt="Accessories"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                    <div
+                        class="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent lg:bg-linear-to-r lg:from-black lg:to-transparent flex items-end lg:items-center p-12">
+                        <div class="max-w-md">
+                            <h3
+                                class="text-6xl font-black text-white uppercase italic tracking-tighter leading-none mb-4">
+                                Accessories</h3>
+                            <p class="text-gray-300 text-lg mb-8">The finishing touch that defines your unique
+                                character and style.</p>
+                            <a href="#"
+                                class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors shadow-rose-600/20">Accessories
+                                Collection →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
+                    <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
+                        @foreach ($accessories->products as $product)
+                            <a href="#"
+                                class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
+                                <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
+                                    <img src="{{ asset('storage/uploads/' . $product->image) }}"
+                                        class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-700">
+                                </div>
+                                <h4 class="text-xs font-black uppercase dark:text-white">{{ $product->name }}</h4>
+                                <p class="text-rose-600 font-bold">Rp
+                                    {{ number_format($product->price, 0, ',', '.') }}</p>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- ==================
@@ -840,117 +820,111 @@
     <!-- ==================
         CONTACT
     ====================== -->
-    <section id="contact" class="relative pt-24 bg-rose-50 dark:bg-gray-950 overflow-hidden">
-        <div class="absolute top-0 right-0 -translate-y-12 translate-x-12 blur-3xl opacity-20 pointer-events-none">
-            <div class="aspect-square w-96 rounded-full bg-rose-400"></div>
+    <section id="contact" class="relative bg-gray-950 py-0 overflow-hidden font-inter">
+        <div class="absolute top-10 left-0 select-none pointer-events-none opacity-[0.02] whitespace-nowrap z-0">
+            <h2 class="text-[25rem] font-black leading-none uppercase tracking-tighter">Contact</h2>
         </div>
 
-        <div class="container px-6 mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-xs font-black tracking-[0.4em] text-rose-500 uppercase mb-4">Visit Our Studio</h2>
-                <h1 class="text-4xl font-black text-gray-900 lg:text-5xl dark:text-white uppercase tracking-tighter">
-                    Get In <span class="text-rose-600">Touch</span>
-                </h1>
-                <div class="w-20 h-1 bg-rose-600 mx-auto mt-6 rounded-full"></div>
+        <div class="w-full flex flex-col lg:flex-row min-h-screen items-stretch relative z-10">
+
+            <div
+                class="w-full lg:w-2/5 flex flex-col justify-between py-24 px-8 md:px-16 lg:pl-20 xl:pl-32 bg-gray-950 border-r border-white/5">
+                <div>
+                    <span class="inline-flex items-center gap-4 mb-12">
+                        <span class="w-8 h-px bg-rose-600"></span>
+                        <span class="text-rose-600 text-2xs font-black uppercase tracking-[0.5em]">Get In
+                            Touch</span>
+                    </span>
+
+                    <h1
+                        class="text-7xl md:text-8xl xl:text-8xl font-black text-white uppercase tracking-tighter leading-[0.8] mb-16">
+                        LET'S <br>
+                        <span class="text-rose-600 italic">CONNECT.</span>
+                    </h1>
+
+                    <div class="space-y-16">
+                        <div class="group">
+                            <h3
+                                class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6 group-hover:text-rose-600 transition-colors">
+                                The Flagship Studio</h3>
+                            <p
+                                class="text-2xl md:text-3xl font-medium text-gray-200 leading-tight tracking-tight max-w-md">
+                                Grand Boutique St. No. 12,<br>
+                                Menteng, Central Jakarta 10310
+                            </p>
+                        </div>
+
+                        <div class="group">
+                            <h3
+                                class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6 group-hover:text-rose-600 transition-colors">
+                                Email Inquiry</h3>
+                            <a href="mailto:hello@fashionaura.com"
+                                class="text-2xl md:text-3xl font-black text-white hover:text-rose-600 transition-all underline decoration-rose-600/30 decoration-4 underline-offset-12 hover:underline-offset-16">
+                                hello@fashionaura.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-24 grid grid-cols-2 gap-8 border-t border-white/10 pt-12">
+                    <div>
+                        <h4 class="text-2xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6">Follow Us</h4>
+                        <div class="flex space-x-6 text-xl text-white">
+                            <a href="#"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
+                                    class="fab fa-instagram"></i></a>
+                            <a href="#"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
+                                    class="fab fa-tiktok"></i></a>
+                            <a href="#"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
+                                    class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-2xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6">Studio Hours
+                        </h4>
+                        <p class="text-[11px] font-black text-white uppercase leading-relaxed tracking-widest">
+                            Mon — Sun<br>
+                            <span class="text-rose-600">08:00 — 22:00</span>
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex flex-wrap lg:flex-nowrap gap-12 pb-24">
+            <div class="w-full lg:w-3/5 relative min-h-125 lg:min-h-full group">
                 <div
-                    class="relative w-full lg:w-2/3 min-h-125 rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-200 group">
-                    <iframe width="100%" height="100%"
-                        class="absolute inset-0 grayscale contrast-125 opacity-80 group-hover:grayscale-0 transition-all duration-700"
-                        frameborder="0" title="FashionAura Studio Map"
-                        src="https://maps.google.com/maps?q=Jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed">
-                    </iframe>
+                    class="absolute inset-0 grayscale contrast-125 brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-[1.5s]">
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0;"
+                        src="https://maps.google.com/maps?q=Menteng%20Jakarta&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        allowfullscreen></iframe>
+                </div>
 
-                    <div
-                        class="relative m-6 md:m-10 p-8 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-xl max-w-md mt-auto">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div>
-                                <h3 class="text-2xs font-black tracking-widest text-rose-600 uppercase mb-2">The
-                                    Studio</h3>
-                                <p class="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
-                                    Grand Boutique St. No. 12<br>
-                                    Menteng, Central Jakarta<br>
-                                    Indonesia 10310
-                                </p>
-                            </div>
-                            <div>
-                                <h3 class="text-2xs font-black tracking-widest text-rose-600 uppercase mb-2">Connect
-                                </h3>
-                                <a href="mailto:hello@fashionaura.com"
-                                    class="block text-sm font-bold text-gray-900 dark:text-white hover:text-rose-600">hello@fashionaura.com</a>
-                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 font-medium">+62 21 555 0123
+                <div class="absolute inset-0 pointer-events-none flex flex-col justify-between p-12 lg:p-20">
+                    <div class="self-end pointer-events-auto">
+                        <div class="bg-gray-950/80 backdrop-blur-xl p-8 rounded-4xl border border-white/10 shadow-2xl">
+                            <p class="text-2xs font-black uppercase tracking-[0.3em] text-rose-600 mb-2">Location
+                                Status</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                                <p class="text-sm font-bold text-white uppercase tracking-widest">Open Until 10:00 PM
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="w-full lg:w-1/3 flex flex-col justify-center">
-                    <div
-                        class="bg-white dark:bg-gray-900 p-10 rounded-[2.5rem] shadow-xl border border-rose-100 dark:border-gray-800">
-                        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2 uppercase italic">Send a
-                            Message</h3>
-                        <p class="text-sm text-gray-500 mb-8">We usually respond within 24 hours.</p>
-
-                        <form action="#" class="space-y-5">
-                            <div class="relative">
-                                <input type="text" id="name" placeholder="Full Name"
-                                    class="w-full px-5 py-4 text-sm bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-rose-500 transition-all outline-none text-gray-900 dark:text-white">
-                            </div>
-                            <div class="relative">
-                                <input type="email" id="email" placeholder="Email Address"
-                                    class="w-full px-5 py-4 text-sm bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-rose-500 transition-all outline-none text-gray-900 dark:text-white">
-                            </div>
-                            <div class="relative">
-                                <textarea id="message" rows="4" placeholder="Your Message"
-                                    class="w-full px-5 py-4 text-sm bg-gray-50 dark:bg-gray-800 border-none rounded-2xl focus:ring-2 focus:ring-rose-500 transition-all outline-none text-gray-900 dark:text-white resize-none"></textarea>
-                            </div>
-                            <button
-                                class="w-full py-4 bg-gray-900 dark:bg-rose-600 text-white font-bold uppercase tracking-widest text-xs rounded-2xl hover:bg-rose-600 dark:hover:bg-rose-700 transform active:scale-95 transition-all shadow-lg shadow-rose-200 dark:shadow-none">
-                                Send Message
-                            </button>
-                        </form>
+                    <div class="max-w-xl pointer-events-auto">
+                        <h2
+                            class="text-5xl lg:text-7xl font-black text-white leading-[0.9] uppercase tracking-tighter">
+                            Find us in the <br>
+                            heart of the <br>
+                            <span class="text-transparent" style="-webkit-text-stroke: 1px white;">fashion
+                                capital.</span>
+                        </h2>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-rose-200 dark:border-gray-800 py-12">
-                <div class="flex flex-wrap items-center justify-between gap-10">
-                    <div class="flex items-center space-x-6">
-                        <div
-                            class="w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-rose-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h4 class="text-sm font-black uppercase text-gray-900 dark:text-white tracking-widest">
-                                Opening Hours</h4>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm">Mon - Sun: 08:00 AM - 10:00 PM</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <span class="text-xs font-black uppercase tracking-widest text-gray-400">Follow Our
-                            Journey:</span>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-rose-600 hover:text-white transition-all transform hover:-translate-y-1">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-rose-600 hover:text-white transition-all transform hover:-translate-y-1">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-rose-600 hover:text-white transition-all transform hover:-translate-y-1">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
     <!-- ==================
@@ -962,202 +936,82 @@
     <!-- ==================
         FOOTER
     ====================== -->
-    <footer class="bg-white lg:grid lg:grid-cols-5 dark:bg-gray-900">
-        <div class="relative block h-32 p-20 lg:col-span-2 lg:h-full">
-            <img src="https://images.unsplash.com/photo-1642370324100-324b21fab3a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1548&q=80"
-                alt="" class="absolute inset-0 object-cover w-full h-full" />
-        </div>
+    <footer class="bg-white dark:bg-black pt-24 pb-12 overflow-hidden">
+        <div class="container-fluid px-6 lg:px-12">
 
-        <div class="px-4 py-16 sm:px-6 lg:col-span-3 lg:px-8">
-            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2">
-                <div>
-                    <p>
-                        <span class="text-xs tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                            Call us
-                        </span>
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
+                <div class="max-w-2xl">
+                    <h2
+                        class="text-[12vw] lg:text-[10vw] font-black leading-[0.8] uppercase tracking-tighter dark:text-white">
+                        JOIN THE <br> <span class="text-rose-600 italic">REVOLUTION.</span>
+                    </h2>
+                </div>
+            </div>
 
-                        <a href="#"
-                            class="block text-2xl font-medium text-gray-900 hover:opacity-75 sm:text-3xl dark:text-white">
-                            0123456789
-                        </a>
-                    </p>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 border-y-4 border-gray-900 dark:border-white">
 
-                    <ul class="mt-8 space-y-1 text-sm text-gray-700 dark:text-gray-200">
-                        <li>Monday to Friday: 10am - 5pm</li>
-                        <li>Weekend: 10am - 3pm</li>
-                    </ul>
-
-                    <ul class="flex gap-6 mt-8">
-                        <li>
-                            <a href="#" rel="noreferrer" target="_blank"
-                                class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                <span class="sr-only">Facebook</span>
-
-                                <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" rel="noreferrer" target="_blank"
-                                class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                <span class="sr-only">Instagram</span>
-
-                                <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" rel="noreferrer" target="_blank"
-                                class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                <span class="sr-only">Twitter</span>
-
-                                <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path
-                                        d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                                </svg>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" rel="noreferrer" target="_blank"
-                                class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                <span class="sr-only">GitHub</span>
-
-                                <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" rel="noreferrer" target="_blank"
-                                class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                <span class="sr-only">Dribbble</span>
-
-                                <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
+                <div
+                    class="lg:col-span-4 border-r-4 border-gray-900 dark:border-white h-100 relative overflow-hidden group">
+                    <img src="{{ asset('assets/img/footer.jpg') }}"
+                        class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
                 </div>
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <p class="font-medium text-gray-900 dark:text-white">Services</p>
-
-                        <ul class="mt-6 space-y-4 text-sm">
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    1on1 Coaching
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    Company Review
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    Accounts Review
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    HR Consulting
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    SEO Optimisation
-                                </a>
-                            </li>
+                <div class="lg:col-span-8 grid grid-cols-2 md:grid-cols-4">
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Shop</h4>
+                        <ul class="space-y-4 text-sm font-bold uppercase">
+                            <li><a href="#" class="hover:line-through">Shoes</a></li>
+                            <li><a href="#" class="hover:line-through">Clothes</a></li>
+                            <li><a href="#" class="hover:line-through">Accessories</a></li>
                         </ul>
                     </div>
 
-                    <div>
-                        <p class="font-medium text-gray-900 dark:text-white">Company</p>
-
-                        <ul class="mt-6 space-y-4 text-sm">
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    About
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    Meet the Team
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#"
-                                    class="text-gray-700 transition hover:opacity-75 dark:text-gray-200">
-                                    Accounts Review
-                                </a>
-                            </li>
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Support
+                        </h4>
+                        <ul class="space-y-4 text-sm font-bold uppercase">
+                            <li><a href="#" class="hover:line-through">Shipping</a></li>
+                            <li><a href="#" class="hover:line-through">Returns</a></li>
+                            <li><a href="#" class="hover:line-through">Contact</a></li>
                         </ul>
+                    </div>
+
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Studio
+                        </h4>
+                        <p class="text-xs font-bold uppercase leading-relaxed">
+                            Grand Boutique St. 12<br>Menteng, Jakarta<br>Indonesia
+                        </p>
+                    </div>
+
+                    <div class="p-8 flex flex-col justify-between dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Connect
+                        </h4>
+                        <div class="flex flex-col gap-4 text-sm font-bold uppercase">
+                            <a href="#" class="hover:text-rose-600">Instagram</a>
+                            <a href="#" class="hover:text-rose-600">TikTok</a>
+                            <a href="#" class="hover:text-rose-600">WhatsApp</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="pt-12 mt-12 border-t border-gray-100 dark:border-gray-800">
-                <div class="sm:flex sm:items-center sm:justify-between">
-                    <ul class="flex flex-wrap gap-4 text-xs">
-                        <li>
-                            <a href="#" class="text-gray-500 transition hover:opacity-75 dark:text-gray-400">
-                                Terms & Conditions
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="text-gray-500 transition hover:opacity-75 dark:text-gray-400">
-                                Privacy Policy
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="text-gray-500 transition hover:opacity-75 dark:text-gray-400">
-                                Cookies
-                            </a>
-                        </li>
-                    </ul>
-
-                    <p class="mt-8 text-xs text-gray-500 sm:mt-0 dark:text-gray-400">
-                        &copy; 2022. Company Name. All rights reserved.
-                    </p>
+            <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex gap-8 text-2xs font-black uppercase tracking-[0.3em] text-gray-500">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Legal</a>
                 </div>
+
+                <p class="text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">
+                    © 2026 AURA STUDIO — DESIGNED BY <span class="text-rose-600">ninoell55</span>
+                </p>
             </div>
         </div>
     </footer>
     <!-- ==================
         FOOTER-end
     ====================== -->
-
 
 
 
