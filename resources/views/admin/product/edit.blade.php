@@ -70,7 +70,8 @@
                                     <label class="flex items-center cursor-pointer group w-fit">
                                         <div class="relative">
                                             <input type="checkbox" name="is_best" value="1"
-                                                {{ old('is_best', $product->is_best ?? false) ? 'checked' : '' }} class="sr-only peer">
+                                                {{ old('is_best', $product->is_best ?? false) ? 'checked' : '' }}
+                                                class="sr-only peer">
                                             <div
                                                 class="w-11 h-6 bg-gray-200 dark:bg-gray-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-600">
                                             </div>
@@ -157,45 +158,63 @@
                     <div class="space-y-6">
                         {{-- Image Display Card --}}
                         <div
-                            class="bg-white dark:bg-gray-900 rounded-4xl p-8 shadow-sm border border-gray-100 dark:border-gray-800 group">
+                            class="bg-white dark:bg-gray-900 rounded-none p-8 shadow-sm border border-gray-100 dark:border-gray-800 group text-center">
                             <label
-                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 text-center group-focus-within:text-rose-600">
+                                class="block text-2xs font-black text-gray-400 uppercase tracking-[0.2em] mb-6 group-focus-within:text-rose-600 transition-colors">
                                 Product Image
                             </label>
 
-                            <div
-                                class="mb-6 rounded-3xl overflow-hidden bg-gray-50 dark:bg-gray-950 border border-gray-100 dark:border-gray-800">
-                                {{-- Tambahkan id="mainImagePreview" --}}
-                                @if ($product->image)
-                                    <img id="mainImagePreview" src="{{ asset('storage/uploads/' . $product->image) }}"
-                                        class="w-full h-48 object-cover transition-opacity duration-300">
-                                @else
-                                    <div id="imagePlaceholder"
-                                        class="w-full h-48 flex items-center justify-center text-2xs font-black text-gray-300 uppercase italic">
-                                        No Image
-                                    </div>
-                                    {{-- Tag img tersembunyi untuk tempat preview jika awalnya tidak ada gambar --}}
-                                    <img id="mainImagePreview" src="#" class="hidden w-full h-48 object-cover">
-                                @endif
-                            </div>
-
-                            <div class="relative">
-                                {{-- Tambahkan id="editImageInput" --}}
+                            <div class="relative group">
+                                {{-- File Input --}}
                                 <input type="file" name="image" id="editImageInput" accept="image/*"
-                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                <div
-                                    class="w-full py-4 bg-rose-50 dark:bg-rose-500/10 border-2 border-dashed border-rose-100 dark:border-rose-900 rounded-2xl flex flex-col items-center justify-center p-4 hover:border-rose-400 transition-colors">
-                                    <svg class="w-6 h-6 text-rose-300 mb-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 4v16m8-8H4" />
-                                    </svg>
-                                    <span
-                                        class="text-[9px] font-black text-rose-400 uppercase tracking-widest text-center">
-                                        Update Image
-                                    </span>
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+
+                                {{-- Preview Container: Dibuat Aspect Square agar sama dengan Create --}}
+                                <div id="imagePreviewContainer"
+                                    class="aspect-square rounded-4xl bg-gray-50 dark:bg-gray-950 border-2 border-dashed border-gray-200 dark:border-gray-800 flex flex-col items-center justify-center overflow-hidden group-hover:border-rose-400 transition-all duration-300">
+
+                                    @if ($product->image)
+                                        {{-- Existing Image --}}
+                                        <img id="mainImagePreview"
+                                            src="{{ asset('storage/uploads/' . $product->image) }}"
+                                            class="w-full h-full object-cover">
+
+                                        {{-- Overlay saat Hover untuk memberi tahu bisa di-update --}}
+                                        <div id="editOverlay"
+                                            class=" absolute rounded-4xl inset-0 bg-gray-900/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                                            <svg class="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                            <span
+                                                class="text-2xs font-black text-white uppercase tracking-widest">Change
+                                                Photo</span>
+                                        </div>
+                                    @else
+                                        {{-- Placeholder jika tidak ada gambar sama sekali --}}
+                                        <div id="placeholderContent"
+                                            class="flex flex-col items-center justify-center p-6">
+                                            <svg class="w-8 h-8 text-gray-300 mb-2" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 4v16m8-8H4" />
+                                            </svg>
+                                            <span
+                                                class="text-2xs font-black text-gray-400 uppercase tracking-widest">Add
+                                                Image</span>
+                                        </div>
+                                        {{-- Tag img kosong untuk preview upload baru --}}
+                                        <img id="mainImagePreview" src="#"
+                                            class="hidden w-full h-full object-cover">
+                                    @endif
                                 </div>
                             </div>
+
+                            {{-- Note kecil di bawah --}}
+                            <p class="mt-4 text-[9px] font-bold text-gray-400 uppercase tracking-tight">
+                                Click to update current product image
+                            </p>
                         </div>
 
                         {{-- Action Card --}}

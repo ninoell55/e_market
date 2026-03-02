@@ -62,21 +62,26 @@
 
             {{-- Table Card --}}
             <div
-                class="bg-white dark:bg-gray-950 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-900 overflow-hidden">
+                class="bg-white dark:bg-gray-950 rounded-3xs md:rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-900 overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full border-collapse text-left">
+                    <table class="w-full border-collapse text-left min-w-150 md:min-w-full">
                         <thead>
                             <tr class="border-b border-gray-50 dark:border-gray-900 bg-gray-50/30 dark:bg-gray-900/30">
-                                <th class="px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">#
-                                </th>
-                                <th class="px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">User
-                                    Identity</th>
-                                <th class="px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Email
-                                    Address</th>
-                                <th class="px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                                <th
+                                    class="px-6 md:px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em] w-16">
+                                    #</th>
+                                <th
+                                    class="px-6 md:px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                                    User Identity</th>
+                                {{-- Email disembunyikan di mobile sangat kecil, muncul di tablet --}}
+                                <th
+                                    class="hidden sm:table-cell px-6 md:px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                                    Email Address</th>
+                                <th
+                                    class="px-6 md:px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
                                     Privilege</th>
                                 <th
-                                    class="px-8 py-6 text-right text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                                    class="px-6 md:px-8 py-6 text-right text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
                                     Actions</th>
                             </tr>
                         </thead>
@@ -84,31 +89,34 @@
                             @forelse ($users as $user)
                                 <tr
                                     class="group hover:bg-gray-50/50 dark:hover:bg-rose-950/5 transition-all duration-300">
-                                    <td class="px-8 py-6">
+                                    <td class="px-6 md:px-8 py-6">
                                         <span
                                             class="text-xs font-bold text-gray-400 group-hover:text-rose-600 transition-colors">
                                             {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6">
+                                    <td class="px-6 md:px-8 py-6">
                                         <div class="flex flex-col">
                                             <span
-                                                class="text-sm font-black text-gray-900 dark:text-white tracking-tight group-hover:text-rose-600 transition-colors uppercase">
+                                                class="text-sm font-black text-gray-900 dark:text-white tracking-tight group-hover:text-rose-600 transition-colors uppercase leading-none">
                                                 {{ $user->name }}
                                             </span>
+                                            {{-- Tampilkan email di bawah nama khusus untuk tampilan mobile --}}
                                             <span
-                                                class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-0.5">
-                                                UID: #{{ $user->id }} • Joined
-                                                {{ $user->created_at->format('d/m/Y') }}
+                                                class="sm:hidden text-2xs text-gray-400 mt-1 font-medium lowercase">{{ $user->email }}</span>
+                                            <span
+                                                class="text-[9px] font-bold text-gray-400 uppercase tracking-tighter mt-1">
+                                                UID: #{{ $user->id }} <span class="hidden md:inline">• Joined
+                                                    {{ $user->created_at->format('d/m/Y') }}</span>
                                             </span>
                                         </div>
                                     </td>
-                                    <td class="px-8 py-6">
+                                    <td class="hidden sm:table-cell px-6 md:px-8 py-6">
                                         <span class="text-xs font-bold text-gray-600 dark:text-gray-400">
                                             {{ $user->email }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6">
+                                    <td class="px-6 md:px-8 py-6">
                                         @php
                                             $roleColor =
                                                 [
@@ -121,15 +129,16 @@
                                                 ][$user->role] ?? 'bg-gray-50 text-gray-600 border-gray-100';
                                         @endphp
                                         <span
-                                            class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full border {{ $roleColor }}">
+                                            class="px-2.5 py-1 text-[8px] md:text-[9px] font-black uppercase tracking-widest rounded-lg border {{ $roleColor }}">
                                             {{ $user->role }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6 text-right">
-                                        <div class="flex justify-end items-center gap-2">
+                                    <td class="px-6 md:px-8 py-6 text-right">
+                                        <div class="flex justify-end items-center gap-1 md:gap-2">
                                             <a href="{{ route('admin.user.edit', $user) }}"
-                                                class="p-2.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all shadow-sm">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                class="p-2 text-gray-400 hover:text-blue-600 transition-all"
+                                                title="Edit">
+                                                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         stroke-width="2"
@@ -137,16 +146,15 @@
                                                 </svg>
                                             </a>
                                             <form action="{{ route('admin.user.destroy', $user) }}" method="POST"
-                                                class="inline delete-form">
-                                                @csrf
-                                                @method('DELETE')
+                                                class="inline">
+                                                @csrf @method('DELETE')
                                                 <button type="button" data-confirm-title="Are you sure?"
-                                                    data-confirm-text="This action cannot be undone and may affect related data."
-                                                    data-confirm-button="YES, DELETE IT"
-                                                    class="confirm-delete-btn p-2.5 text-gray-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-all shadow-sm"
-                                                    title="Delete User">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
+                                                    data-confirm-text="Deleting this user will revoke all their access."
+                                                    data-confirm-button="DELETE USER"
+                                                    class="confirm-delete-btn p-2 text-gray-400 hover:text-rose-600 transition-all"
+                                                    title="Delete">
+                                                    <svg class="w-4 h-4 md:w-5 md:h-5" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
                                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -158,21 +166,11 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-8 py-12 text-center">
-                                        <div class="flex flex-col items-center gap-4">
-                                            <div
-                                                class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-                                                <svg class="w-6 h-6 text-gray-300" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.07 0l-.548.547A3.374 3.374 0 0014 18H7a3.373 3.373 0 00-2.122.879l-.548-.547z" />
-                                                </svg>
-                                            </div>
-                                            <span class="text-sm font-bold text-gray-400 uppercase">No users
-                                                found.</span>
-                                        </div>
-                                    </td>
+                                    <div class="col-span-full">
+                                        <x-empty-state title="No User Found"
+                                            message="No users match the search criteria or role filter."
+                                            buttonText="Refresh" />
+                                    </div>
                                 </tr>
                             @endforelse
                         </tbody>

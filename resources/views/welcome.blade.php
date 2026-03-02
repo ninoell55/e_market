@@ -10,12 +10,6 @@
     {{-- ICON --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Styles / Scripts -->
-    <style>
-        body:has(#hamburger:checked) {
-            overflow: hidden;
-        }
-    </style>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -33,10 +27,11 @@
         <div class="relative z-20 py-4">
             <div class="px-6 md:px-12 w-full xl:px-14 lg:py-4 transition-all duration-300" id="header-container">
                 <div class="flex items-center justify-between">
-                    <div class="relative z-20">
-                        <a class="flex items-center gap-2 text-3xl font-extrabold text-gray-900 dark:text-white transition-transform duration-300 hover:scale-105"
+                    <div class="relative z-100"> <a
+                            class="flex items-center gap-2 text-3xl font-extrabold text-gray-900 dark:text-white transition-transform duration-300 hover:scale-105"
                             href="#">
-                            <span class="-tracking-widest">Fashion<span class="text-rose-600 italic">Aura</span></span>
+                            <span class="-tracking-widest uppercase italic">Fashion<span
+                                    class="text-rose-600 not-italic">Aura</span></span>
                             <img class="h-7 w-auto" src="{{ asset('assets/img/icons/logo.png') }}" alt="Logo">
                         </a>
                     </div>
@@ -44,75 +39,90 @@
                     <div class="flex items-center justify-end">
                         <input type="checkbox" name="hamburger" id="hamburger" class="hidden peer">
 
-                        <label for="hamburger" class="relative z-20 block p-2 cursor-pointer lg:hidden group">
+                        <label for="hamburger"
+                            class="relative z-100 block p-3 cursor-pointer lg:hidden group bg-gray-900 dark:bg-white rounded-full shadow-2xl transition-all active:scale-90">
                             <div class="space-y-1.5">
                                 <div aria-hidden="true"
-                                    class="h-0.5 w-6 rounded bg-gray-900 dark:bg-white transition duration-300 group-hover:bg-rose-600">
+                                    class="h-0.5 w-6 rounded bg-white dark:bg-gray-900 transition duration-300 group-hover:bg-rose-600">
                                 </div>
                                 <div aria-hidden="true"
-                                    class="h-0.5 w-6 rounded bg-gray-900 dark:bg-white transition duration-300 group-hover:bg-rose-600">
+                                    class="h-0.5 w-4 rounded bg-white dark:bg-gray-900 transition duration-300 group-hover:bg-rose-600 ml-auto">
                                 </div>
                             </div>
                         </label>
 
                         <div
-                            class="peer-checked:translate-x-0 fixed inset-0 w-full md:w-100 lg:w-auto -translate-x-full lg:translate-x-0 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl lg:backdrop-blur-none transition-transform duration-500 lg:static lg:bg-transparent lg:shadow-none">
-                            <div class="flex flex-col justify-between h-full lg:items-center lg:flex-row">
+                            class="peer-checked:translate-x-0 fixed inset-0 z-90 w-full h-screen lg:h-auto lg:w-auto translate-x-full lg:translate-x-0 bg-white/98 dark:bg-gray-950/98 backdrop-blur-2xl lg:backdrop-blur-none transition-transform duration-700 cubic-bezier(0.4, 0, 0.2, 1) lg:static lg:bg-transparent lg:shadow-none overflow-hidden">
 
+                            <div
+                                class="absolute -bottom-10 -left-10 text-[15rem] font-black text-gray-100 dark:text-white/3 pointer-events-none select-none lg:hidden uppercase italic leading-none">
+                                Aura
+                            </div>
+
+                            <div class="flex flex-col justify-between h-full lg:items-center lg:flex-row relative z-10">
                                 <ul
-                                    class="px-10 pt-32 space-y-8 text-sm font-bold uppercase tracking-[0.2em] text-gray-700 dark:text-gray-300 lg:space-y-0 lg:flex lg:space-x-10 lg:pt-0 lg:px-8">
-                                    <li>
+                                    class="px-10 pt-40 space-y-12 text-sm font-bold uppercase tracking-[0.3em] text-gray-700 dark:text-gray-300 lg:space-y-0 lg:flex lg:space-x-10 lg:pt-0 lg:px-8">
+                                    <li class="overflow-hidden">
                                         <a href="#home" data-nav="home"
-                                            class="nav-link relative text-rose-600 transition-colors">
+                                            class="nav-link relative text-rose-600 transition-all duration-300 block text-4xl lg:text-sm font-black italic lg:not-italic group">
                                             Home
-                                            <span class="absolute -bottom-2 left-0 w-8 h-0.5 bg-rose-600"></span>
+                                            <span
+                                                class="absolute -bottom-2 left-0 w-8 h-0.5 bg-rose-600 hidden lg:block"></span>
+                                            <span
+                                                class="lg:hidden block h-1 w-0 bg-rose-600 transition-all duration-500 group-hover:w-full"></span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="overflow-hidden">
                                         <a href="#tentang" data-nav="tentang"
-                                            class="nav-link hover:text-rose-600 transition-colors relative group">
+                                            class="nav-link hover:text-rose-600 transition-all duration-300 relative group block text-4xl lg:text-sm font-black italic lg:not-italic">
                                             About
                                             <span
-                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full"></span>
+                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full hidden lg:block"></span>
+                                            <span
+                                                class="lg:hidden block h-1 w-0 bg-rose-600 transition-all duration-500 group-hover:w-full"></span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="overflow-hidden">
                                         <a href="#layanan" data-nav="layanan"
-                                            class="nav-link hover:text-rose-600 transition-colors relative group">
+                                            class="nav-link hover:text-rose-600 transition-all duration-300 relative group block text-4xl lg:text-sm font-black italic lg:not-italic">
                                             Services
                                             <span
-                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full"></span>
+                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full hidden lg:block"></span>
+                                            <span
+                                                class="lg:hidden block h-1 w-0 bg-rose-600 transition-all duration-500 group-hover:w-full"></span>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="overflow-hidden">
                                         <a href="#produk" data-nav="produk"
-                                            class="nav-link hover:text-rose-600 transition-colors relative group">
+                                            class="nav-link hover:text-rose-600 transition-all duration-300 relative group block text-4xl lg:text-sm font-black italic lg:not-italic">
                                             Products
                                             <span
-                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full"></span>
+                                                class="absolute -bottom-2 left-0 w-0 h-0.5 bg-rose-600 transition-all duration-300 group-hover:w-full hidden lg:block"></span>
+                                            <span
+                                                class="lg:hidden block h-1 w-0 bg-rose-600 transition-all duration-500 group-hover:w-full"></span>
                                         </a>
                                     </li>
                                 </ul>
 
                                 @if (Route::has('login'))
                                     <nav
-                                        class="flex flex-col lg:flex-row items-center gap-4 px-10 py-12 border-t border-rose-500 dark:border-white/10 lg:border-t-0 lg:border-l lg:py-0 lg:pr-0 lg:pl-10 lg:ml-4">
+                                        class="flex flex-col lg:flex-row items-center gap-6 px-10 py-20 border-t border-rose-500/20 dark:border-white/10 lg:border-t-0 lg:border-l lg:py-0 lg:pr-0 lg:pl-10 lg:ml-4 bg-gray-50/50 dark:bg-transparent lg:bg-transparent">
 
                                         @auth
                                             <a href="{{ route(Auth::user()->getDashboardRouteName()) }}"
-                                                class="w-full lg:w-auto text-center px-6 py-2.5 bg-gray-900 dark:bg-white dark:text-gray-950 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all duration-300 shadow-lg shadow-gray-200 dark:shadow-none">
+                                                class="w-full lg:w-auto text-center px-8 py-4 lg:py-2.5 bg-gray-900 dark:bg-white dark:text-gray-950 text-white rounded-none lg:rounded-xl text-2xs font-black uppercase tracking-[0.4em] hover:bg-rose-600 transition-all shadow-xl">
                                                 Dashboard
                                             </a>
                                         @else
                                             <a href="{{ route('login') }}"
-                                                class="w-full lg:w-auto text-center px-6 py-2.5 text-gray-700 dark:text-gray-300 text-xs font-bold uppercase tracking-widest hover:text-rose-600 transition-colors">
+                                                class="w-full lg:w-auto text-center text-gray-900 dark:text-gray-300 text-xs font-black uppercase tracking-[0.3em] hover:text-rose-600 transition-colors">
                                                 Log in
                                             </a>
 
                                             @if (Route::has('register'))
                                                 <a href="{{ route('register') }}"
-                                                    class="w-full lg:w-auto text-center px-6 py-2.5 bg-rose-600 text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-rose-700 transition-all duration-300 shadow-lg shadow-rose-200 dark:shadow-none">
-                                                    Register
+                                                    class="w-full lg:w-auto text-center px-8 py-5 lg:py-2.5 bg-rose-600 text-white rounded-none lg:rounded-xl text-2xs font-black uppercase tracking-[0.4em] hover:bg-black transition-all shadow-[10px_10px_0_0_rgba(225,29,72,0.2)] lg:shadow-none">
+                                                    Register Now
                                                 </a>
                                             @endif
                                         @endauth
@@ -128,7 +138,6 @@
     <!-- ==================
         NAVBAR-end
     ====================== -->
-    {{-- <div class="h-20 bg-white dark:bg-gray-900"></div> --}}
 
 
 
@@ -413,7 +422,7 @@
         WHY
     ====================== -->
     <section id="tentang"
-        class="relative bg-gray-955 dark:bg-gray-950 overflow-hidden py-24 lg:py-0 font-inter min-h-screen flex items-center">
+        class="relative bg-gray-955 dark:bg-gray-950 overflow-hidden font-inter min-h-screen flex items-center">
 
         <div class="absolute inset-0 pointer-events-none -z-10">
             <div class="absolute -right-20 top-1/2 -translate-y-1/2 rotate-90 origin-center opacity-3 select-none">

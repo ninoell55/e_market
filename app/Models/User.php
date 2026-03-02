@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -52,10 +53,8 @@ class User extends Authenticatable
         ];
     }
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
         static::creating(function ($user) {
             $user->username = Str::slug($user->name);
         });
@@ -74,6 +73,11 @@ class User extends Authenticatable
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function defaultAddress(): HasOne
+    {
+        return $this->hasOne(Address::class)->where('is_default', true);
     }
 
     public function cart(): HasOne

@@ -19,10 +19,8 @@ class Product extends Model
         'is_best'
     ];
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
-
         static::creating(function ($product) {
             $product->slug = Str::slug($product->name);
         });
@@ -37,12 +35,17 @@ class Product extends Model
     {
         return $this->variants->min('price') ?? 0;
     }
-    
+
+    public function getMaxPriceAttribute()
+    {
+        return $this->variants->max('price') ?? 0;
+    }
+
     public function getTotalStockAttribute()
     {
         return $this->variants->sum('stock');
     }
-    
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -51,5 +54,5 @@ class Product extends Model
     public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
-    }   
+    }
 }

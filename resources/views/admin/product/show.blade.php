@@ -155,14 +155,14 @@
 
                     {{-- Actions --}}
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ route('admin.product.edit', $product) }}"
+                        <a href="{{ route('admin.product.edit', $product) }}" title="Edit"
                             class="flex-2 py-5 bg-gray-900 dark:bg-rose-600 text-white text-center text-xs font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-rose-600 dark:hover:bg-rose-700 transition-all shadow-lg active:scale-95">
                             Modify Product
                         </a>
                         <form action="{{ route('admin.product.destroy', $product) }}" method="POST" class="flex-1">
                             @csrf
                             @method('DELETE')
-                            <button type="button"
+                            <button type="button" title="Delete"
                                 class="confirm-delete-btn w-full py-5 bg-white dark:bg-transparent border-2 border-rose-100 dark:border-rose-900 text-rose-400 hover:text-rose-600 hover:border-rose-600 transition-all text-xs font-black uppercase tracking-[0.2em] rounded-2xl active:scale-95"
                                 data-confirm-title="Are you sure?"
                                 data-confirm-text="This action cannot be undone and may affect related data."

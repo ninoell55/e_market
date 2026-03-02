@@ -48,7 +48,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_best' => 'nullable|boolean',
+            'is_best' => 'boolean',
 
             // Validasi untuk varian
             'variants' => 'required|array|min:1',

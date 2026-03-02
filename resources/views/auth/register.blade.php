@@ -1,78 +1,73 @@
 <x-guest-layout>
-    <div class="mb-8 text-center">
-        <h2 class="text-2xl font-black tracking-tighter text-gray-900 dark:text-white uppercase">
-            Join the <span class="text-rose-600 italic font-serif">Aura</span>
+    <div class="mb-10">
+        <h2 class="text-4xl font-black tracking-tighter text-gray-900 dark:text-white uppercase leading-[0.9]">
+            Create <br>
+            <span class="text-rose-600 italic font-serif lowercase tracking-normal">Account</span>
         </h2>
-        <p class="text-2xs font-bold tracking-[0.2em] text-gray-400 uppercase mt-1">Create your boutique account</p>
+        <p class="text-2xs font-black tracking-[0.3em] text-gray-400 uppercase mt-3 flex items-center gap-2">
+            <span class="w-8 h-px bg-gray-200"></span>
+            Exclusive Access
+        </p>
     </div>
 
-    <form method="POST" action="{{ route('register') }}" class="space-y-4">
+    <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
-        <div class="space-y-1 group">
+        <div class="group">
             <label
-                class="text-2xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 group-focus-within:text-rose-600 transition-colors">Full
+                class="block text-2xs font-black uppercase tracking-widest text-gray-500 mb-1 ml-1 group-focus-within:text-rose-600 transition-colors">Full
                 Name</label>
             <input id="name" type="text" name="name" :value="old('name')" required autofocus
-                autocomplete="name"
-                class="block w-full px-5 py-3.5 bg-white/50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-700 focus:border-rose-600 dark:focus:border-rose-600 focus:ring-4 focus:ring-rose-600/5 rounded-2xl transition-all duration-300 placeholder:text-gray-300"
-                placeholder="Eleanor Aura">
-            <x-input-error :messages="$errors->get('name')" class="mt-1 text-2xs" />
+                class="block w-full px-5 py-4 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 focus:border-gray-900 dark:focus:border-rose-600 focus:ring-0 rounded-none transition-all duration-300 placeholder:text-gray-300 font-bold"
+                placeholder="Nino Adityo">
+            <x-input-error :messages="$errors->get('name')" class="mt-1" />
         </div>
 
-        <div class="space-y-1 group">
+        <div class="group">
             <label
-                class="text-2xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 group-focus-within:text-rose-600 transition-colors">Email
+                class="block text-2xs font-black uppercase tracking-widest text-gray-500 mb-1 ml-1 group-focus-within:text-rose-600 transition-colors">Email
                 Address</label>
-            <input id="email" type="email" name="email" :value="old('email')" required autocomplete="username"
-                class="block w-full px-5 py-3.5 bg-white/50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-700 focus:border-rose-600 dark:focus:border-rose-600 focus:ring-4 focus:ring-rose-600/5 rounded-2xl transition-all duration-300 placeholder:text-gray-300"
-                placeholder="aura@example.com">
-            <x-input-error :messages="$errors->get('email')" class="mt-1 text-2xs" />
+            <input id="email" type="email" name="email" :value="old('email')" required
+                class="block w-full px-5 py-4 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 focus:border-gray-900 dark:focus:border-rose-600 focus:ring-0 rounded-none transition-all duration-300 placeholder:text-gray-300 font-bold"
+                placeholder="nino@aura.com">
+            <x-input-error :messages="$errors->get('email')" class="mt-1" />
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="space-y-1 group">
+            <div class="group">
                 <label
-                    class="text-2xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 group-focus-within:text-rose-600 transition-colors">Password</label>
-                <input id="password" type="password" name="password" required autocomplete="new-password"
-                    class="block w-full px-5 py-3.5 bg-white/50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-700 focus:border-rose-600 dark:focus:border-rose-600 focus:ring-4 focus:ring-rose-600/5 rounded-2xl transition-all duration-300 placeholder:text-gray-300"
+                    class="block text-2xs font-black uppercase tracking-widest text-gray-500 mb-1 ml-1 group-focus-within:text-rose-600 transition-colors">Password</label>
+                <input id="password" type="password" name="password" required
+                    class="block w-full px-5 py-4 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 focus:border-gray-900 dark:focus:border-rose-600 focus:ring-0 rounded-none transition-all duration-300 placeholder:text-gray-300 font-bold"
                     placeholder="••••••••">
-                <x-input-error :messages="$errors->get('password')" class="mt-1 text-2xs" />
             </div>
-
-            <div class="space-y-1 group">
+            <div class="group">
                 <label
-                    class="text-2xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 ml-1 group-focus-within:text-rose-600 transition-colors">Confirm</label>
+                    class="block text-2xs font-black uppercase tracking-widest text-gray-500 mb-1 ml-1 group-focus-within:text-rose-600 transition-colors">Confirm
+                    Password</label>
                 <input id="password_confirmation" type="password" name="password_confirmation" required
-                    autocomplete="new-password"
-                    class="block w-full px-5 py-3.5 bg-white/50 dark:bg-gray-800/50 border-gray-100 dark:border-gray-700 focus:border-rose-600 dark:focus:border-rose-600 focus:ring-4 focus:ring-rose-600/5 rounded-2xl transition-all duration-300 placeholder:text-gray-300"
+                    class="block w-full px-5 py-4 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 focus:border-gray-900 dark:focus:border-rose-600 focus:ring-0 rounded-none transition-all duration-300 placeholder:text-gray-300 font-bold"
                     placeholder="••••••••">
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 text-2xs" />
             </div>
         </div>
-
-        <div class="flex items-start px-1 pt-2">
-            <p class="text-[9px] text-gray-400 leading-relaxed uppercase tracking-wider font-medium">
-                By registering, you agree to our <a href="#" class="text-rose-600 hover:underline">Terms of
-                    Service</a> and <a href="#" class="text-rose-600 hover:underline">Privacy Policy</a>.
-            </p>
-        </div>
+        <x-input-error :messages="$errors->get('password')" class="mt-1" />
 
         <div class="pt-4">
             <button type="submit"
-                class="group relative w-full flex items-center justify-center px-8 py-4 bg-gray-900 dark:bg-rose-600 text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_15px_30px_rgba(225,29,72,0.3)] active:scale-[0.98]">
-                <span class="relative z-10">{{ __('Create Account') }}</span>
+                class="group relative w-full flex items-center justify-center px-8 py-5 bg-gray-900 dark:bg-rose-600 text-white text-[11px] font-black uppercase tracking-[0.4em] rounded-none overflow-hidden transition-all duration-300 active:scale-[0.98]">
+                <span class="relative z-10">{{ __('Sign Up') }}</span>
                 <div
-                    class="absolute inset-0 bg-rose-600 dark:bg-rose-700 translate-x-full group-hover:translate-x-0 transition-transform duration-500">
+                    class="absolute inset-0 bg-rose-600 dark:bg-rose-700 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                 </div>
             </button>
         </div>
 
-        <div class="text-center pt-4">
-            <a class="text-2xs font-black uppercase tracking-widest text-gray-400 hover:text-rose-600 transition-colors border-b-2 border-transparent hover:border-rose-600 pb-1"
-                href="{{ route('login') }}">
-                {{ __('Already a member? Sign In') }}
-            </a>
+        <div class="text-center pt-2">
+            <p class="text-2xs font-bold text-gray-400 uppercase tracking-widest">
+                Already a Member?
+                <a href="{{ route('login') }}"
+                    class="text-gray-900 dark:text-white border-b-2 border-rose-600 pb-0.5 ml-1">Sign In</a>
+            </p>
         </div>
     </form>
 </x-guest-layout>

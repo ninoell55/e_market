@@ -63,7 +63,7 @@
                 <a href="#">Legal</a>
             </div>
 
-            <p class="text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">
+            <p class="text-center text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">
                 © FASHIONAURA — BY <span class="text-rose-600">Nino Adityo Nugroho</span>
             </p>
         </div>

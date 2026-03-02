@@ -1,7 +1,5 @@
 <x-member-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <x-header />
-
-    @include('layouts.collection')
+    @include('components.form-address')
 </x-member-layout>

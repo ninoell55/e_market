@@ -13,16 +13,12 @@ class DashboardController extends Controller
     {
         $categories = Category::all();
         $products = Product::with(['category', 'variants'])
-            ->when($request->search, fn($query) => $query->where('name', 'like', '%' . $request->search . '%'))
+            ->when($request->search, fn($query) => $query
+            ->where('name', 'like', '%' . $request->search . '%'))
             ->latest()
             ->paginate(20)
             ->withQueryString();
 
         return view('member.dashboard', ['title' => 'Dashboard - Member Panel'], compact('products', 'categories'));
-    }
-
-    public function archive()
-    {
-        return view('member.archive.index', ['title' => 'Archive']);
     }
 }

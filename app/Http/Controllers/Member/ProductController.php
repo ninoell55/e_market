@@ -8,25 +8,13 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        $categories = Category::with(['products' => function ($query) {
-            $query->where('is_best', true)->take(4);
-        }])->whereIn('slug', ['shoes', 'clothes', 'accessories'])->get();
-
-        $shoes = $categories->where('slug', 'shoes')->first();
-        $clothes = $categories->where('slug', 'clothes')->first();
-        $accessories = $categories->where('slug', 'accessories')->first();
-
-        return view('welcome', compact('shoes', 'clothes', 'accessories'));
-    }
-
-    public function showCategory(Request $request, $slug)
+    public function index(Request $request, $slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
         $products = $category->products()
-            ->with(['category'])->where('category_id', $category->id)
+            ->with(['category', 'variants'])
+            ->where('category_id', $category->id)
             ->when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             })
@@ -35,7 +23,7 @@ class ProductController extends Controller
             ->withQueryString();
 
         $title = "Collection / " . $category->category_name;
-        $viewPath = "member.product.{$slug}";
+        $viewPath = "member.collection.{$slug}";
 
         if (view()->exists($viewPath)) {
             return view($viewPath, compact('category', 'products', 'title'));
