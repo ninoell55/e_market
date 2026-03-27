@@ -71,7 +71,7 @@
                         </x-dropdown>
                     </div>
 
-                    <x-nav-link :href="route('member.archive.index')" :active="request()->routeIs('member.archive.*')">
+                    <x-nav-link :href="route('member.archive.addresses')" :active="request()->routeIs('member.archive.*')">
                         {{ __('Archive') }}
                     </x-nav-link>
                 </div>
@@ -214,7 +214,7 @@
             </div>
 
             {{-- Archive Link --}}
-            <a href="{{ route('member.archive.index') }}"
+            <a href="{{ route('member.archive.addresses') }}"
                 class="group relative px-8 py-6 text-[11px] font-black uppercase tracking-[0.4em] transition-all duration-300
                 {{ request()->routeIs('member.archive.*') ? 'text-rose-600 bg-gray-50/50 dark:bg-white/2' : 'text-gray-400 hover:text-rose-600 hover:pl-10 hover:bg-gray-50/30 dark:hover:bg-white/1' }}">
                 <span

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Order; // Pastikan Model Order di-import
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -12,7 +13,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ArchiveController extends Controller
 {
-    public function index()
+    /**
+     * Tampilan Utama Daftar Alamat
+     * View: resources/views/archive/address/index.blade.php
+     */
+    public function addresses()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -22,21 +27,50 @@ class ArchiveController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $orders = $user->orders()->with('items')
+        return view('member.archive.address.index', [
+            'title' => 'Address Archive',
+            'addresses' => $addresses,
+        ]);
+    }
+
+    /**
+     * Tampilan Utama Daftar Order
+     * View: resources/views/archive/order/index.blade.php
+     */
+    public function orders()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $orders = $user->orders()
+            ->with('items') // Asumsi relasi items ada
             ->latest()
             ->get();
 
-        return view('member.archive.index', [
-            'title' => 'My Archive',
-            'user' => $user,
-            'addresses' => $addresses,
+        return view('member.archive.order.index', [
+            'title' => 'Order Archive',
             'orders' => $orders
+        ]);
+    }
+
+    /**
+     * Detail Order Spesifik
+     * View: resources/views/archive/order/show.blade.php
+     */
+    public function showOrder(Order $order)
+    {
+        // Security check
+        if ($order->user_id !== Auth::id()) abort(403);
+
+        return view('member.archive.order.show', [
+            'title' => 'Order Details #' . $order->id,
+            'order' => $order->load('items.product') // Load relasi agar efisien
         ]);
     }
 
     public function createAddress()
     {
-        return view('member.archive.create_address', ['title' => 'Add New Address']);
+        return view('member.archive.address.create', ['title' => 'Add New Address']);
     }
 
     public function storeAddress(Request $request)
@@ -59,7 +93,6 @@ class ArchiveController extends Controller
         ]);
 
         $validated['label'] = Str::slug($validated['label']);
-
         $isFirst = $user->addresses()->count() === 0;
 
         $user->addresses()->create(array_merge($validated, [
@@ -67,14 +100,14 @@ class ArchiveController extends Controller
         ]));
 
         Alert::success('Success', 'New shipping record has been archived.');
-        return redirect()->route('member.archive.index');
+        return redirect()->route('member.archive.addresses'); // Update route name
     }
 
     public function editAddress(Address $address)
     {
         if ($address->user_id !== Auth::id()) abort(403);
 
-        return view('member.archive.edit_address', [
+        return view('member.archive.address.edit', [
             'title' => 'Edit Address',
             'address' => $address
         ]);
@@ -89,7 +122,6 @@ class ArchiveController extends Controller
                 'required',
                 'string',
                 'max:50',
-                // Unik kecuali milik record ini sendiri
                 Rule::unique('addresses')->where(fn($q) => $q->where('user_id', Auth::id()))->ignore($address->id)
             ],
             'recipient_name' => 'required|string|max:255',
@@ -100,16 +132,17 @@ class ArchiveController extends Controller
         ]);
 
         $validated['label'] = Str::slug($validated['label']);
-
         $address->update($validated);
 
         Alert::success('Success', 'Address record updated.');
-        return redirect()->route('member.archive.index');
+        return redirect()->route('member.archive.addresses'); // Update route name
     }
 
     public function setDefaultAddress(Address $address)
     {
         if ($address->user_id !== Auth::id()) abort(403);
+
+        Address::where('user_id', Auth::id())->update(['is_default' => false]);
 
         $address->update(['is_default' => true]);
 
@@ -123,8 +156,8 @@ class ArchiveController extends Controller
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-
         $wasDefault = $address->is_default;
+
         $address->delete();
 
         if ($wasDefault) {
