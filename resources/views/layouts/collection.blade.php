@@ -87,10 +87,10 @@
                                     Sold Out
                                 </button>
                             @else
-                                <button
-                                    class="w-full bg-gray-950 dark:bg-white text-white dark:text-gray-950 border border-gray-900 dark:border-white/20 py-3 text-[8px] font-black uppercase tracking-[0.3em] hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all shadow-xl cursor-pointer">
-                                    Add to Cart +
-                                </button>
+                                <a href="{{ route('member.product.show', $product) }}"
+                                    class="w-full inline-block text-center bg-gray-950 dark:bg-white text-white dark:text-gray-950 border border-gray-900 dark:border-white/20 py-3 text-[8px] font-black uppercase tracking-[0.3em] hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all shadow-xl cursor-pointer">
+                                    View Details
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -134,7 +134,8 @@
             @empty
                 <div class="col-span-full">
                     <x-empty-state title="No Product Found"
-                        message="No products are available in the current category or search results." buttonText="Refresh" />
+                        message="No products are available in the current category or search results."
+                        buttonText="Refresh" />
                 </div>
             @endforelse
         </div>

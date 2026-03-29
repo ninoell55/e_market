@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Member\ArchiveController;
+use App\Http\Controllers\Member\CartController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Member\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/collection/{slug}', [ProductController::class, 'index'])->name('collection');
+    Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+    
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+    Route::patch('/cart/{item}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
 
     Route::prefix('archive')->name('archive.')->group(function () {
         // --- SECTION: ADDRESSES ---
