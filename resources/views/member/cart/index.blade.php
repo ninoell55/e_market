@@ -42,7 +42,7 @@
                                         <p
                                             class="text-xl font-black italic dark:text-white tracking-tighter text-right">
                                             IDR
-                                            {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                            {{ number_format($item->variant->price * $item->quantity, 0, ',', '.') }}
                                         </p>
                                     </div>
 
@@ -127,7 +127,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             @else
                 {{-- Empty State --}}

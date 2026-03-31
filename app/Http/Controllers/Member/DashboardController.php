@@ -25,8 +25,10 @@ class DashboardController extends Controller
         $bestProducts = Product::with(['category'])
             ->where('is_best', true)
             ->latest()
+            ->get()
+            ->groupBy('category_id')
             ->take(3)
-            ->get();
+            ->flatten();
 
         // 3. Semua produk untuk bagian catalog (Pagination)
         $products = Product::with(['category', 'variants'])
@@ -43,7 +45,7 @@ class DashboardController extends Controller
             'user' => $user,
             'orders_count' => $ordersCount,
             'featured' => $featuredProduct,
-            'best_products' => $bestProducts, // Data baru untuk 3 kotak
+            'best_products' => $bestProducts,
             'categories' => $categories,
             'products' => $products
         ]);

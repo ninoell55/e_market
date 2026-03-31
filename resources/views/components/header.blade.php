@@ -1,11 +1,8 @@
 @props(['category' => null])
 
 @php
-    // Mengambil jumlah item unik di keranjang user yang sedang login
     $cartCount = Auth::check() ? Auth::user()->cart?->items?->count() ?? 0 : 0;
-    // Format angka agar selalu 2 digit (01, 02, dst) sesuai estetika desainmu
     $displayCount = str_pad($cartCount, 2, '0', STR_PAD_LEFT);
-    // Route tujuan
     $cartRoute = route('member.cart.index');
 @endphp
 

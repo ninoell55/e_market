@@ -410,8 +410,6 @@
             </div>
         </div>
     </section>
-
-
     <!-- ==================
         second_HERO-end
     ====================== -->
@@ -423,7 +421,6 @@
     ====================== -->
     <section id="tentang"
         class="relative bg-gray-955 dark:bg-gray-950 overflow-hidden font-inter min-h-screen flex items-center">
-
         <div class="absolute inset-0 pointer-events-none -z-10">
             <div class="absolute -right-20 top-1/2 -translate-y-1/2 rotate-90 origin-center opacity-3 select-none">
                 <h2 class="text-[18rem] font-black uppercase tracking-tighter text-white whitespace-nowrap">HANDCRAFTED
@@ -670,7 +667,6 @@
     ====================== -->
     <section id="produk" class="bg-white dark:bg-gray-950 overflow-hidden">
         <header class="w-full bg-gray-950 px-6 lg:px-12 text-center py-20">
-
             <div class="inline-flex items-center space-x-6 mb-8">
                 <span class="w-2 h-2 bg-rose-600 rotate-45 shadow-[0_0_10px_rgba(225,29,72,0.5)]"></span>
                 <span class="text-2xs md:text-xs font-black text-gray-500 uppercase tracking-[0.6em]">
@@ -688,7 +684,6 @@
                 <div class="text-2xs font-bold text-gray-600 uppercase tracking-widest">Aura Selection 2026</div>
                 <div class="h-px w-20 bg-linear-to-l from-transparent to-white/10"></div>
             </div>
-
         </header>
 
         <div class="group">
@@ -959,11 +954,7 @@
     ====================== -->
 
 
-
-
-
-
-    <!-- MyScript -->
+    {{-- Back to Top Button --}}
     <button id="back-to-top" aria-label="Back to top"
         class="hidden fixed bottom-8 right-8 w-14 h-14 rounded-2xl bg-white dark:bg-gray-900 text-rose-600 shadow-[0_10px_30px_rgba(225,29,72,0.2)] dark:shadow-none border border-rose-100 dark:border-gray-800 z-50 transition-all duration-500 hover:bg-rose-600 hover:text-white hover:-translate-y-2 group items-center justify-center">
 
@@ -975,6 +966,7 @@
         <span class="absolute inset-0 rounded-2xl bg-rose-600 opacity-0 group-hover:animate-ping -z-10"></span>
     </button>
 
+    <!-- MyScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('site-header') || document.querySelector('header');

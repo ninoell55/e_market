@@ -95,6 +95,30 @@
                     </svg>
                 </button>
 
+                <div class="hidden lg:flex items-center">
+                    @php
+                        $cartCount = Auth::check() ? Auth::user()->cart?->items?->count() ?? 0 : 0;
+                        $displayCount = str_pad($cartCount, 2, '0', STR_PAD_LEFT);
+                        $cartRoute = route('member.cart.index');
+                    @endphp
+                    <a href="{{ $cartRoute }}"
+                        class="relative p-3 text-gray-400 hover:text-gray-950 dark:hover:text-white transition-all group border-l border-gray-100 dark:border-white/5 h-20 flex items-center justify-center px-8">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+
+                        @if ($cartCount > 0)
+                            <span
+                                class="absolute top-6 right-6 flex items-center justify-center min-w-4.5 h-4.5 bg-gray-950 dark:bg-white text-[9px] font-black text-white dark:text-gray-950 group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                                {{ $displayCount }}
+                            </span>
+                        @endif
+                    </a>
+                    <div class="border-r border-gray-100 dark:border-white/5 h-20"></div>
+                </div>
+
                 <div class="h-full hidden lg:flex sm:items-center">
                     <x-dropdown align="right" width="64">
                         <x-slot name="trigger">

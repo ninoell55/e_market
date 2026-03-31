@@ -25,7 +25,7 @@ class CartController extends Controller
 
         // Hitung total harga
         $total = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
+            return $item->variant->price * $item->quantity;
         });
 
         return view('member.cart.index', [

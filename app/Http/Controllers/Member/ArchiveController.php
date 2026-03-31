@@ -13,10 +13,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ArchiveController extends Controller
 {
-    /**
-     * Tampilan Utama Daftar Alamat
-     * View: resources/views/archive/address/index.blade.php
-     */
     public function addresses()
     {
         /** @var \App\Models\User $user */
@@ -33,17 +29,13 @@ class ArchiveController extends Controller
         ]);
     }
 
-    /**
-     * Tampilan Utama Daftar Order
-     * View: resources/views/archive/order/index.blade.php
-     */
     public function orders()
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $orders = $user->orders()
-            ->with('items') // Asumsi relasi items ada
+            ->with('items')
             ->latest()
             ->get();
 
@@ -53,18 +45,13 @@ class ArchiveController extends Controller
         ]);
     }
 
-    /**
-     * Detail Order Spesifik
-     * View: resources/views/archive/order/show.blade.php
-     */
     public function showOrder(Order $order)
     {
-        // Security check
         if ($order->user_id !== Auth::id()) abort(403);
 
         return view('member.archive.order.show', [
             'title' => 'Order Details #' . $order->id,
-            'order' => $order->load('items.product') // Load relasi agar efisien
+            'order' => $order->load('items.product') 
         ]);
     }
 

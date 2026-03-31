@@ -52,11 +52,11 @@
                         class="text-rose-600">.</span></h3>
             </div>
             <a href="#catalog"
-                class="text-xs font-black uppercase tracking-widest border-b-2 border-black dark:border-white pb-1 hover:text-rose-600 hover:border-rose-600 transition-all">View
+                class="text-xs font-black dark:text-white uppercase tracking-widest border-b-2 border-black dark:border-white pb-1 hover:text-rose-600 hover:border-rose-600 transition-all">View
                 All Products</a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
             @forelse($best_products as $best)
                 <div
                     class="group relative aspect-4/5 overflow-hidden rounded-2xl bg-gray-50 dark:bg-white/5 shadow-lg">
@@ -82,8 +82,8 @@
                         <div
                             class="text-white transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                             <p class="text-2xs font-bold uppercase tracking-widest mb-1 opacity-80">
-                                {{ $best->category->name }}</p>
-                            <h4 class="text-3xl font-black uppercase italic tracking-tighter mb-4">
+                                {{ $best->category->category_name }}</p>
+                            <h4 class="lg:text-3xl text-md font-black uppercase italic tracking-tighter mb-4">
                                 {{ $best->name }}
                             </h4>
                             <div class="h-1 w-0 group-hover:w-full bg-rose-600 transition-all duration-500"></div>
