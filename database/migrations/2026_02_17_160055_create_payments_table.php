@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->enum('status', ['Pending', 'Completed', 'Failed'])->default('Pending');
             $table->string('transaction_id')->nullable()->unique();
-            $table->timestamp('paid_at')->nullable();
+            $table->string('proof_image')->nullable();
             $table->timestamps();
         });
     }

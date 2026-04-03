@@ -7,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{-- TITLE --}}
     <title>{{ config('app.name', 'Laravel') }}</title>
-    {{-- ICON --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- Styles / Scripts -->
+    <!-- STYLES / SCRIPTS -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,6 +16,7 @@
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>
     @endif
+
 
 
     <!-- ==================
@@ -587,7 +586,7 @@
                             The foundation of your style. Engineered for the bold, crafted for the streets, and designed
                             to leave a legacy.
                         </p>
-                        <a href="#" class="inline-flex items-center group/btn">
+                        <a href="{{ route('member.collection', $shoes->slug) }}" class="inline-flex items-center group/btn">
                             <span
                                 class="px-8 py-4 bg-white text-black text-xs font-black uppercase tracking-widest group-hover/btn:bg-rose-600 group-hover/btn:text-white transition-all">Shop
                                 Shoes</span>
@@ -619,7 +618,7 @@
                             <p class="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 Modern silhouettes for urban daily life.</p>
                         </div>
-                        <a href="#"
+                        <a href="{{ route('member.collection', $clothes->slug) }}"
                             class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -643,7 +642,7 @@
                             <p class="text-gray-400 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 The final touch for your signature look.</p>
                         </div>
-                        <a href="#"
+                        <a href="{{ route('member.collection', $accessories->slug) }}"
                             class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -652,7 +651,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -698,7 +696,7 @@
                                 class="text-6xl font-black text-white uppercase italic tracking-tighter leading-none mb-4">
                                 Shoes</h3>
                             <p class="text-gray-300 text-lg mb-8">Engineered for comfort, designed for the streets.</p>
-                            <a href="#"
+                            <a href="{{ route('member.collection', $shoes->slug) }}"
                                 class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors">Shoes
                                 Collection →</a>
                         </div>
@@ -708,7 +706,7 @@
                 <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
                     <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
                         @forelse ($shoes->products as $product)
-                            <a href="#"
+                            <a href="{{ route('member.product.show', $product) }}"
                                 class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
                                 <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
                                     <img src="{{ asset('storage/uploads/' . $product->image) }}"
@@ -741,7 +739,7 @@
                                 Clothes</h3>
                             <p class="text-gray-400 text-xl mb-10 font-medium">From essential basics to statement
                                 pieces.</p>
-                            <a href="#"
+                            <a href="{{ route('member.collection', $clothes->slug) }}"
                                 class="group/btn inline-flex items-center gap-4 text-white font-black uppercase tracking-[0.3em] text-sm transition-all">
                                 <span
                                     class="border-b-2 border-rose-600 pb-2 group-hover/btn:text-rose-600 transition-colors">Clothes
@@ -757,7 +755,7 @@
                     class="w-full lg:w-1/2 bg-gray-950 p-6 lg:p-16 xl:p-24 flex items-center border-y lg:border-y-0 lg:border-l border-white/5">
                     <div class="grid grid-cols-2 gap-6 lg:gap-10 w-full">
                         @forelse ($clothes->products as $product)
-                            <a href="#"
+                            <a href="{{ route('member.product.show', $product) }}"
                                 class="group/item relative bg-white/5 backdrop-blur-sm p-6 rounded-[2.5rem] border border-white/5 hover:bg-white/10 hover:border-rose-600/30 transition-all duration-700 hover:-translate-y-3">
                                 <div class="relative overflow-hidden rounded-[1.8rem] aspect-square mb-6">
                                     <img src="{{ asset('storage/uploads/' . $product->image) }}"
@@ -793,7 +791,7 @@
                                 Accessories</h3>
                             <p class="text-gray-300 text-lg mb-8">The finishing touch that defines your unique
                                 character and style.</p>
-                            <a href="#"
+                            <a href="{{ route('member.collection', $accessories->slug) }}"
                                 class="inline-block border-b-2 border-rose-600 pb-2 text-white font-black uppercase tracking-widest hover:text-rose-600 transition-colors">Accessories
                                 Collection →</a>
                         </div>
@@ -803,7 +801,7 @@
                 <div class="w-full lg:w-3/5 bg-gray-50 dark:bg-gray-900/50 p-8 lg:p-12 flex items-center">
                     <div class="grid grid-cols-2 gap-4 md:gap-8 w-full">
                         @forelse ($accessories->products as $product)
-                            <a href="#"
+                            <a href="{{ route('member.product.show', $product) }}"
                                 class="group/item relative bg-white dark:bg-gray-950 p-4 rounded-3xl shadow-xs hover:shadow-2xl transition-all duration-500">
                                 <div class="relative overflow-hidden rounded-2xl aspect-square mb-4">
                                     <img src="{{ asset('storage/uploads/' . $product->image) }}"

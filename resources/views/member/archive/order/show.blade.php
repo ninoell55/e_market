@@ -5,7 +5,7 @@
 
         {{-- Navigation Back --}}
         <div class="py-12">
-            <a href="{{ route('archive.orders') }}" class="group inline-flex items-center gap-2">
+            <a href="{{ route('member.archive.orders') }}" class="group inline-flex items-center gap-2">
                 <span
                     class="text-2xs font-black uppercase tracking-[0.3em] opacity-30 group-hover:opacity-100 group-hover:text-rose-600 transition-all">
                     ← Return_To_Archive
@@ -42,7 +42,7 @@
                             <div
                                 class="w-16 h-16 bg-gray-50 dark:bg-white/2 border border-gray-100 dark:border-white/5 overflow-hidden">
                                 @if ($item->product->image)
-                                    <img src="{{ asset('storage/' . $item->product->image) }}"
+                                    <img src="{{ asset('storage/uploads/' . $item->product->image) }}"
                                         class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
                                 @else
                                     <div

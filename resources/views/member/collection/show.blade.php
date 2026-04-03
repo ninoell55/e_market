@@ -70,7 +70,7 @@
                     @endif
 
                     {{-- FORM KERANJANG --}}
-                    <div class="space-y-3 pt-6">
+                    <div class="space-y-3 pt-6 flex flex-col">
                         <form action="{{ route('member.cart.store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -79,18 +79,26 @@
                             <input type="hidden" name="quantity" value="1">
 
                             <button type="submit"
-                                ::disabled="{{ $product->variants->count() > 0 }} && !selectedVariant"
+                                :disabled="{{ $product->variants->count() > 0 }} && !selectedVariant"
                                 class="w-full bg-black dark:bg-white text-white dark:text-black py-6 rounded-xl font-black uppercase tracking-[0.3em] text-xs hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all shadow-2xl flex items-center justify-center gap-4 group disabled:opacity-30 disabled:cursor-not-allowed">
                                 Add_to_Cart
                                 <span class="group-hover:translate-x-2 transition-transform duration-500">→</span>
                             </button>
                         </form>
 
-                        {{-- Tombol Checkout Langsung (Bisa diarahkan ke page lain nanti) --}}
-                        <a href="#"
-                            class="w-full border-2 border-gray-900 dark:border-white py-5 rounded-xl font-black uppercase tracking-[0.3em] text-2xs flex items-center justify-center dark:text-white hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-                            Direct_Checkout
-                        </a>
+                        {{-- Direct Checkout Form --}}
+                        <form action="{{ route('member.checkout.direct') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="product_variant_id" :value="selectedVariant">
+                            <input type="hidden" name="quantity" value="1">
+
+                            <button type="submit"
+                                :disabled="{{ $product->variants->count() > 0 }} && !selectedVariant"
+                                class="w-full border-2 border-gray-900 dark:border-white py-5 rounded-xl font-black uppercase tracking-[0.3em] text-2xs flex items-center justify-center dark:text-white hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                                Direct_Checkout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -98,7 +98,7 @@
             @empty
                 {{-- Empty State tetap bersih --}}
                 <div
-                    class="col-span-3 py-32 text-center rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/10">
+                    class="col-span-4  py-32 text-center rounded-3xl border-2 border-dashed border-gray-200 dark:border-white/10">
                     <p class="text-xs font-black uppercase opacity-20 tracking-[0.5em]">System_Empty</p>
                 </div>
             @endforelse

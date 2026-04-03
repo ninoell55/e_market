@@ -34,8 +34,7 @@
                                                 class="text-2xl font-black uppercase italic tracking-tighter dark:text-white">
                                                 {{ $item->product->name }}
                                             </h3>
-                                            <p
-                                                class="text-2xs font-bold text-rose-600 uppercase tracking-widest mt-1">
+                                            <p class="text-2xs font-bold text-rose-600 uppercase tracking-widest mt-1">
                                                 Variant: {{ $item->variant->attribute_value }}
                                             </p>
                                         </div>
@@ -47,48 +46,38 @@
                                     </div>
 
                                     <div class="flex items-center justify-between pt-4">
-                                        {{-- Quantity Control (Standard POST Reload) --}}
-                                        <div class="flex items-center gap-6">
-                                            {{-- Minus Button --}}
-                                            <form action="{{ route('member.cart.update', $item->id) }}" method="POST">
+                                        <div class="flex items-center gap-8">
+                                            {{-- Quantity Input Control --}}
+                                            <form action="{{ route('member.cart.update', $item->id) }}" method="POST"
+                                                id="form-qty-{{ $item->id }}">
                                                 @csrf @method('PATCH')
-                                                <input type="hidden" name="quantity" value="{{ $item->quantity - 1 }}">
-                                                <button type="submit" {{ $item->quantity <= 1 ? 'disabled' : '' }}
-                                                    class="text-xl font-light opacity-40 hover:opacity-100 dark:text-white transition-opacity disabled:hidden">
-                                                    −
-                                                </button>
+                                                <div
+                                                    class="flex items-center border-b border-black/10 dark:border-white/10 focus-within:border-rose-600 transition-colors pb-1">
+                                                    <label
+                                                        class="text-[9px] font-black uppercase tracking-widest opacity-30 dark:text-white mr-3">Qty</label>
+                                                    <input type="number" name="quantity" value="{{ $item->quantity }}"
+                                                        min="1"
+                                                        onchange="document.getElementById('form-qty-{{ $item->id }}').submit()"
+                                                        class="bg-transparent border-none p-0 w-12 text-sm font-black dark:text-white focus:ring-0 tabular-nums text-center">
+                                                </div>
                                             </form>
 
-                                            <span
-                                                class="text-sm font-black dark:text-white w-6 text-center tabular-nums">
-                                                {{ str_pad($item->quantity, 2, '0', STR_PAD_LEFT) }}
-                                            </span>
-
-                                            {{-- Plus Button --}}
-                                            <form action="{{ route('member.cart.update', $item->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <input type="hidden" name="quantity"
-                                                    value="{{ $item->quantity + 1 }}">
-                                                <button type="submit"
-                                                    class="text-xl font-light opacity-40 hover:opacity-100 dark:text-white transition-opacity">
-                                                    +
+                                            {{-- Remove Action (Global Setup) --}}
+                                            <form action="{{ route('member.cart.destroy', $item->id) }}"
+                                                method="POST">
+                                                @csrf @method('DELETE')
+                                                <button type="button"
+                                                    class="confirm-delete-btn flex items-center gap-2 text-2xs font-black uppercase tracking-[0.2em] text-gray-300 hover:text-rose-600 transition-all">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                        class="w-4 h-4 pointer-events-none">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-1.123c0-1.08-.783-1.993-1.876-1.993H10.124c-1.093 0-1.876.913-1.876 1.993v1.123m9.966 0c-1.09-.051-2.185-.083-3.282-.103m-5.045 0c-1.097.02-2.192.052-3.282.103m0 0a48.11 48.11 0 0 0-3.478.397" />
+                                                    </svg>
+                                                    Remove
                                                 </button>
                                             </form>
                                         </div>
-
-                                        {{-- Remove Action (Global Setup) --}}
-                                        <form action="{{ route('member.cart.destroy', $item->id) }}" method="POST">
-                                            @csrf @method('DELETE')
-                                            <button type="button"
-                                                class="confirm-delete-btn p-2 text-gray-300 hover:text-rose-600 transition-colors">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                                    class="w-5 h-5 pointer-events-none">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-1.123c0-1.08-.783-1.993-1.876-1.993H10.124c-1.093 0-1.876.913-1.876 1.993v1.123m9.966 0c-1.09-.051-2.185-.083-3.282-.103m-5.045 0c-1.097.02-2.192.052-3.282.103m0 0a48.11 48.11 0 0 0-3.478.397" />
-                                                </svg>
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -108,18 +97,28 @@
                                         IDR {{ number_format($total, 0, ',', '.') }}
                                     </span>
                                 </div>
-                                <p
-                                    class="text-2xs uppercase tracking-widest text-gray-400 font-bold leading-relaxed">
+                                <p class="text-2xs uppercase tracking-widest text-gray-400 font-bold leading-relaxed">
                                     * Prices shown are final. Shipping costs will be added during checkout based on your
                                     delivery address.
                                 </p>
                             </div>
 
                             <div class="space-y-3">
-                                <a href="#"
-                                    class="block w-full bg-black dark:bg-white text-white dark:text-black py-6 text-center text-[11px] font-black uppercase tracking-[0.4em] hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all">
-                                    Continue to Checkout
-                                </a>
+                                @if ($cart && $cart->items->count() > 0)
+                                    {{-- Tombol Aktif --}}
+                                    <a href="{{ route('member.checkout.index', ['source' => 'cart']) }}"
+                                        class="block w-full bg-black dark:bg-white text-white dark:text-black py-6 text-center text-[11px] font-black uppercase tracking-[0.4em] hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all shadow-xl group">
+                                        Continue to Checkout
+                                        <span
+                                            class="inline-block group-hover:translate-x-1 transition-transform ml-2">→</span>
+                                    </a>
+                                @else
+                                    {{-- Tombol Mati (Jika Keranjang Kosong) --}}
+                                    <button disabled
+                                        class="block w-full bg-gray-100 dark:bg-white/5 text-gray-400 dark:text-white/20 py-6 text-center text-[11px] font-black uppercase tracking-[0.4em] cursor-not-allowed border border-dashed border-gray-200 dark:border-white/10">
+                                        Archive_Empty / Checkout_Disabled
+                                    </button>
+                                @endif
                                 <a href="{{ route('member.dashboard') }}"
                                     class="block w-full border border-black/10 dark:border-white/10 text-center py-6 text-[11px] font-black uppercase tracking-[0.4em] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all">
                                     Continue Shopping
