@@ -81,7 +81,6 @@ class CheckoutController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        // 1. VALIDASI INPUT (Sesuai ERD dan rule bisnis)
         $request->validate([
             'address_id' => [
                 'required',
@@ -97,119 +96,97 @@ class CheckoutController extends Controller
             ],
         ]);
 
+        $address = $user->addresses()
+            ->where('id', $request->address_id)
+            ->firstOrFail();
+
         $directCheckoutData = session('direct_checkout_product');
         $isDirectCheckout = !is_null($directCheckoutData);
 
-        // Get cart data (only if not direct checkout)
-        $cart = null;
+        // Ambil data items (Direct atau Cart)
         if ($isDirectCheckout) {
-            // Validate direct checkout data
-            if (!isset($directCheckoutData['product_id']) || !isset($directCheckoutData['product_variant_id'])) {
-                return back()->with('error', 'Direct checkout data invalid.');
-            }
+            $variant = ProductVariant::with('product')->findOrFail($directCheckoutData['product_variant_id']);
+            $itemsToProcess = [
+                (object)[
+                    'product' => $variant->product,
+                    'variant' => $variant,
+                    'quantity' => $directCheckoutData['quantity']
+                ]
+            ];
         } else {
-            $cart = Cart::where('user_id', $user->id)
-                ->with(['items.product', 'items.variant'])
-                ->first();
-
-            if (!$cart || $cart->items->isEmpty()) {
-                return back()->with('error', 'No items to process.');
-            }
-        }
-
-        $address = $user->addresses()->find($request->address_id);
-        if (!$address) {
-            return back()->with('error', 'Address not found or not authorized.');
-        }
-
-        // Calculate total price
-        $totalPrice = 0;
-        if ($isDirectCheckout) {
-            $variant = ProductVariant::findOrFail($directCheckoutData['product_variant_id']);
-            $totalPrice = $variant->price * $directCheckoutData['quantity'];
-        } else {
-            $totalPrice = $cart->items->sum(function ($item) {
-                $price = optional($item->variant)->price ?? optional($item->product)->price ?? 0;
-                return $price * $item->quantity;
-            });
+            $cart = Cart::where('user_id', $user->id)->with(['items.product', 'items.variant'])->first();
+            if (!$cart || $cart->items->isEmpty()) return back()->with('error', 'No items to process.');
+            $itemsToProcess = $cart->items;
         }
 
         DB::beginTransaction();
-
         try {
+            // --- 1. CEK STOK DULU SEBELUM ORDER ---
+            foreach ($itemsToProcess as $item) {
+                if ($item->variant->stock < $item->quantity) {
+                    throw new \Exception("Stok {$item->product->name} ({$item->variant->attribute_value}) tidak mencukupi.");
+                }
+            }
+
+            $totalPrice = collect($itemsToProcess)->sum(fn($i) => $i->variant->price * $i->quantity);
+
+            // --- 2. TENTUKAN STATUS AWAL ---
+            // Jika COD, status langsung 'confirmed' (siap kirim) karena tidak butuh cek bukti transfer
+            // Jika Transfer, status 'pending' (menunggu verifikasi admin)
+            $orderStatus = ($request->method === 'COD') ? 'pending' : 'pending';
+            // Catatan: Keduanya mulai dari pending, tapi COD akan diproses admin ke 'shipped' lebih cepat.
+
             $order = Order::create([
                 'user_id' => $user->id,
                 'order_number' => 'TRX-' . strtoupper(Str::random(10)),
                 'total_price' => $totalPrice,
-                'status' => 'pending',
-                'shipping_address' => "{$address->recipient_name} | {$address->address}, {$address->city}, {$address->province} ({$address->recipient_phone})",
+                'status' => $orderStatus,
+                'shipping_address' => implode(' | ', [
+                    $address->recipient_name,
+                    $address->phone,
+                    $address->address,
+                ]),
+                'ordered_at' => now(), // Tambahkan kolom ini di migrasi jika belum ada untuk fitur 10 menit
             ]);
 
-            if ($isDirectCheckout) {
-                // Process direct checkout product
-                $product = Product::findOrFail($directCheckoutData['product_id']);
-                $variant = ProductVariant::findOrFail($directCheckoutData['product_variant_id']);
+            foreach ($itemsToProcess as $item) {
+                // --- 3. POTONG STOK ---
+                $item->variant->decrement('stock', $item->quantity);
 
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'product_variant_id' => $variant->id,
-                    'product_name' => $product->name,
-                    'variant_name' => $variant->attribute_name ? $variant->attribute_name . ': ' . $variant->attribute_value : '-',
-                    'price' => $variant->price,
-                    'quantity' => $directCheckoutData['quantity'],
-                    'subtotal' => $variant->price * $directCheckoutData['quantity'],
+                    'product_id' => $item->product->id,
+                    'product_variant_id' => $item->variant->id,
+                    'product_name' => $item->product->name,
+                    'variant_name' => $item->variant->attribute_value,
+                    'price' => $item->variant->price,
+                    'quantity' => $item->quantity,
+                    'subtotal' => $item->variant->price * $item->quantity,
                 ]);
-            } else {
-                // Process regular cart items
-                foreach ($cart->items as $item) {
-                    $variantPrice = optional($item->variant)->price ?? optional($item->product)->price ?? 0;
-
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $item->product_id,
-                        'product_variant_id' => $item->product_variant_id,
-                        'product_name' => optional($item->product)->name,
-                        'variant_name' => optional($item->variant)->attribute_name ? optional($item->variant)->attribute_name . ': ' . optional($item->variant)->attribute_value : '-',
-                        'price' => $variantPrice,
-                        'quantity' => $item->quantity,
-                        'subtotal' => $variantPrice * $item->quantity,
-                    ]);
-                }
-
-                // Delete cart items only for regular checkout
-                $cart->items()->delete();
             }
 
-            $proofPath = null;
-            if ($request->hasFile('proof_image')) {
-                $proofPath = $request->file('proof_image')->store('payments/proofs', 'public');
-            }
+            // --- 4. PEMBAYARAN ---
+            $proofPath = $request->hasFile('proof_image')
+                ? $request->file('proof_image')->store('payments/proofs', 'public')
+                : null;
 
             Payment::create([
                 'order_id' => $order->id,
                 'method' => $request->method,
                 'amount' => $totalPrice,
-                'status' => 'pending',
+                'status' => 'pending', // Transfer: Pending admin. COD: Pending sampai kurir terima uang.
                 'transaction_id' => 'PAY-' . strtoupper(Str::random(12)),
                 'proof_image' => $proofPath,
             ]);
 
-            // Clear direct checkout session if exists
-            if ($isDirectCheckout) {
-                session()->forget('direct_checkout_product');
-            }
+            if (!$isDirectCheckout) $cart->items()->delete();
+            session()->forget('direct_checkout_product');
 
             DB::commit();
-
-            $successMessage = $request->method === 'COD'
-                ? 'Order_Registry_Completed via COD.'
-                : 'Payment_Proof_Submitted. Waiting for verification.';
-
-            return redirect()->route('member.archive.show_order', $order->id)->with('success', $successMessage);
+            return redirect()->route('member.archive.show_order', $order->id)->with('success', 'Order Placed!');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'System Failure: ' . $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 
@@ -271,5 +248,36 @@ class CheckoutController extends Controller
         ]);
 
         return redirect()->route('member.checkout.index');
+    }
+
+    public function cancelOrder($id)
+    {
+        $order = Order::where('user_id', Auth::id())->findOrFail($id);
+
+        // Cek durasi (10 menit)
+        if ($order->created_at->diffInMinutes(now()) > 10) {
+            return back()->with('error', 'Waktu pembatalan (10 menit) sudah habis.');
+        }
+
+        if ($order->status !== 'pending') {
+            return back()->with('error', 'Pesanan tidak bisa dibatalkan karena sudah diproses.');
+        }
+
+        DB::beginTransaction();
+        try {
+            // --- KEMBALIKAN STOK ---
+            foreach ($order->items as $item) {
+                $item->variant->increment('stock', $item->quantity);
+            }
+
+            $order->update(['status' => 'cancelled']);
+            $order->payment->update(['status' => 'failed']);
+
+            DB::commit();
+            return back()->with('success', 'Pesanan berhasil dibatalkan. Stok telah dikembalikan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Gagal membatalkan pesanan.');
+        }
     }
 }

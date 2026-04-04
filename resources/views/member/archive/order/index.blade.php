@@ -13,7 +13,7 @@
             </div>
         </header>
 
-        {{-- Section 02: Navigation (Real Links) --}}
+        {{-- Section 02: Navigation --}}
         <nav
             class="sticky top-0 z-10 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/5">
             <div class="flex justify-center">
@@ -32,14 +32,13 @@
             {{-- Header Section --}}
             <div class="mb-12 border-l-4 border-rose-600 pl-4">
                 <h2 class="text-2xl font-black uppercase italic">Transaction_History</h2>
-                <p class="text-2xs opacity-50 uppercase tracking-widest">A complete record of your previous orders
-                </p>
+                <p class="text-2xs opacity-50 uppercase tracking-widest">A complete record of your previous orders</p>
             </div>
 
             <div class="border border-gray-100 dark:border-white/5 bg-white dark:bg-[#0a0a0a]">
                 @forelse($orders as $order)
                     <div
-                        class="group flex flex-col md:flex-row items-start md:items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-50 dark:hover:bg-white/1 transition-all">
+                        class="group flex flex-col md:flex-row items-start md:items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-50 dark:hover:bg-white/2 transition-all">
 
                         {{-- Left Side: ID & Date --}}
                         <div class="flex items-center gap-12 w-full md:w-auto">
@@ -47,27 +46,47 @@
                                 <span
                                     class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Ref_No</span>
                                 <span
-                                    class="text-xl font-black italic group-hover:text-rose-600 transition-all duration-300">
-                                    #{{ $order->id }}
+                                    class="text-xl font-black italic group-hover:text-rose-600 transition-all duration-300 tracking-tighter">
+                                    #{{ $order->order_number }}
                                 </span>
                             </div>
                             <div class="flex flex-col">
                                 <span
                                     class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Timestamp</span>
-                                <span class="text-xs font-bold uppercase tracking-tight">
+                                <span class="text-xs font-bold uppercase tracking-tight opacity-70">
                                     {{ $order->created_at->format('d M Y') }}
                                 </span>
                             </div>
                         </div>
 
-                        {{-- Middle: Status & Items (Optional) --}}
-                        <div class="hidden lg:flex flex-col">
+                        {{-- Middle: Status Badge (Enhanced) --}}
+                        <div class="mt-4 md:mt-0 flex flex-col">
                             <span
                                 class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Process_Status</span>
-                            <span
-                                class="text-2xs font-black uppercase px-2 py-0.5 border border-black dark:border-white w-fit">
-                                {{ $order->status ?? 'Completed' }}
-                            </span>
+
+                            @php
+                                $statusStyles = [
+                                    'pending' => 'border-amber-500 text-amber-500',
+                                    'paid' => 'border-blue-500 text-blue-500',
+                                    'shipped' => 'border-purple-500 text-purple-500',
+                                    'completed' => 'border-emerald-500 text-emerald-500',
+                                    'cancelled' => 'border-rose-600 text-rose-600 opacity-50',
+                                ];
+                                $currentStyle = $statusStyles[$order->status] ?? 'border-black dark:border-white';
+                            @endphp
+
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="text-2xs font-black uppercase px-3 py-1 border {{ $currentStyle }} w-fit italic tracking-widest">
+                                    {{ $order->status }}
+                                </span>
+
+                                {{-- Penanda jika masih bisa dicancel (Under 10 mins) --}}
+                                @if ($order->status === 'pending' && $order->created_at->diffInMinutes(now()) < 10)
+                                    <span class="w-2 h-2 bg-rose-600 animate-ping rounded-full"
+                                        title="Cancelable"></span>
+                                @endif
+                            </div>
                         </div>
 
                         {{-- Right Side: Amount & Action --}}
@@ -82,13 +101,15 @@
                             </div>
 
                             <a href="{{ route('member.archive.show_order', $order->id) }}"
-                                class="inline-block text-2xs font-black border border-black dark:border-white px-8 py-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                                class="inline-block text-2xs font-black border border-black dark:border-white px-8 py-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all uppercase tracking-widest italic">
                                 VIEW_DETAILS
                             </a>
                         </div>
                     </div>
                 @empty
-                    <x-empty-state title="No_Transactions" message="Order history is currently empty." />
+                    <div class="py-24 text-center">
+                        <span class="text-xs font-black opacity-20 uppercase tracking-[1em]">Empty_Archive</span>
+                    </div>
                 @endforelse
             </div>
         </main>

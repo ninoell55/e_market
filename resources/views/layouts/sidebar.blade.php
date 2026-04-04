@@ -82,24 +82,25 @@ $watch('isMinimized', val => {
                     </x-sidebar-dropdown>
                 </div>
 
-                <div class="space-y-1">
-                    <x-sidebar-dropdown label="Shopping" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
-                        <x-slot name="icon">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                        </x-slot>
+                <x-sidebar-link :href="route('admin.checkout.index')" :active="request()->routeIs('admin.checkout.*')">
+                    <x-slot name="icon">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </x-slot>
+                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Checkout') }}</span>
+                </x-sidebar-link>
 
-                        <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">
-                            Orders
-                        </x-sidebar-sublink>
-
-                        <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">
-                            Payments
-                        </x-sidebar-sublink>
-                    </x-sidebar-dropdown>
-                </div>
+                <x-sidebar-link :href="route('admin.report.index')" :active="request()->routeIs('admin.report.*')">
+                    <x-slot name="icon">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 012-2h6M9 19h6m-6 0l3.293-3.293a1 1 0 011.414 0L15 19M5 19h.01M5 19a2 2 0 110-4 .01.01 0 010 4zm7-10h.01M12 9a2 2 0 110-4 .01.01 0 010 4zm7 4h.01M19 13a2 2 0 110-4 .01.01 0 010 4z" />
+                        </svg>
+                    </x-slot>
+                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Reports') }}</span>
+                </x-sidebar-link>
 
                 <div class="pt-6 pb-2 px-6">
                     <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config

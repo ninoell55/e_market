@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('total_price', 10, 2); 
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
             $table->text('shipping_address')->nullable();
+            $table->timestamp('ordered_at')->useCurrent();
             $table->timestamps();
         });
     }

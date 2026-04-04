@@ -24,6 +24,7 @@ Route::middleware(['auth', 'role:member'])->prefix('member')->name('member.')->g
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('/checkout/direct', [CheckoutController::class, 'directCheckout'])->name('checkout.direct');
     Route::get('/checkout/receipt/{id?}', [CheckoutController::class, 'digitalReceipt'])->name('checkout.receipt');
+    Route::post('/checkout/{id}/cancel/', [CheckoutController::class, 'cancelOrder'])->name('checkout.cancel');
 
     // Rute untuk archive (alamat dan pesanan)
     Route::prefix('archive')->name('archive.')->group(function () {

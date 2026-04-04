@@ -72,3 +72,26 @@ Breadcrumbs::for('admin.product.edit', function (BreadcrumbTrail $trail, $produc
     $trail->parent('admin.product.index'); // Atau bisa ke .show jika mau lebih dalam
     $trail->push('Edit: ' . $product->name, route('admin.product.edit', $product->id));
 });
+
+// --- BREADCRUMBS UNTUK CHECKOUT ---
+// Checkout
+Breadcrumbs::for('admin.checkout.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Checkouts', route('admin.checkout.index'));
+});
+
+// Checkout > Detail [Ref Number]
+Breadcrumbs::for('admin.checkout.show', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.checkout.index');
+});
+
+// --- BREADCRUMBS UNTUK LAPORAN ---
+// Laporan
+Breadcrumbs::for('admin.report.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Reports', route('admin.report.index'));
+});
+
+// Laporan > PDF
+Breadcrumbs::for('admin.report.pdf', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.report.index');
+    $trail->push('Generate PDF', route('admin.report.pdf'));
+});

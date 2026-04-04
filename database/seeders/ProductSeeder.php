@@ -86,5 +86,15 @@ class ProductSeeder extends Seeder
                 }
             }
         }
+        // Reset semua dulu
+        Product::query()->update(['is_best' => false]);
+
+        // Set 4 produk terbaik per kategori
+        foreach ($folders as $folder => $categoryId) {
+            Product::where('category_id', $categoryId)
+                ->inRandomOrder()
+                ->take(4)
+                ->update(['is_best' => true]);
+        }
     }
 }
