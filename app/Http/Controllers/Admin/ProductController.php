@@ -25,7 +25,7 @@ class ProductController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.product.index', ['title' => 'Read'], compact('products', 'categories'));
+        return view('admin.product.index', ['title' => 'List Products'], compact('products', 'categories'));
     }
 
     /**
@@ -34,7 +34,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.product.create', ['title' => 'Create'], compact('categories'));
+        return view('admin.product.create', ['title' => 'Create Product'], compact('categories'));
     }
 
     /**
@@ -93,7 +93,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('admin.product.show', ['title' => 'Show'], compact('product'));
+        return view('admin.product.show', ['title' => 'Product Details'], compact('product'));
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('admin.product.edit', ['title' => 'Edit'], compact('product', 'categories'));
+        return view('admin.product.edit', ['title' => 'Edit Product'], compact('product', 'categories'));
     }
 
     /**

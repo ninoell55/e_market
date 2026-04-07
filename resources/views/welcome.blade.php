@@ -31,7 +31,6 @@
                             href="#">
                             <span class="-tracking-widest uppercase italic">Fashion<span
                                     class="text-rose-600 not-italic">Aura</span></span>
-                            <img class="h-7 w-auto" src="{{ asset('assets/img/icons/logo.png') }}" alt="Logo">
                         </a>
                     </div>
 
@@ -179,7 +178,7 @@
                         <h1
                             class="text-7xl font-black tracking-tighter text-white xl:text-[9rem] leading-[0.82] uppercase">
                             Elevate Your <br>
-                            <span class="text-rose-600 italic">Daily Aura.</span>
+                            <span class="text-rose-600 italic selection:text-white">Daily Aura.</span>
                         </h1>
 
                         <p class="text-xl leading-relaxed text-gray-400 max-w-xl font-medium">
@@ -231,13 +230,14 @@
                     <div class="relative grid grid-cols-12 gap-6 lg:gap-10 transform lg:scale-110 lg:translate-x-10">
 
                         <div
-                            class="group col-span-8 overflow-hidden rounded-[4rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] aspect-4/5 relative border border-white/5">
+                            class="group col-span-8 overflow-hidden lg:rounded-[4rem] rounded-2xl shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] aspect-4/5 relative border border-white/5">
                             <img class="absolute inset-0 object-cover w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
                                 src="{{ asset('assets/img/shoes-hero.jpg') }}" alt="Main Fashion Look">
 
                             <div
                                 class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
-                                <p class="text-white text-2xl font-black uppercase tracking-[0.3em]">View Shoes</p>
+                                <p class="text-white text-2xl font-black uppercase tracking-[0.3em] lg:block hidden">
+                                    View Shoes</p>
                             </div>
 
                             <div
@@ -247,14 +247,15 @@
 
                         <div class="col-span-4 flex flex-col gap-6 lg:gap-10">
                             <div
-                                class="group overflow-hidden rounded-[3rem] shadow-2xl relative border border-white/5">
+                                class="group overflow-hidden lg:rounded-[4rem] rounded-2xl shadow-2xl relative border border-white/5">
                                 <img class="w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
                                     src="{{ asset('assets/img/clothes-hero.jpg') }}" alt="Clothes">
 
                                 <div
                                     class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
-                                    <p class="text-white text-lg font-black uppercase tracking-[0.3em]">View Clothes
-                                    </p>
+                                    <p
+                                        class="text-white text-lg font-black uppercase tracking-[0.3em] lg:block hidden">
+                                        View Clothes</p>
                                 </div>
 
                                 <div
@@ -263,14 +264,15 @@
                             </div>
 
                             <div
-                                class="group overflow-hidden rounded-[3rem] shadow-2xl relative border border-white/5">
+                                class="group overflow-hidden lg:rounded-[4rem] rounded-2xl shadow-2xl relative border border-white/5">
                                 <img class="w-full h-full transition-all duration-[2s] grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
                                     src="{{ asset('assets/img/accessories-hero.jpg') }}" alt="Accessories">
 
                                 <div
                                     class="absolute inset-0 bg-gray-950/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-sm">
-                                    <p class="text-white text-lg font-black uppercase tracking-[0.3em]">View
-                                        Accessories</p>
+                                    <p
+                                        class="text-white text-lg font-black uppercase tracking-[0.3em] lg:block hidden">
+                                        View Accessories</p>
                                 </div>
 
                                 <div
@@ -337,7 +339,7 @@
                                     class="absolute inset-0 bg-rose-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
                                 </div>
                             </a>
-                            <a href="https://wa.me/yournumber"
+                            <a href="https://wa.me/6287740864657" target="_blank"
                                 class="px-10 py-5 text-xs font-black tracking-[0.2em] text-gray-950 uppercase border-2 border-gray-200 rounded-full hover:border-rose-600 hover:text-rose-600 transition-all duration-300">
                                 Get In Touch
                             </a>
@@ -586,7 +588,8 @@
                             The foundation of your style. Engineered for the bold, crafted for the streets, and designed
                             to leave a legacy.
                         </p>
-                        <a href="{{ route('member.collection', $shoes->slug) }}" class="inline-flex items-center group/btn">
+                        <a href="{{ route('member.collection', $shoes->slug) }}"
+                            class="inline-flex items-center group/btn">
                             <span
                                 class="px-8 py-4 bg-white text-black text-xs font-black uppercase tracking-widest group-hover/btn:bg-rose-600 group-hover/btn:text-white transition-all">Shop
                                 Shoes</span>
@@ -859,8 +862,7 @@
                                 The Flagship Studio</h3>
                             <p
                                 class="text-2xl md:text-3xl font-medium text-gray-200 leading-tight tracking-tight max-w-md">
-                                Grand Boutique St. No. 12,<br>
-                                Menteng, Central Jakarta 10310
+                                Jl. Haji Agus Salim No. 123, Menteng, Jakarta Pusat, Indonesia
                             </p>
                         </div>
 
@@ -868,9 +870,9 @@
                             <h3
                                 class="text-xs font-black uppercase tracking-[0.3em] text-gray-500 mb-6 group-hover:text-rose-600 transition-colors">
                                 Email Inquiry</h3>
-                            <a href="mailto:hello@fashionaura.com"
+                            <a href="mailto:ninoadityooo@gmail.com"
                                 class="text-2xl md:text-3xl font-black text-white hover:text-rose-600 transition-all underline decoration-rose-600/30 decoration-4 underline-offset-12 hover:underline-offset-16">
-                                hello@fashionaura.com
+                                ninoadityooo@gmail.com
                             </a>
                         </div>
                     </div>
@@ -880,15 +882,40 @@
                     <div>
                         <h4 class="text-2xs font-black uppercase tracking-[0.4em] text-gray-500 mb-6">Follow Us</h4>
                         <div class="flex space-x-6 text-xl text-white">
-                            <a href="#"
-                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
-                                    class="fab fa-instagram"></i></a>
-                            <a href="#"
-                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
-                                    class="fab fa-tiktok"></i></a>
-                            <a href="#"
-                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all"><i
-                                    class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.instagram.com/nihooo_o.o/"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all inline-block"
+                                aria-label="Instagram">
+                                <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5">
+                                    </rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                            </a>
+
+                            <a href="https://www.tiktok.com/@ninoadityo/"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all inline-block"
+                                aria-label="TikTok">
+                                <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                                </svg>
+                            </a>
+
+                            <a href="https://wa.me/6287740864657"
+                                class="hover:text-rose-600 transform hover:-translate-y-1 transition-all inline-block"
+                                aria-label="WhatsApp">
+                                <svg xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                    </path>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                     <div>
@@ -946,7 +973,90 @@
     <!-- ==================
         FOOTER
     ====================== -->
-    <x-footer />
+    <footer class="bg-white dark:bg-black pt-24 pb-12 overflow-hidden">
+        <div class="container-fluid px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24">
+                <div class="max-w-2xl">
+                    <h2
+                        class="text-[12vw] lg:text-[10vw] font-black leading-[0.8] uppercase tracking-tighter dark:text-white">
+                        JOIN THE <br> <span class="text-rose-600 italic">REVOLUTION.</span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 border-y-4 border-gray-900 dark:border-white">
+
+                <div
+                    class="lg:col-span-4 border-r-4 border-gray-900 dark:border-white h-100 relative overflow-hidden group">
+                    <img src="{{ asset('assets/img/footer.jpg') }}"
+                        class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+
+                <div class="lg:col-span-8 grid grid-cols-2 md:grid-cols-4">
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Shop</h4>
+                        <ul class="space-y-4 text-sm font-bold uppercase">
+                            <li>
+                                <a href="{{ route('member.collection', $shoes->slug) }}"
+                                    class="hover:line-through">Shoes</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('member.collection', $clothes->slug) }}"
+                                    class="hover:line-through">Clothes</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('member.collection', $accessories->slug) }}"
+                                    class="hover:line-through">Accessories</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Support
+                        </h4>
+                        <ul class="space-y-4 text-sm font-bold uppercase">
+                            <li>
+                                <div class="hover:line-through">Shipping</div>
+                            </li>
+                            <li>
+                                <div class="hover:line-through">Contact</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Studio
+                        </h4>
+                        <p class="text-xs font-bold uppercase leading-relaxed">
+                            Grand Boutique St. 12<br>Menteng, Jakarta<br>Indonesia
+                        </p>
+                    </div>
+
+                    <div class="p-8 flex flex-col justify-between dark:text-white">
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Connect
+                        </h4>
+                        <div class="flex flex-col gap-4 text-sm font-bold uppercase">
+                            <a href="https://www.instagram.com/nihooo_o.o/" class="hover:text-rose-600">Instagram</a>
+                            <a href="https://www.tiktok.com/@ninoadityo/" class="hover:text-rose-600">TikTok</a>
+                            <a href="https://wa.me/6287740864657" class="hover:text-rose-600">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex gap-8 text-2xs font-black uppercase tracking-[0.3em] text-gray-500">
+                    <div>Privacy</div>
+                    <div>Terms</div>
+                    <div>Legal</div>
+                </div>
+
+                <p class="text-center text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">
+                    © FASHIONAURA — BY <span class="text-rose-600">Nino Adityo Nugroho</span>
+                </p>
+            </div>
+        </div>
+    </footer>
     <!-- ==================
         FOOTER-end
     ====================== -->

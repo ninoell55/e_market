@@ -4,7 +4,7 @@
     @endif
     
     @section('main')
-        <main class="p-4 lg:p-8">
+        <main class="bg-white dark:bg-black p-4 lg:p-8">
             {{ $slot }}
         </main>
     @endsection

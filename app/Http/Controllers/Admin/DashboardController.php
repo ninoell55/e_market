@@ -12,6 +12,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Timeframes
         $today = now()->startOfDay();
         $yesterday = now()->subDay()->startOfDay();
 
@@ -31,20 +32,22 @@ class DashboardController extends Controller
             ->where('status', 'completed')->where('created_at', '>=', now()->subDays(6))
             ->groupBy('date')->orderBy('date', 'asc')->get();
 
+        // Format data for chart
         $chartLabels = $salesData->pluck('date')->map(fn($d) => \Carbon\Carbon::parse($d)->format('D'))->toArray();
         $chartValues = $salesData->pluck('total')->toArray();
 
-        // Inventori Kritis
+        // Inventory Alerts 
         $criticalVariants = DB::table('product_variants')
             ->join('products', 'product_variants.product_id', '=', 'products.id')
             ->select('products.name', 'product_variants.attribute_value', 'product_variants.stock', 'products.id as p_id')
             ->where('product_variants.stock', '<', 15)
             ->orderBy('stock', 'asc')->take(6)->get();
 
+        // Recent Orders
         $recentOrders = Order::with('user')->latest()->take(6)->get();
 
         return view('admin.dashboard', [
-            'title' => 'System Control',
+            'title' => 'Dashboard - Admin Panel',
             'revenueToday' => $revenueToday,
             'growth' => $growth,
             'pendingOrders' => $pendingOrders,
@@ -56,5 +59,5 @@ class DashboardController extends Controller
             'criticalVariants' => $criticalVariants,
             'recentOrders' => $recentOrders
         ]);
-    }   
+    }
 }

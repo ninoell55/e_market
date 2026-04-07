@@ -2,13 +2,13 @@
     <x-slot:title>{{ $title }}</x-slot:title>
 
     <div
-        class="min-h-screen bg-gray-50 dark:bg-[#080808] text-gray-600 dark:text-gray-400 font-sans p-4 lg:p-8 transition-colors duration-500">
-        <div class="max-w-7xl mx-auto space-y-6">
+        class="min-h-screen text-gray-600 dark:text-gray-400 font-sans p-4 lg:p-8 transition-colors duration-500">
+        <div class="mx-auto space-y-6">
 
             {{-- TOP HEADER --}}
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
                 <div class="space-y-1">
-                    <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic">
+                    <h1 class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic">
                         Terminal_<span class="text-rose-600">Admin</span>
                     </h1>
                     <div class="flex items-center gap-3 text-2xs font-bold tracking-[0.3em] uppercase opacity-60">

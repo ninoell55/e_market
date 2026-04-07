@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div class="py-10">
+    <div class="lg:py-10">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div
                 class="bg-white dark:bg-gray-950 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-900 overflow-hidden">

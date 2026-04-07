@@ -20,9 +20,15 @@
                 <div class="p-8 border-r-4 border-gray-900 dark:border-white dark:text-white">
                     <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Shop</h4>
                     <ul class="space-y-4 text-sm font-bold uppercase">
-                        <li><a href="#" class="hover:line-through">Shoes</a></li>
-                        <li><a href="#" class="hover:line-through">Clothes</a></li>
-                        <li><a href="#" class="hover:line-through">Accessories</a></li>
+                        <li>
+                            <div class="hover:line-through">Shoes</div>
+                        </li>
+                        <li>
+                            <div class="hover:line-through">Clothes</div>
+                        </li>
+                        <li>
+                            <div class="hover:line-through">Accessories</div>
+                        </li>
                     </ul>
                 </div>
 
@@ -30,9 +36,15 @@
                     <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Support
                     </h4>
                     <ul class="space-y-4 text-sm font-bold uppercase">
-                        <li><a href="#" class="hover:line-through">Shipping</a></li>
-                        <li><a href="#" class="hover:line-through">Returns</a></li>
-                        <li><a href="#" class="hover:line-through">Contact</a></li>
+                        <li>
+                            <div class="hover:line-through">Shipping</div>
+                        </li>
+                        <li>
+                            <div class="hover:line-through">Returns</div>
+                        </li>
+                        <li>
+                            <div class="hover:line-through">Contact</div>
+                        </li>
                     </ul>
                 </div>
 
@@ -48,9 +60,9 @@
                     <h4 class="text-xs font-black uppercase tracking-widest mb-8 text-rose-600 italic">// Connect
                     </h4>
                     <div class="flex flex-col gap-4 text-sm font-bold uppercase">
-                        <a href="#" class="hover:text-rose-600">Instagram</a>
-                        <a href="#" class="hover:text-rose-600">TikTok</a>
-                        <a href="#" class="hover:text-rose-600">WhatsApp</a>
+                        <a href="https://www.instagram.com/nihooo_o.o/" class="hover:text-rose-600">Instagram</a>
+                        <a href="https://www.tiktok.com/@ninoadityo/" class="hover:text-rose-600">TikTok</a>
+                        <a href="https://wa.me/6287740864657" class="hover:text-rose-600">WhatsApp</a>
                     </div>
                 </div>
             </div>
@@ -58,9 +70,9 @@
 
         <div class="mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex gap-8 text-2xs font-black uppercase tracking-[0.3em] text-gray-500">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Legal</a>
+                <div>Privacy</div>
+                <div>Terms</div>
+                <div>Legal</div>
             </div>
 
             <p class="text-center text-2xs font-black uppercase tracking-[0.3em] text-gray-900 dark:text-white">

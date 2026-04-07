@@ -16,7 +16,7 @@ $watch('isMinimized', val => {
     localStorage.setItem('sidebar-minimized', val);
 })">
     <div
-        class="flex min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+        class="flex min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-300">
 
         <aside
             :class="{
@@ -25,7 +25,7 @@ $watch('isMinimized', val => {
                 '-translate-x-full': !sidebarOpen,
                 'translate-x-0': sidebarOpen
             }"
-            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-50 flex flex-col lg:translate-x-0">
+            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-black border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-50 flex flex-col lg:translate-x-0">
 
             <div
                 class="flex items-center h-20 px-6 border-b border-gray-50 dark:border-gray-800 overflow-hidden shrink-0">
@@ -92,6 +92,12 @@ $watch('isMinimized', val => {
                     <span x-show="!isMinimized" x-transition.opacity>{{ __('Checkout') }}</span>
                 </x-sidebar-link>
 
+                <div class="pt-6 pb-2 px-6">
+                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
+                    </p>
+                    <hr x-show="isMinimized" class="border-red-500" />
+                </div>
+
                 <x-sidebar-link :href="route('admin.report.index')" :active="request()->routeIs('admin.report.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,12 +107,6 @@ $watch('isMinimized', val => {
                     </x-slot>
                     <span x-show="!isMinimized" x-transition.opacity>{{ __('Reports') }}</span>
                 </x-sidebar-link>
-
-                <div class="pt-6 pb-2 px-6">
-                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
-                    </p>
-                    <hr x-show="isMinimized" class="border-red-500" />
-                </div>
 
                 <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
                     <x-slot name="icon">
