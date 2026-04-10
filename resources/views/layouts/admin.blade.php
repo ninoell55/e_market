@@ -6,7 +6,7 @@
     @section('main')
         <main class="bg-white dark:bg-black p-4 lg:p-8">
             {{ $slot }}
-        </main>
+        </main> 
     @endsection
 
     @include('layouts.sidebar')

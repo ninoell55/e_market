@@ -26,7 +26,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse min-w-125 md:min-w-full">
                     <thead>
-                        <tr class="border-b border-gray-50 dark:border-gray-900 bg-gray-50/20">
+                        <tr class="border-b border-gray-50 dark:border-gray-900 bg-gray-50/30 dark:bg-gray-900/30">
                             <th
                                 class="px-6 md:px-8 py-5 md:py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em] w-16">
                                 #</th>
@@ -85,12 +85,11 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-8 py-20 text-center">
-                                    <div class="flex flex-col items-center">
-                                        <p class="text-2xs font-black text-gray-400 uppercase tracking-widest italic">
-                                            Empty Category</p>
-                                    </div>
-                                </td>
+                                <div class="col-span-full">
+                                    <x-empty-state title="No Category Found"
+                                        message="Start by adding a new category to organize your products effectively."
+                                        buttonText="Refresh" />
+                                </div>
                             </tr>
                         @endforelse
                     </tbody>

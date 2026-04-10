@@ -1,16 +1,17 @@
 <x-admin-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div
-        class="min-h-screen text-gray-600 dark:text-gray-400 font-sans p-4 lg:p-8 transition-colors duration-500">
+    <div class="min-h-screen text-gray-600 dark:text-gray-400 font-sans p-4 lg:p-8 transition-colors duration-500">
         <div class="mx-auto space-y-6">
 
             {{-- TOP HEADER --}}
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-10">
                 <div class="space-y-1">
-                    <h1 class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic">
-                        Terminal_<span class="text-rose-600">Admin</span>
+                    <h1
+                        class="text-5xl font-bold uppercase tracking-[0.3em] drop-shadow-[0_0_20px_rgba(255, 29, 141, 1)] dark:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] bg-linear-to-b from-black dark:from-white to-rose-600 bg-clip-text text-transparent opacity-90">
+                        AurⱯdmin
                     </h1>
+
                     <div class="flex items-center gap-3 text-2xs font-bold tracking-[0.3em] uppercase opacity-60">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         System_Active // {{ now()->format('H:i T') }}
@@ -20,11 +21,11 @@
                 <div class="flex flex-wrap gap-2">
                     <a href="{{ route('admin.product.create') }}"
                         class="px-5 py-2.5 bg-white dark:bg-white/5 hover:bg-rose-600 hover:text-white transition-all rounded-xl border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-2xs font-black uppercase tracking-widest shadow-sm">
-                        + New_Product
+                        + New Product
                     </a>
                     <a href="{{ route('admin.checkout.index') }}"
                         class="px-5 py-2.5 bg-white dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all rounded-xl border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white text-2xs font-black uppercase tracking-widest shadow-sm">
-                        Orders_List
+                        Orders List
                     </a>
                 </div>
             </div>

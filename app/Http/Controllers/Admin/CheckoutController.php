@@ -11,7 +11,7 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
         $query = Order::with(['user', 'payment'])
-            ->where('status', '!=', 'cancelled'); // Sembunyikan cancelled
+            ->where('status', '!=', 'cancelled'); 
 
         // Filter Search
         if ($request->search) {

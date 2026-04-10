@@ -3,7 +3,7 @@
 @endphp
 
 <x-dynamic-component :component="$layout">
-    <div class="min-h-screen bg-white dark:bg-gray-950 text-gray-950 dark:text-white font-sans selection:bg-rose-600">
+    <div class="min-h-screen bg-white dark:bg-black text-gray-950 dark:text-white font-sans selection:bg-rose-600">
         <div class="max-w-400 mx-auto px-6 lg:px-12 py-10 border-b border-gray-100 dark:border-white/5">
             <div class="flex items-center gap-3 mb-2">
                 <span class="w-1 h-1 bg-rose-600"></span>

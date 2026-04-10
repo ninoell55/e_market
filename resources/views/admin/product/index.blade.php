@@ -62,7 +62,7 @@
             <div class="w-full overflow-x-auto">
                 <table class="w-full border-collapse text-left min-w-200 md:min-w-full">
                     <thead>
-                        <tr class="border-b border-gray-50 dark:border-gray-900 bg-gray-50/30 dark:bg-gray-900/30">
+                        <tr class="border-b border-gray-50 dark:border-gray-900">
                             <th
                                 class="hidden md:table-cell px-8 py-6 text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
                                 #</th>
