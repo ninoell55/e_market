@@ -7,6 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
+    
+    {{-- Swiper --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
         if (localStorage.getItem('dark-mode') === 'true' ||
@@ -16,6 +20,26 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar for modern look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e11d48;
+            border-radius: 10px;
+        }
+    </style>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

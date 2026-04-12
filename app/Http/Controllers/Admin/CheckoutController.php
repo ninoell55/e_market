@@ -11,14 +11,16 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
         $query = Order::with(['user', 'payment'])
-            ->where('status', '!=', 'cancelled'); 
+            ->where('status', '!=', 'cancelled');
 
         // Filter Search
         if ($request->search) {
-            $query->where('order_number', 'LIKE', "%{$request->search}%")
-                ->orWhereHas('user', function ($q) use ($request) {
-                    $q->where('name', 'LIKE', "%{$request->search}%");
-                });
+            $query->where(function ($q) use ($request) {
+                $q->where('order_number', 'LIKE', "%{$request->search}%")
+                    ->orWhereHas('user', function ($q2) use ($request) {
+                        $q2->where('name', 'LIKE', "%{$request->search}%");
+                    });
+            });
         }
 
         // Filter Status (dari Tabs)
@@ -56,6 +58,10 @@ class CheckoutController extends Controller
     {
         $order = Order::findOrFail($id);
 
+        if (! $order->payment) {
+            return back()->with('error', 'Payment record not found.');
+        }
+
         $order->payment->update(['status' => 'completed']);
         $order->update(['status' => 'paid']);
 
@@ -75,6 +81,10 @@ class CheckoutController extends Controller
     public function completeOrder($id)
     {
         $order = Order::findOrFail($id);
+
+        if (! $order->payment) {
+            return back()->with('error', 'Payment record not found.');
+        }
 
         // Jika COD, sekalian selesaikan status payment-nya
         if ($order->payment->method === 'COD') {

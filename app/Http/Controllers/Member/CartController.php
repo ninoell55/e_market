@@ -16,7 +16,7 @@ class CartController extends Controller
         $user = Auth::user();
 
         // Ambil cart milik user beserta items, produk, dan variannya dalam satu query (Eager Loading)
-        $cart = Cart::with(['items.product', 'items.variant'])
+        $cart = Cart::with(['items.product.category', 'items.variant'])
             ->where('user_id', $user->id)
             ->first();
 
@@ -63,7 +63,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('member.cart.index')->with('success', 'Added to archive.');
+        return redirect()->route('member.cart.index')->with('success', 'Added to cart.');
     }
 
     public function update(Request $request, CartItem $item)
@@ -83,6 +83,6 @@ class CartController extends Controller
         if ($item->cart->user_id === Auth::id()) {
             $item->delete();
         }
-        return back()->with('success', 'Artifact discarded.');
+        return back()->with('success', 'Item removed from cart.');
     }
 }

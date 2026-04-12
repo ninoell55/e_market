@@ -1,127 +1,165 @@
 <x-member-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div class="px-6 lg:px-12 min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white antialiased">
+    <div class="bg-white dark:bg-black text-black dark:text-white antialiased selection:bg-rose-600 pb-35">
 
-        {{-- Section 01: Header --}}
-        <header class="px-6 py-20 border-b border-gray-100 dark:border-white/5">
-            <div class="flex flex-col items-center">
-                <h1 class="text-5xl font-black uppercase tracking-tighter italic text-center">
-                    Member_Archive<span class="text-rose-600">.</span>
-                </h1>
-                <p class="mt-2 text-2xs uppercase tracking-[0.5em] opacity-40">Personal Dashboard / 2026</p>
-            </div>
-        </header>
-
-        {{-- Section 02: Navigation (Real Links) --}}
-        <nav
-            class="sticky top-0 z-10 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/5">
-            <div class="flex justify-center">
-                <a href="{{ route('member.archive.addresses') }}"
-                    class="px-10 py-6 text-2xs font-black uppercase tracking-[0.4em] border-b-2 transition-all duration-300 {{ request()->routeIs('member.archive.addresses') ? 'border-black dark:border-white opacity-100' : 'border-transparent opacity-30 hover:opacity-100' }}">
-                    Addresses
-                </a>
-                <a href="{{ route('member.archive.orders') }}"
-                    class="px-10 py-6 text-2xs font-black uppercase tracking-[0.4em] border-b-2 transition-all duration-300 {{ request()->routeIs('member.archive.orders') ? 'border-black dark:border-white opacity-100' : 'border-transparent opacity-30 hover:opacity-100' }}">
-                    Orders
-                </a>
-            </div>
-        </nav>
-
-        <main class="mx-auto px-2 py-12">
-            {{-- Bagian Alamat --}}
-            <div class="flex justify-between items-end mb-12 border-l-4 border-rose-600 pl-4">
-                <div>
-                    <h2 class="text-2xl font-black uppercase italic">Saved_Locations</h2>
-                    <p class="text-2xs opacity-50 uppercase tracking-widest">Manage your shipping destinations</p>
+        {{-- Section 01: Floating Header & Navigation --}}
+        <div class="px-6 lg:px-12 pt-16 pb-8">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div class="relative">
+                    <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                        List <span class="text-gray-300 text-2xl md:text-4xl">of Shipping Destinations</span>
+                    </h1>
                 </div>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="{{ route('member.archive.addresses') }}"
+                        class="px-8 py-4 text-[11px] font-black uppercase tracking-widest border-2 {{ request()->routeIs('member.archive.addresses') ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white opacity-40' }} transition-all">
+                        Addresses
+                    </a>
+                    <a href="{{ route('member.archive.orders') }}"
+                        class="px-8 py-4 text-[11px] font-black uppercase tracking-widest border-2 {{ request()->routeIs('member.archive.orders') ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white opacity-40' }} transition-all">
+                        Orders
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <main class="px-6 lg:px-12">
+            {{-- Action Bar --}}
+            <div
+                class="flex justify-between items-center border-b border-black/5 dark:border-white/5 bg-white dark:bg-[#0a0a0a]">
+                <div class="flex items-center gap-4">
+                    <div class="w-1 h-8 bg-rose-600"></div> {{-- Accent Line --}}
+                    <p class="text-2xs font-black uppercase tracking-[0.3em] opacity-40 italic">Shipping Addresses
+                    </p>
+                </div>
+
                 <a href="{{ route('member.archive.create_address') }}"
-                    class="text-2xs font-black uppercase tracking-widest border border-black dark:border-white px-8 py-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-                    + New Address
+                    class="group flex items-center gap-3 bg-rose-600 text-white px-10 lg:px-21 py-3 text-2xs font-black uppercase tracking-widest hover:bg-black dark:hover:bg-white dark:hover:text-black transition-all duration-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    <span>Add Address</span>
                 </a>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+            {{-- Grid --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @forelse($addresses as $address)
+                    {{-- Pastikan container grid menggunakan items-stretch --}}
                     <div
-                        class="group relative border border-gray-100 dark:border-white/5 p-8 flex flex-col min-h-87.5 justify-between hover:bg-gray-50 dark:hover:bg-white/2 transition-all duration-500">
-                        <div class="space-y-6">
-                            <div class="flex justify-between items-center">
-                                <span
-                                    class="text-[9px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-gray-100 dark:bg-white/5 italic">
-                                    {{ $address->label }}
-                                </span>
-                                @if ($address->is_default)
-                                    <span class="flex items-center gap-1.5">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse"></span>
-                                        <span
-                                            class="text-[9px] font-black uppercase text-rose-600 tracking-tighter">Primary_Unit</span>
+                        class="group relative bg-white dark:bg-[#0a0a0a] p-10 border border-black/5 dark:border-white/5 overflow-hidden transition-all duration-500 hover:z-10 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)] flex flex-col h-full">
+
+                        {{-- Background Decor Number --}}
+                        <span
+                            class="absolute top-15 right-10 text-8xl font-black italic opacity-[0.03] group-hover:opacity-[0.07] transition-opacity select-none">
+                            {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                        </span>
+
+                        <div class="relative z-10 flex flex-col grow justify-between space-y-10">
+                            {{-- Section Top: Header & Content --}}
+                            <div class="space-y-10">
+                                {{-- Header Card --}}
+                                <div class="flex justify-between items-start">
+                                    <span
+                                        class="px-3 py-1 border border-black/10 dark:border-white/10 text-[9px] font-black uppercase tracking-widest opacity-60">
+                                        {{ $address->label }}
                                     </span>
-                                @endif
-                            </div>
+                                    @if ($address->is_default)
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse"></span>
+                                            <span
+                                                class="text-[9px] font-black uppercase text-rose-600 tracking-widest">Default</span>
+                                        </div>
+                                    @endif
+                                </div>
 
-                            <div class="space-y-2">
-                                <h3
-                                    class="text-2xl font-black uppercase tracking-tight italic group-hover:text-rose-600 transition-colors truncate">
-                                    {{ $address->recipient_name }}
-                                </h3>
-                                {{-- Address dengan Line Clamp untuk Alamat Panjang --}}
-                                <p
-                                    class="text-xs font-medium text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3 wrap-break-word">
-                                    {{ $address->address }}, {{ $address->city }}, {{ $address->province }}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 pt-6 border-t border-gray-100 dark:border-white/5">
-                            <div class="mb-6">
-                                <p class="text-[8px] font-black text-gray-400 uppercase tracking-[0.3em] mb-1">
-                                    Contact_Line</p>
-                                <p class="text-sm font-mono font-bold">{{ $address->recipient_phone }}</p>
-                            </div>
-
-                            <div
-                                class="grid grid-cols-3 gap-px bg-gray-100 dark:bg-white/10 pt-px border border-gray-100 dark:border-white/5">
-                                <a href="{{ route('member.archive.edit_address', $address) }}"
-                                    class="bg-white dark:bg-[#0a0a0a] py-3 text-[9px] font-black uppercase text-center hover:text-rose-600">
-                                    Edit
-                                </a>
-                                @if (!$address->is_default)
-                                    <form action="{{ route('member.archive.set_default', $address) }}" method="POST"
-                                        class="bg-white dark:bg-[#0a0a0a]">
-                                        @csrf @method('PATCH')
-                                        <button type="button"
-                                            class="confirm-delete-btn w-full py-3 text-[9px] font-black uppercase text-center hover:text-rose-600 cursor-pointer"
-                                            data-confirm-title="Set as Default?"
-                                            data-confirm-text="This address will be set as your primary shipping address."
-                                            data-confirm-button="YES, SET IT">
-                                            Set
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('member.archive.delete_address', $address) }}"
-                                        method="POST" class="bg-white dark:bg-[#0a0a0a]">
-                                        @csrf @method('DELETE')
-                                        <button type="button"
-                                            class="confirm-delete-btn w-full py-3 text-[9px] font-black uppercase text-center text-rose-600/50 hover:text-rose-600 cursor-pointer"
-                                            data-confirm-title="Delete Address?"
-                                            data-confirm-text="This action cannot be undone."
-                                            data-confirm-button="YES, DELETE IT">
-                                            Del
-                                        </button>
-                                    </form>
-                                @else
-                                    <div
-                                        class="col-span-2 bg-white dark:bg-[#0a0a0a] py-3 text-[8px] font-black uppercase text-right pr-4 text-gray-300 italic select-none">
-                                        // Active_Unit
+                                {{-- Content --}}
+                                <div class="space-y-4">
+                                    <div>
+                                        <p class="text-2xs font-black uppercase tracking-[0.3em] opacity-30 mb-1">
+                                            Recipient</p>
+                                        <h2
+                                            class="text-3xl font-black tracking-tighter italic uppercase line-clamp-1 group-hover:text-rose-600 transition-colors">
+                                            {{ $address->recipient_name }}
+                                        </h2>
                                     </div>
-                                @endif
+                                    <div class="max-w-70">
+                                        <p class="text-2xs font-black uppercase tracking-[0.3em] opacity-30 mb-1">
+                                            Location</p>
+                                        {{-- line-clamp-2 menjaga alamat maksimal 2 baris agar tinggi kartu tetap konsisten --}}
+                                        <p
+                                            class="text-xs font-bold leading-relaxed opacity-60 line-clamp-2 uppercase min-h-8">
+                                            {{ $address->address }}, {{ $address->city }}, {{ $address->province }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Section Bottom: Contacts & Actions (Akan selalu di bawah kartu) --}}
+                            <div class="pt-8 border-t border-black/5 dark:border-white/5">
+                                <div class="flex justify-between items-end">
+                                    <p class="text-[9px] font-black uppercase opacity-30 mb-1">Contact Number</p>
+                                    <p class="text-lg font-black tracking-tighter italic font-mono">
+                                        {{ $address->recipient_phone }}
+                                    </p>
+                                </div>
+
+                                {{-- Brutalist Button Group --}}
+                                <div
+                                    class="grid grid-cols-3 gap-px bg-black/5 dark:bg-white/5 mt-8 border border-black/5 dark:border-white/5">
+                                    <a href="{{ route('member.archive.edit_address', $address) }}"
+                                        class="bg-white dark:bg-[#0a0a0a] py-4 text-[9px] font-black uppercase text-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                                        Edit
+                                    </a>
+
+                                    @if (!$address->is_default)
+                                        <form action="{{ route('member.archive.set_default', $address) }}"
+                                            method="POST" class="bg-white dark:bg-[#0a0a0a]">
+                                            @csrf @method('PATCH')
+                                            <button type="submit"
+                                                class="w-full h-full py-4 text-[9px] font-black uppercase text-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all cursor-pointer">
+                                                Set Default
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('member.archive.delete_address', $address) }}"
+                                            method="POST" class="bg-white dark:bg-[#0a0a0a]">
+                                            @csrf @method('DELETE')
+                                            <button type="submit"
+                                                class="confirm-delete-btn w-full h-full py-4 text-[9px] font-black uppercase text-center text-rose-600 hover:bg-rose-600 hover:text-white transition-all cursor-pointer"
+                                                data-confirm-title="Confirm Deletion?" data-confirm-text="Are you sure you want to delete this address? This action cannot be undone."
+                                                data-confirm-button="Delete">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    @else
+                                        <div
+                                            class="col-span-2 bg-black/2 dark:bg-white/2 py-4 text-[9px] font-black uppercase text-center opacity-20 italic select-none flex items-center justify-center">
+                                            Default Address
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <x-empty-state title="Empty_Archive" message="No address data sequences found." />
+                    <div class="col-span-full">
+                        <x-empty-state title="No Shipping Addresses Found"
+                            message="You haven't added any shipping addresses yet." buttonText="Refresh" />
+                    </div>
                 @endforelse
             </div>
+
+            {{-- Pagination --}}
+            @if ($addresses->hasPages())
+                <div class="flex justify-center">
+                    <div class="w-full p-2 bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5">
+                        {{ $addresses->links() }}
+                    </div>
+                </div>
+            @endif
         </main>
     </div>
 </x-member-layout>

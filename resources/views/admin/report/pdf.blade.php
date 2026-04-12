@@ -6,110 +6,133 @@
     <style>
         /* Setup Halaman */
         @page {
-            margin: 0.5cm;
+            margin: 0;
+            /* Menghilangkan margin default agar bisa dikontrol via body */
         }
 
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
-            text-transform: uppercase;
-            color: #1a1a1a;
+            color: #0f172a;
             margin: 0;
-            padding: 20px;
-            line-height: 1.4;
+            padding: 40px;
+            line-height: 1.5;
+            background-color: #ffffff;
         }
 
         /* Tipografi & Identitas */
         .header {
-            border-bottom: 4px solid #000;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin: 0;
-            letter-spacing: -1px;
+            letter-spacing: -1.5px;
             font-style: italic;
             font-weight: 900;
+            text-transform: uppercase;
         }
 
         .header p {
-            font-size: 10px;
-            color: #666;
-            margin: 5px 0 0 0;
+            font-size: 11px;
+            color: #64748b;
+            margin: 8px 0 0 0;
             letter-spacing: 2px;
             font-weight: bold;
+            text-transform: uppercase;
         }
 
-        /* Grid Statistik Utama */
-        .stats-container {
+        /* Grid Statistik Utama - Menggunakan Table untuk kompatibilitas PDF */
+        .stats-table {
             width: 100%;
-            margin-bottom: 30px;
+            border-collapse: separate;
+            border-spacing: 15px 0;
+            margin-left: -15px;
+            /* Kompensasi spacing */
+            margin-bottom: 40px;
         }
 
         .stat-card {
-            background: #f9f9f9;
-            border: 1px solid #eeeeee;
-            padding: 20px;
-            width: 45%;
-            display: inline-block;
-            vertical-align: top;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 25px;
+            border-radius: 20px;
         }
 
-        .stat-card.revenue {
-            background: #111111;
+        .stat-card.dark {
+            background: #0f172a;
             color: #ffffff;
             border: none;
         }
 
         .label {
-            font-size: 8px;
+            font-size: 9px;
             font-weight: 900;
-            color: #888;
-            margin-bottom: 10px;
+            color: #94a3b8;
+            margin-bottom: 12px;
             display: block;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        .stat-card.revenue .label {
+        .stat-card.dark .label {
             color: #e11d48;
         }
 
         .value {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 900;
             font-style: italic;
         }
 
         /* Tabel Styling */
         h3 {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 900;
-            border-left: 4px solid #e11d48;
-            padding-left: 10px;
-            margin: 30px 0 15px 0;
+            border-left: 5px solid #e11d48;
+            padding-left: 15px;
+            margin: 40px 0 20px 0;
             letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #1e293b;
         }
 
-        table {
+        table.data-table {
             width: 100%;
             border-collapse: collapse;
+            border-radius: 15px;
+            overflow: hidden;
         }
 
         th {
-            background: #f0f0f0;
+            background: #f8fafc;
             text-align: left;
-            padding: 12px 10px;
-            font-size: 9px;
+            padding: 15px;
+            font-size: 10px;
             font-weight: 900;
-            border-bottom: 2px solid #000;
+            color: #475569;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         td {
-            padding: 10px;
-            font-size: 10px;
-            border-bottom: 1px solid #eeeeee;
-            font-weight: bold;
+            padding: 15px;
+            font-size: 11px;
+            border-bottom: 1px solid #f1f5f9;
+            font-weight: 500;
+        }
+
+        .link-style {
+            color: #0f172a;
+            text-decoration: none;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .text-right {
@@ -118,24 +141,28 @@
 
         .text-rose {
             color: #e11d48;
+            font-weight: 900;
         }
 
         .text-muted {
-            color: #888;
-            font-size: 8px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-style: italic;
         }
 
         /* Footer PDF */
         .footer {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            font-size: 8px;
-            color: #aaa;
+            bottom: 30px;
+            left: 40px;
+            right: 40px;
+            font-size: 9px;
+            color: #94a3b8;
             text-align: center;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -143,30 +170,46 @@
 <body>
 
     <div class="header">
-        <h1>Executive_Summary<span style="color: #e11d48;">.</span></h1>
-        <p>Report_Period: {{ $filters['date'] ?? $filters['month'] . '/' . $filters['year'] }}</p>
+        <table class="header-table">
+            <tr>
+                <td>
+                    <h1>Executive Summary<span style="color: #e11d48;">.</span></h1>
+                    <p>Report Period:
+                        {{ $filters['date'] ?? $filters['month'] . ' / ' . ($filters['year'] ?? now()->year) }}</p>
+                </td>
+                <td class="text-right">
+                    <p style="color: #e11d48">Business Intelligence Unit</p>
+                    <p style="font-size: 8px">Internal Confidential Document</p>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="stats-container">
-        <div class="stat-card revenue">
-            <span class="label">// Net_Revenue</span>
-            <div class="value">IDR {{ number_format($totalRevenue, 0, ',', '.') }}</div>
-        </div>
-
-        <div class="stat-card" style="margin-left: 20px;">
-            <span class="label">// Total_Orders</span>
-            <div class="value" style="color: #111;">{{ $totalOrders }} Transactions</div>
-        </div>
-    </div>
+    <table class="stats-table">
+        <tr>
+            <td width="50%">
+                <div class="stat-card dark">
+                    <span class="label">Net Revenue</span>
+                    <div class="value">IDR {{ number_format($totalRevenue, 0, ',', '.') }}</div>
+                </div>
+            </td>
+            <td width="50%">
+                <div class="stat-card">
+                    <span class="label">Total Transactions</span>
+                    <div class="value">{{ $totalOrders }} Units</div>
+                </div>
+            </td>
+        </tr>
+    </table>
 
     {{-- Produk Terlaris --}}
-    <h3>Top_Selling_Inventory</h3>
-    <table>
+    <h3>Top Performing Inventory</h3>
+    <table class="data-table">
         <thead>
             <tr>
-                <th>Product_Name</th>
-                <th class="text-right">Qty_Sold</th>
-                <th class="text-right">Total_Value</th>
+                <th>Product Name</th>
+                <th class="text-right">Quantity Sold</th>
+                <th class="text-right">Total Value</th>
             </tr>
         </thead>
         <tbody>
@@ -181,43 +224,45 @@
     </table>
 
     {{-- Produk Kurang Laku --}}
-    <h3>Under_Performing_Stock</h3>
-    <table>
+    <h3>Low Velocity Stock</h3>
+    <table class="data-table">
         <thead>
             <tr>
-                <th>Product_Name</th>
-                <th>Status</th>
+                <th>Product Name</th>
+                <th>Performance Status</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($slowMoving as $slow)
                 <tr>
                     <td>{{ $slow->name }}</td>
-                    <td class="text-muted italic">No sales recorded in this period</td>
+                    <td class="text-muted">No sales recorded during this period</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="2" class="text-muted">All inventory items are performing optimally.</td>
+                    <td colspan="2" class="text-muted">All inventory items are performing at optimal levels.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
 
     {{-- Ringkasan Transaksi --}}
-    <h3>Transaction_Audit_Log</h3>
-    <table>
+    <h3>Transaction History Log</h3>
+    <table class="data-table">
         <thead>
             <tr>
                 <th>Timestamp</th>
-                <th>Order_ID</th>
+                <th>Reference ID</th>
                 <th class="text-right">Settlement</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($orders as $order)
                 <tr>
-                    <td>{{ $order->created_at->format('d.m.Y / H:i') }}</td>
-                    <td>#{{ $order->order_number }}</td>
+                    <td>{{ $order->created_at->format('d M Y • H:i') }}</td>
+                    <td>
+                        <span class="link-style">#{{ $order->order_number }}</span>
+                    </td>
                     <td class="text-right">IDR {{ number_format($order->total_price, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
@@ -225,7 +270,7 @@
     </table>
 
     <div class="footer">
-        Generated_by_System_Admin - {{ now()->format('d/m/Y H:i:s') }} - Internal Confidential
+        Automated System Report — {{ now()->format('d F Y / H:i:s') }} — Page 1 of 1
     </div>
 
 </body>

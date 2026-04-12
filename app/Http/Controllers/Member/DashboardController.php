@@ -32,12 +32,31 @@ class DashboardController extends Controller
 
         // 3. Semua produk untuk bagian catalog (Pagination)
         $products = Product::with(['category', 'variants'])
-            ->when($request->search, fn($query) => $query
-                ->where('name', 'like', '%' . $request->search . '%'))
-            ->latest()
+            ->when($request->search, function ($query, $search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->when($request->category, function ($query, $category) {
+                $query->whereHas('category', fn($q) => $q->where('slug', $category));
+            })
+            ->when($request->sort, function ($query, $sort) {
+                switch ($sort) {
+                    case 'price_high':
+                        $query->orderBy('price', 'desc');
+                        break;
+                    case 'price_low':
+                        $query->orderBy('price', 'asc');
+                        break;
+                    case 'oldest':
+                        $query->oldest();
+                        break;
+                    default:
+                        $query->latest();
+                        break;
+                }
+            }, fn($q) => $q->latest())
             ->paginate(20)
             ->withQueryString();
-
+            
         $ordersCount = $user->orders()->count();
 
         return view('member.dashboard', [

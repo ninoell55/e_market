@@ -1,164 +1,303 @@
 <x-member-layout>
-    <x-slot:title>Finalize Transaction — {{ $title }}</x-slot:title>
+    <x-slot:title>Checkout — {{ $title }}</x-slot:title>
 
-    <div class="bg-white dark:bg-[#0a0a0a] min-h-screen pb-24" x-data="{ method: 'COD' }">
-        <div class="max-w-7xl mx-auto px-6 md:px-12 pt-16">
+    {{-- Container Utama: Pastikan h-screen di desktop agar sticky bekerja maksimal --}}
+    <div class="bg-white dark:bg-[#0a0a0a] border-t border-black/5 dark:border-white/5" x-data="{
+        method: 'COD',
+        selectedAddress: {{ $addresses->where('is_default', true)->first()->id ?? ($addresses->first()->id ?? 'null') }},
+        addresses: {{ $addresses->toJson() }},
+        get current() {
+            return this.addresses.find(a => a.id == this.selectedAddress) || {}
+        }
+    }">
 
-            {{-- Header --}}
-            <div class="mb-16 border-b border-gray-100 dark:border-white/5 pb-10">
-                <h1
-                    class="text-4xl font-black italic tracking-tighter dark:text-white uppercase text-center md:text-left">
-                    Checkout_Registry<span class="text-rose-600">.</span>
-                </h1>
-            </div>
+        <form action="{{ route('member.checkout.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-            <form action="{{ route('member.checkout.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-20">
+            {{-- Flex Container: lg:h-screen untuk mengunci tinggi layar di desktop --}}
+            <div class="flex flex-col lg:flex-row-reverse lg:h-screen lg:overflow-hidden">
 
-                    {{-- LEFT COLUMN --}}
-                    <div class="lg:col-span-7 space-y-16">
-
-                        {{-- 01. Shipping Address (Automatic Default Selection) --}}
-                        <section class="space-y-6">
-                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-rose-600 italic">01.
-                                Shipping_Destination</h2>
-                            <div
-                                class="border-b border-black/10 dark:border-white/10 focus-within:border-rose-600 transition-all pb-2">
-                                <label
-                                    class="text-[9px] font-black uppercase tracking-widest opacity-30 dark:text-white block mb-2 text-rose-600">Selected_Address_Registry</label>
-                                <select name="address_id" required
-                                    class="w-full bg-transparent border-none p-0 text-sm font-bold dark:text-white focus:ring-0 uppercase tracking-widest cursor-pointer">
-                                    <option value="" class="dark:bg-[#0a0a0a]">-- CHOOSE_ADDRESS --</option>
-                                    @foreach ($addresses as $address)
-                                        <option value="{{ $address->id }}" class="dark:bg-[#0a0a0a]"
-                                            {{ $address->is_default ? 'selected' : '' }}>
-                                            {{ $address->label }} ({{ $address->city }})
-                                            {{ $address->is_default ? '[DEFAULT]' : '' }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </section>
-
-                        {{-- 02. Payment Protocol --}}
-                        <section class="space-y-8">
-                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-rose-600 italic">02.
-                                Payment_Method</h2>
-                            <div class="grid grid-cols-2 gap-4">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="method" value="COD" x-model="method" class="hidden">
-                                    <div :class="method === 'COD' ? 'border-rose-600 bg-rose-600/5' :
-                                        'border-gray-100 dark:border-white/5'"
-                                        class="py-6 text-center border transition-all">
-                                        <span class="text-[10px] font-black uppercase tracking-widest dark:text-white"
-                                            :class="method === 'COD' ? 'text-rose-600' : ''">Cash_On_Delivery</span>
-                                    </div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="method" value="Transfer" x-model="method"
-                                        class="hidden">
-                                    <div :class="method === 'Transfer' ? 'border-rose-600 bg-rose-600/5' :
-                                        'border-gray-100 dark:border-white/5'"
-                                        class="py-6 text-center border transition-all">
-                                        <span class="text-[10px] font-black uppercase tracking-widest dark:text-white"
-                                            :class="method === 'Transfer' ? 'text-rose-600' : ''">Digital_Transfer</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </section>
-
-                        {{-- 03. Transfer Simulation (ONLY VISIBLE IF TRANSFER) --}}
-                        <section x-show="method === 'Transfer'" x-transition
-                            class="space-y-10 pt-10 border-t border-dashed border-black/10 dark:border-white/10">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                                {{-- Ganti bagian QR Code kamu dengan logika ini agar aman --}}
-                                <div
-                                    class="bg-white p-4 inline-block mx-auto border-4 border-black shadow-[10px_10px_0px_0px_rgba(225,29,72,0.1)]">
-                                    @php
-                                        $qrUrl = $directCheckout
-                                            ? route('member.checkout.receipt', ['type' => 'direct'])
-                                            : route('member.checkout.receipt', ['id' => $cart->id]);
-                                    @endphp
-                                    
-                                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ urlencode($qrUrl) }}"
-                                        alt="Payment QR" class="w-40 h-40">
-
-                                    <p class="text-[8px] font-black uppercase mt-4 text-center tracking-tighter">
-                                        SCAN_FOR_REAL_RECEIPT
-                                    </p>
-                                </div>
-
-                                {{-- Proof Upload --}}
-                                <div class="space-y-4">
-                                    <h3 class="text-[10px] font-black uppercase tracking-widest dark:text-white">
-                                        Submit_Screenshot_Proof:</h3>
-                                    <input type="file" name="proof_image" :required="method === 'Transfer'"
-                                        class="block w-full text-[10px] text-gray-500
-                                        file:mr-4 file:py-3 file:px-6 file:border-0 file:text-[10px] file:font-black
-                                        file:bg-black file:text-white dark:file:bg-white dark:file:text-black
-                                        file:uppercase file:tracking-[0.2em] cursor-pointer hover:file:bg-rose-600 transition-all">
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-
-                    {{-- RIGHT COLUMN (SUMMARY) --}}
-                    <div class="lg:col-span-5">
+                {{-- RIGHT SIDE: FORM DETAILS (Area yang bisa di-scroll) --}}
+                <div class="flex-1 lg:overflow-y-auto custom-scrollbar scrollbar-left pb-24">
+                    <div class="direction-ltr">
+                        {{-- Header Section --}}
                         <div
-                            class="sticky top-24 bg-gray-50 dark:bg-white/2 p-10 border border-black/5 dark:border-white/5 shadow-2xl">
-                            <h2
-                                class="text-xl font-black uppercase italic tracking-tighter dark:text-white mb-8 border-b-2 border-black dark:border-white pb-4">
-                                Manifest</h2>
-                            <div class="space-y-4 mb-10 overflow-y-auto max-h-60 pr-2 custom-scrollbar">
-                                @if ($directCheckout)
-                                    {{-- Direct Checkout: Single Product --}}
-                                    <div class="flex justify-between items-end">
-                                        <div class="max-w-[180px]">
+                            class="px-6 md:px-12 py-16 border-b border-black/5 dark:border-white/5 bg-gray-50/30 dark:bg-white/1">
+                            <p class="text-2xs font-bold text-rose-600 uppercase tracking-widest mb-3">Checkout Process
+                            </p>
+                            <h1
+                                class="text-5xl md:text-7xl font-anton uppercase italic tracking-tighter dark:text-white leading-[0.8]">
+                                Shipping <span class="text-rose-600">&</span> Payment
+                            </h1>
+                        </div>
+
+                        <div class="px-6 md:px-12 py-12 space-y-24">
+                            {{-- 01. Shipping Address --}}
+                            <section class="space-y-10">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-2xl font-anton italic text-rose-600">01</span>
+                                        <h2 class="text-xs font-black uppercase tracking-[0.3em] dark:text-white">
+                                            Shipping
+                                            Address</h2>
+                                    </div>
+                                    <a href="{{ route('member.archive.create_address') }}"
+                                        class="text-[9px] font-black uppercase tracking-widest border-b-2 border-rose-600 pb-1 hover:text-rose-600 transition-colors dark:text-white">
+                                        + Add New Address
+                                    </a>
+                                </div>
+
+                                {{-- Address Detail UI --}}
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div
+                                        class="border-b border-black/10 dark:border-white/10 focus-within:border-rose-600 transition-all pb-4">
+                                        <label
+                                            class="text-[9px] font-black uppercase tracking-widest text-gray-400 block mb-2">Select
+                                            Destination</label>
+                                        <select name="address_id" x-model="selectedAddress" required
+                                            class="w-full bg-transparent border-none p-0 text-xl font-anton italic uppercase tracking-wider dark:text-white focus:ring-0 cursor-pointer">
+                                            @foreach ($addresses as $address)
+                                                <option value="{{ $address->id }}" class="dark:bg-[#0a0a0a]">
+                                                    {{ $address->label }} {{ $address->is_default ? '(Default)' : '' }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div
+                                        class="bg-gray-50/50 dark:bg-white/2 border border-black/5 dark:border-white/5 p-8 space-y-4">
+                                        <div class="flex justify-between items-start">
+                                            <h3 class="text-lg font-anton italic uppercase tracking-tight text-rose-600"
+                                                x-text="current.label"></h3>
                                             <span
-                                                class="text-[10px] font-black dark:text-white uppercase truncate block">{{ $directProduct->name }}</span>
-                                            <span
-                                                class="text-[8px] font-bold text-rose-600 uppercase tracking-widest">QTY:
-                                                {{ $directQuantity }}</span>
+                                                class="px-3 py-1 bg-black dark:bg-white text-white dark:text-black text-[8px] font-black uppercase tracking-widest"
+                                                x-show="current.is_default">Default</span>
                                         </div>
-                                        <span
-                                            class="text-[11px] font-black italic dark:text-white tabular-nums">{{ number_format($directVariant->price * $directQuantity, 0, ',', '.') }}</span>
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-black/5 dark:border-white/5">
+                                            <div>
+                                                <p
+                                                    class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-1">
+                                                    Recipient</p>
+                                                <p class="text-sm font-bold dark:text-white uppercase"
+                                                    x-text="current.recipient_name"></p>
+                                                <p class="text-xs text-gray-500 font-medium"
+                                                    x-text="current.recipient_phone"></p>
+                                            </div>
+                                            <div>
+                                                <p
+                                                    class="text-[9px] font-black uppercase text-gray-400 tracking-widest mb-1">
+                                                    Location</p>
+                                                <p class="text-xs font-bold dark:text-white uppercase"
+                                                    x-text="current.city + ', ' + current.province"></p>
+                                                <p class="text-xs text-gray-500 leading-relaxed mt-1"
+                                                    x-text="current.address"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {{-- 02. Payment Method --}}
+                            <section class="space-y-10">
+                                <div class="flex items-center gap-4">
+                                    <span class="text-2xl font-anton italic text-rose-600">02</span>
+                                    <h2 class="text-xs font-black uppercase tracking-[0.3em] dark:text-white">Payment
+                                        Method
+                                    </h2>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="method" value="COD" x-model="method"
+                                            class="hidden">
+                                        <div :class="method === 'COD' ?
+                                            'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' :
+                                            'border-black/10 dark:border-white/10 dark:text-white'"
+                                            class="py-8 px-6 border transition-all duration-500">
+                                            <p class="text-2xs font-black uppercase tracking-widest mb-1">Option A</p>
+                                            <p class="text-2xl font-anton uppercase italic">Cash on Delivery
+                                            </p>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer group">
+                                        <input type="radio" name="method" value="Transfer" x-model="method"
+                                            class="hidden">
+                                        <div :class="method === 'Transfer' ?
+                                            'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' :
+                                            'border-black/10 dark:border-white/10 dark:text-white'"
+                                            class="py-8 px-6 border transition-all duration-500">
+                                            <p class="text-2xs font-black uppercase tracking-widest mb-1">Option B</p>
+                                            <p class="text-2xl font-anton uppercase italic">Digital Transfer
+                                            </p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </section>
+
+                            {{-- 03. Transfer Proof (Conditional) --}}
+                            <section x-show="method === 'Transfer'" x-transition
+                                class="pt-12 border-t border-black/5 dark:border-white/5">
+                                <div class="flex flex-col md:flex-row gap-12 items-center">
+                                    <div class="bg-white p-6 border border-black/5 shadow-2xl shrink-0">
+                                        @php
+                                            $qrUrl = $directCheckout
+                                                ? route('member.checkout.receipt', ['type' => 'direct'])
+                                                : route('member.checkout.receipt', ['id' => $cart->id]);
+                                        @endphp
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ urlencode($qrUrl ?? '#') }}"
+                                            class="w-40 h-40 grayscale">
+                                        <p
+                                            class="text-[9px] font-bold uppercase mt-4 text-center tracking-widest text-black">
+                                            Scan to Pay
+                                        </p>
+                                    </div>
+
+                                    <div class="flex-1 space-y-8">
+                                        {{-- Pesan Peringatan --}}
+                                        <div class="bg-rose-600/5 border-l-4 border-rose-600 p-6 space-y-2">
+                                            <div class="flex items-center gap-2 text-rose-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="3"
+                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                                </svg>
+                                                <span
+                                                    class="text-2xs font-black uppercase tracking-[0.2em]">Attention
+                                                    Required</span>
+                                            </div>
+                                            <p
+                                                class="text-[11px] font-bold dark:text-white uppercase leading-relaxed italic opacity-80">
+                                                Orders using the <span class="text-rose-600 underline">Digital
+                                                    Transfer</span> method cannot be cancelled once the payment proof is
+                                                submitted. Please double-check your items.
+                                            </p>
+                                        </div>
+
+                                        <div class="space-y-4">
+                                            <h3 class="text-xs font-black uppercase tracking-widest dark:text-white">
+                                                Upload Payment Proof
+                                            </h3>
+                                            <input type="file" name="proof_image" :required="method === 'Transfer'"
+                                                class="block w-full text-2xs text-gray-500 file:mr-6 file:py-4 file:px-8 file:border-0 file:text-2xs file:font-black file:bg-black file:text-white dark:file:bg-white dark:file:text-black file:uppercase file:tracking-widest cursor-pointer hover:file:bg-rose-600 transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- LEFT SIDE: SUMMARY (STIKY / FIXED AT DESKTOP) --}}
+                <div
+                    class="w-full lg:w-112.5 bg-white dark:bg-[#0a0a0a] flex flex-col shrink-0 border-r border-black/5 dark:border-white/5 lg:h-full">
+                    <div class="p-8 md:p-12 h-full flex flex-col">
+                        <div class="flex-1 space-y-10">
+                            <h2
+                                class="text-2xl font-anton uppercase italic tracking-tighter dark:text-white border-b border-black dark:border-white pb-6">
+                                Order Summary
+                            </h2>
+
+                            <div class="space-y-8 overflow-y-auto max-h-[50vh] custom-scrollbar pr-4">
+                                @if ($directCheckout)
+                                    <div class="flex justify-between items-start gap-4">
+                                        <div class="space-y-1">
+                                            <p class="text-[11px] font-black dark:text-white uppercase leading-tight">
+                                                {{ $directProduct->name }}</p>
+                                            {{-- Menampilkan Variant --}}
+                                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                                @if (
+                                                    $directVariant->attribute_name == 'Size'
+                                                        ? $directVariant->attribute_name == 'Size'
+                                                        : $directVariant->attribute_name == 'Color')
+                                                @endif
+
+                                                {{ $directVariant->attribute_name }} :
+                                                {{ $directVariant->attribute_value }}
+                                            </p>
+                                            <p class="text-[9px] font-bold text-rose-600 uppercase">Qty:
+                                                {{ $directQuantity }}</p>
+                                        </div>
+                                        <span class="text-sm font-anton italic dark:text-white">IDR
+                                            {{ number_format($directVariant->price * $directQuantity, 0, ',', '.') }}</span>
                                     </div>
                                 @else
-                                    {{-- Regular Cart Checkout: Multiple Items --}}
                                     @foreach ($cart->items as $item)
-                                        <div class="flex justify-between items-end">
-                                            <div class="max-w-[180px]">
-                                                <span
-                                                    class="text-[10px] font-black dark:text-white uppercase truncate block">{{ $item->product->name }}</span>
-                                                <span
-                                                    class="text-[8px] font-bold text-rose-600 uppercase tracking-widest">QTY:
-                                                    {{ $item->quantity }}</span>
+                                        <div class="flex justify-between items-start gap-4">
+                                            <div class="space-y-1">
+                                                <p
+                                                    class="text-[11px] font-black dark:text-white uppercase leading-tight">
+                                                    {{ $item->product->name }}</p>
+                                                {{-- Menampilkan Variant --}}
+                                                <p
+                                                    class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                                    @if (
+                                                        $item->variant->attribute_name == 'Size'
+                                                            ? $item->variant->attribute_name == 'Size'
+                                                            : $item->variant->attribute_name == 'Color')
+                                                    @endif
+
+                                                    {{ $item->variant->attribute_name }} :
+                                                    {{ $item->variant->attribute_value }}
+                                                </p>
+                                                <p class="text-[9px] font-bold text-rose-600 uppercase">Qty:
+                                                    {{ $item->quantity }}</p>
                                             </div>
-                                            <span
-                                                class="text-[11px] font-black italic dark:text-white tabular-nums">{{ number_format($item->variant->price * $item->quantity, 0, ',', '.') }}</span>
+                                            <span class="text-sm font-anton italic dark:text-white">IDR
+                                                {{ number_format($item->variant->price * $item->quantity, 0, ',', '.') }}</span>
                                         </div>
                                     @endforeach
                                 @endif
                             </div>
-                            <div class="pt-8 border-t border-black/10 dark:border-white/10">
-                                <div class="flex justify-between items-end">
-                                    <span
-                                        class="text-[9px] font-black uppercase opacity-20 dark:text-white tracking-[0.4em]">Total_Due</span>
-                                    <span
-                                        class="text-4xl font-black italic tracking-tighter dark:text-white tabular-nums">Rp{{ number_format($total, 0, ',', '.') }}</span>
-                                </div>
-                            </div>
 
+                            <div class="pt-10 border-t border-black/10 dark:border-white/10 space-y-2">
+                                <p class="text-2xs font-bold text-gray-400 uppercase tracking-widest">Total Amount
+                                    Due</p>
+                                <p class="text-5xl md:text-6xl font-anton italic tracking-tighter dark:text-white">
+                                    IDR {{ number_format($total, 0, ',', '.') }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mb-15">
                             <button type="submit" onclick="this.disabled=true;this.form.submit();"
-                                class="w-full mt-10 bg-black dark:bg-white text-white dark:text-black py-7 font-black uppercase tracking-[0.5em] text-[10px] hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all shadow-xl">
-                                <span
-                                    x-text="method === 'COD' ? 'Deploy_Order (COD)' : 'Confirm_Transaction_Proof'"></span>
+                                class="w-full bg-black dark:bg-white text-white dark:text-black py-7 text-center text-xs font-black uppercase tracking-[0.3em] hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all shadow-xl">
+                                <span x-text="method === 'COD' ? 'Place Order' : 'Complete Payment'"></span>
                             </button>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+
+            </div>
+        </form>
     </div>
+
+    <style>
+        .scrollbar-left {
+            direction: rtl;
+            /* Membalik arah container */
+        }
+
+        /* 2. Mengembalikan arah teks konten ke normal (kiri ke kanan) */
+        .direction-ltr {
+            direction: ltr;
+        }
+
+        /* Sembunyikan scrollbar di kanan agar tampilan clean, tapi tetap bisa di-scroll */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </x-member-layout>

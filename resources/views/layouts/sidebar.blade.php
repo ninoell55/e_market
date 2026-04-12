@@ -25,110 +25,130 @@ $watch('isMinimized', val => {
                 '-translate-x-full': !sidebarOpen,
                 'translate-x-0': sidebarOpen
             }"
-            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-black border-r border-gray-100 dark:border-gray-800 transition-all duration-300 z-50 flex flex-col lg:translate-x-0">
+            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-black border-r border-gray-100 dark:border-white/5 transition-all duration-500 z-50 flex flex-col lg:translate-x-0 shadow-2xl lg:shadow-none">
 
             <div
-                class="flex items-center h-20 px-6 border-b border-gray-50 dark:border-gray-800 overflow-hidden shrink-0">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-8 h-8 bg-gray-900 dark:bg-rose-600 rounded-lg flex items-center justify-center shadow-sm shrink-0">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
+                class="h-24 flex items-center px-6 overflow-hidden shrink-0 border-b border-gray-50 dark:border-white/3">
+                <div class="flex items-center gap-4 group cursor-pointer">
+                    <div class="relative shrink-0">
+                        <div
+                            class="absolute -inset-1.5 bg-linear-to-tr from-rose-600 to-orange-500 rounded-xl blur opacity-20 group-hover:opacity-60 transition duration-500">
+                        </div>
+                        <div
+                            class="relative w-11 h-11 bg-gray-900 dark:bg-rose-600 rounded-xl flex items-center justify-center shadow-xl shadow-rose-500/10 transform group-hover:scale-105 group-hover:-rotate-3 transition-all duration-300">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                            </svg>
+                        </div>
                     </div>
-                    <a href="{{ route(Auth::user()->getDashboardRouteName()) }}" class="group">
-                        <span x-show="!isMinimized" x-transition.opacity
-                            class="text-lg font-black tracking-tighter text-gray-900 dark:text-white uppercase transition-colors group-hover:text-rose-600">
-                            Aura<span class="italic font-light">Admin</span>
+
+                    <a href="{{ route(Auth::user()->getDashboardRouteName()) }}" class="flex flex-col whitespace-nowrap"
+                        x-show="!isMinimized" x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 -translate-x-4">
+                        <span
+                            class="text-xl font-black tracking-tight text-gray-900 dark:text-white uppercase">
+                            AURA<span class="text-rose-600 italic font-light">ADMIN</span>
                         </span>
+                        <span
+                            class="text-[9px] font-bold text-gray-400 dark:text-gray-500 tracking-[0.4em] uppercase opacity-80">Dashboard
+                            v1.0</span>
                     </a>
                 </div>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto overflow-x-hidden">
+            <nav class="flex-1 px-4 py-8 space-y-1 overflow-y-auto custom-scrollbar">
                 <x-sidebar-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11v-5m0 0V9m0 5h.01" />
                         </svg>
                     </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Dashboard') }}</span>
+                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Dashboard') }}</span>
                 </x-sidebar-link>
 
-                <div class="pt-6 pb-2 px-6">
-                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">
+                <div class="pt-8 pb-3 px-6">
+                    <p x-show="!isMinimized" x-transition.opacity
+                        class="text-2xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em]">
                         Management</p>
-                    <hr x-show="isMinimized" class="border-red-500" />
+                    <div x-show="isMinimized" class="w-full h-px bg-gray-100 dark:bg-white/10"></div>
                 </div>
 
                 <div class="space-y-1">
                     <x-sidebar-dropdown label="Catalog" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
                         <x-slot name="icon">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                     d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                             </svg>
                         </x-slot>
-
-                        <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">
-                            Products
-                        </x-sidebar-sublink>
-
-                        <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">
-                            Categories
-                        </x-sidebar-sublink>
+                        <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">Products</x-sidebar-sublink>
+                        <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">Categories</x-sidebar-sublink>
                     </x-sidebar-dropdown>
                 </div>
 
                 <x-sidebar-link :href="route('admin.checkout.index')" :active="request()->routeIs('admin.checkout.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Checkout') }}</span>
+                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Checkout') }}</span>
                 </x-sidebar-link>
 
-                <div class="pt-6 pb-2 px-6">
-                    <p x-show="!isMinimized" class="text-2xs font-black text-gray-400 uppercase tracking-[0.2em]">Config
-                    </p>
-                    <hr x-show="isMinimized" class="border-red-500" />
+                <div class="pt-8 pb-3 px-6">
+                    <p x-show="!isMinimized" x-transition.opacity
+                        class="text-2xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em]">
+                        System</p>
+                    <div x-show="isMinimized" class="w-full h-px bg-gray-100 dark:bg-white/10"></div>
                 </div>
 
                 <x-sidebar-link :href="route('admin.report.index')" :active="request()->routeIs('admin.report.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M9 19v-6a2 2 0 012-2h6M9 19h6m-6 0l3.293-3.293a1 1 0 011.414 0L15 19M5 19h.01M5 19a2 2 0 110-4 .01.01 0 010 4zm7-10h.01M12 9a2 2 0 110-4 .01.01 0 010 4zm7 4h.01M19 13a2 2 0 110-4 .01.01 0 010 4z" />
                         </svg>
                     </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Reports') }}</span>
+                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Reports') }}</span>
                 </x-sidebar-link>
 
                 <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                 d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         </svg>
                     </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity>{{ __('Settings') }}</span>
+                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Settings') }}</span>
                 </x-sidebar-link>
             </nav>
 
-            <div class="p-4 mt-auto border-t border-gray-50 dark:border-gray-800">
-                <div x-show="!isMinimized" x-transition.opacity
-                    class="bg-gray-900 dark:bg-rose-900/10 border border-white/5 p-5 rounded-2xl">
-                    <p class="text-2xs font-black text-rose-500 uppercase tracking-widest">Aura Cloud v1.0</p>
-                    <p class="text-2xs text-gray-400 mt-1 uppercase tracking-tighter leading-tight">The system is
-                        running optimally.</p>
+            <div class="p-6 mt-auto border-t border-gray-50 dark:border-white/3">
+                <div x-show="!isMinimized" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4"
+                    class="bg-gray-50 dark:bg-white/2 border border-gray-100 dark:border-white/5 p-4 rounded-2xl relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <svg class="w-8 h-8 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <p class="text-2xs font-black text-rose-500 uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span>
+                        AURA CLOUD
+                    </p>
+                    <p class="text-2xs text-gray-400 dark:text-gray-500 mt-1 font-medium leading-tight">System
+                        running at peak performance.</p>
                 </div>
 
                 <div x-show="isMinimized" x-transition.opacity class="flex justify-center py-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]">
+                    <div class="relative">
+                        <div class="absolute -inset-1 bg-green-500 rounded-full blur-sm opacity-50 animate-pulse">
+                        </div>
+                        <div class="relative w-2 h-2 bg-green-500 rounded-full shadow-[0_0_12px_rgba(34,197,94,0.8)]">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,7 +163,7 @@ $watch('isMinimized', val => {
 
         <div class="flex-1 flex flex-col min-w-0">
             <header
-                class="sticky top-0 z-40 h-20 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-50 dark:border-gray-900 flex items-center justify-between px-4 sm:px-8">
+                class="sticky top-0 z-40 h-20 bg-white dark:bg-black backdrop-blur-xl border-b border-gray-50 dark:border-gray-900 flex items-center justify-between px-4 sm:px-8">
                 <div class="flex items-center gap-4 sm:gap-6">
                     <button @click="window.innerWidth < 1024 ? sidebarOpen = !sidebarOpen : isMinimized = !isMinimized"
                         class="text-gray-400 hover:text-rose-600 dark:hover:text-rose-500 transition-colors duration-200">

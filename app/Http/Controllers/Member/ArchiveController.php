@@ -21,7 +21,7 @@ class ArchiveController extends Controller
         $addresses = $user->addresses()
             ->orderBy('is_default', 'desc')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(3);
 
         return view('member.archive.address.index', [
             'title' => 'Address Archive',
@@ -37,7 +37,7 @@ class ArchiveController extends Controller
         $orders = $user->orders()
             ->with('items')
             ->latest()
-            ->get();
+            ->paginate(6);
 
         return view('member.archive.order.index', [
             'title' => 'Order Archive',
@@ -51,12 +51,16 @@ class ArchiveController extends Controller
 
         return view('member.archive.order.show', [
             'title' => 'Order Details #' . $order->id,
-            'order' => $order->load('items.product') 
+            'order' => $order->load('items.product')
         ]);
     }
 
     public function createAddress()
     {
+        $previousUrl = url()->previous();
+        if (str_starts_with($previousUrl, url('/')) && str_contains($previousUrl, '/checkout')) {
+            session(['return_to_checkout' => $previousUrl]);
+        }
         return view('member.archive.address.create', ['title' => 'Add New Address']);
     }
 
@@ -65,12 +69,14 @@ class ArchiveController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
+        $label = Str::slug($request->input('label'));
+
         $validated = $request->validate([
             'label' => [
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('addresses')->where(fn($q) => $q->where('user_id', $user->id))
+                Rule::unique('addresses')->where(fn($q) => $q->where('user_id', $user->id)->where('label', $label))
             ],
             'recipient_name' => 'required|string|max:255',
             'recipient_phone' => 'required|string|max:20',
@@ -79,12 +85,18 @@ class ArchiveController extends Controller
             'address' => 'required|string',
         ]);
 
-        $validated['label'] = Str::slug($validated['label']);
+        $validated['label'] = $label;
         $isFirst = $user->addresses()->count() === 0;
 
         $user->addresses()->create(array_merge($validated, [
             'is_default' => $isFirst
         ]));
+
+        if (session()->has('return_to_checkout')) {
+            $url = session('return_to_checkout');
+            session()->forget('return_to_checkout');
+            return redirect($url);
+        }
 
         Alert::success('Success', 'New shipping record has been archived.');
         return redirect()->route('member.archive.addresses'); // Update route name
@@ -104,12 +116,14 @@ class ArchiveController extends Controller
     {
         if ($address->user_id !== Auth::id()) abort(403);
 
+        $label = Str::slug($request->input('label'));
+
         $validated = $request->validate([
             'label' => [
                 'required',
                 'string',
                 'max:50',
-                Rule::unique('addresses')->where(fn($q) => $q->where('user_id', Auth::id()))->ignore($address->id)
+                Rule::unique('addresses')->where(fn($q) => $q->where('user_id', Auth::id())->where('label', $label))->ignore($address->id)
             ],
             'recipient_name' => 'required|string|max:255',
             'recipient_phone' => 'required|string|max:20',
@@ -118,7 +132,7 @@ class ArchiveController extends Controller
             'address' => 'required|string',
         ]);
 
-        $validated['label'] = Str::slug($validated['label']);
+        $validated['label'] = $label;
         $address->update($validated);
 
         Alert::success('Success', 'Address record updated.');

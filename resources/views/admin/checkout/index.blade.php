@@ -41,7 +41,7 @@
                 {{-- Filter Tanggal --}}
                 <div class="flex flex-col gap-2">
                     <label
-                        class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Date_Period</label>
+                        class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Date Period</label>
                     <input type="date" name="date" value="{{ request('date') }}"
                         class="bg-gray-50 dark:bg-gray-900 border-none rounded-xl text-xs font-bold dark:text-white focus:ring-rose-500">
                 </div>
@@ -49,7 +49,7 @@
                 {{-- Filter Payment --}}
                 <div class="flex flex-col gap-2">
                     <label
-                        class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Payment_Method</label>
+                        class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Payment Method</label>
                     <select name="payment"
                         class="bg-gray-50 dark:bg-gray-900 border-none rounded-xl text-xs font-bold dark:text-white focus:ring-rose-500">
                         <option value="">ALL METHODS</option>
@@ -62,7 +62,7 @@
 
                 {{-- Urutan --}}
                 <div class="flex flex-col gap-2">
-                    <label class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Sort_By</label>
+                    <label class="text-[9px] font-black uppercase text-gray-400 ml-2 tracking-widest">Sort By</label>
                     <select name="sort"
                         class="bg-gray-50 dark:bg-gray-900 border-none rounded-xl text-xs font-bold dark:text-white focus:ring-rose-500">
                         <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>NEWEST FIRST
@@ -75,7 +75,7 @@
                 <div class="flex items-end gap-2">
                     <button type="submit"
                         class="flex-1 py-3 bg-gray-900 dark:bg-rose-600 text-white text-2xs font-black uppercase rounded-xl hover:opacity-80 transition-all">
-                        APPLY_FILTERS
+                        APPLY FILTERS
                     </button>
                     <a href="{{ route('admin.checkout.index') }}"
                         class="px-4 py-3 bg-gray-100 dark:bg-gray-800 text-gray-400 rounded-xl hover:text-rose-600 transition-all">
@@ -177,7 +177,7 @@
                                 <td class="px-8 py-6 text-right">
                                     <a href="{{ route('admin.checkout.show', $order->id) }}"
                                         class="inline-flex items-center px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-black text-[9px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-rose-600 dark:hover:bg-rose-600 dark:hover:text-white transition-all shadow-lg active:scale-95">
-                                        VIEW_DETAILS
+                                        VIEW DETAILS
                                     </a>
                                 </td>
                             </tr>

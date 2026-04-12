@@ -1,117 +1,142 @@
 <x-member-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
 
-    <div class="px-6 lg:px-12 min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white antialiased">
+    <div class="min-h-screen bg-white dark:bg-black text-black dark:text-white antialiased selection:bg-rose-600">
 
-        {{-- Section 01: Header --}}
-        <header class="px-6 py-20 border-b border-gray-100 dark:border-white/5">
-            <div class="flex flex-col items-center">
-                <h1 class="text-5xl font-black uppercase tracking-tighter italic text-center">
-                    Member_Archive<span class="text-rose-600">.</span>
-                </h1>
-                <p class="mt-2 text-2xs uppercase tracking-[0.5em] opacity-40">Personal Dashboard / 2026</p>
+        {{-- Floating Header & Navigation --}}
+        <div class="px-6 lg:px-12 pt-16 pb-8">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div class="relative">
+                    <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none italic">
+                        List <span class="text-gray-300 text-2xl md:text-4xl">of Orders</span>
+                    </h1>
+                </div>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="{{ route('member.archive.addresses') }}"
+                        class="px-8 py-4 text-[11px] font-black uppercase tracking-widest border-2 {{ request()->routeIs('member.archive.addresses') ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white opacity-40' }} transition-all">
+                        Addresses
+                    </a>
+                    <a href="{{ route('member.archive.orders') }}"
+                        class="px-8 py-4 text-[11px] font-black uppercase tracking-widest border-2 {{ request()->routeIs('member.archive.orders') ? 'bg-black text-white border-black dark:bg-white dark:text-black dark:border-white' : 'border-black/10 dark:border-white/10 hover:border-black dark:hover:border-white opacity-40' }} transition-all">
+                        Orders
+                    </a>
+                </div>
             </div>
-        </header>
+        </div>
 
-        {{-- Section 02: Navigation --}}
-        <nav
-            class="sticky top-0 z-10 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-100 dark:border-white/5">
-            <div class="flex justify-center">
-                <a href="{{ route('member.archive.addresses') }}"
-                    class="px-10 py-6 text-2xs font-black uppercase tracking-[0.4em] border-b-2 transition-all duration-300 {{ request()->routeIs('member.archive.addresses') ? 'border-black dark:border-white opacity-100' : 'border-transparent opacity-30 hover:opacity-100' }}">
-                    Addresses
-                </a>
-                <a href="{{ route('member.archive.orders') }}"
-                    class="px-10 py-6 text-2xs font-black uppercase tracking-[0.4em] border-b-2 transition-all duration-300 {{ request()->routeIs('member.archive.orders') ? 'border-black dark:border-white opacity-100' : 'border-transparent opacity-30 hover:opacity-100' }}">
-                    Orders
-                </a>
-            </div>
-        </nav>
-
-        <main class="mx-auto px-2 py-12">
-            {{-- Header Section --}}
-            <div class="mb-12 border-l-4 border-rose-600 pl-4">
-                <h2 class="text-2xl font-black uppercase italic">Transaction_History</h2>
-                <p class="text-2xs opacity-50 uppercase tracking-widest">A complete record of your previous orders</p>
-            </div>
-
-            <div class="border border-gray-100 dark:border-white/5 bg-white dark:bg-[#0a0a0a]">
+        <main class="px-6 lg:px-12 pb-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 @forelse($orders as $order)
-                    <div
-                        class="group flex flex-col md:flex-row items-start md:items-center justify-between p-8 border-b border-gray-100 dark:border-white/5 last:border-0 hover:bg-gray-50 dark:hover:bg-white/2 transition-all">
+                    @php
+                        $statusTheme =
+                            [
+                                'pending' => 'border-amber-500/20 text-amber-600',
+                                'paid' => 'border-blue-500/20 text-blue-600',
+                                'shipped' => 'border-purple-500/20 text-purple-600',
+                                'completed' => 'border-emerald-500/20 text-emerald-600',
+                                'cancelled' => 'border-rose-600/20 text-rose-600 opacity-50',
+                            ][$order->status] ?? 'border-black/10';
 
-                        {{-- Left Side: ID & Date --}}
-                        <div class="flex items-center gap-12 w-full md:w-auto">
-                            <div class="flex flex-col min-w-30">
-                                <span
-                                    class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Ref_No</span>
-                                <span
-                                    class="text-xl font-black italic group-hover:text-rose-600 transition-all duration-300 tracking-tighter">
-                                    #{{ $order->order_number }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span
-                                    class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Timestamp</span>
-                                <span class="text-xs font-bold uppercase tracking-tight opacity-70">
-                                    {{ $order->created_at->format('d M Y') }}
-                                </span>
-                            </div>
-                        </div>
+                        // Ambil nama produk pertama dan hitung sisa produk lainnya
+                        $firstItem = $order->items->first();
+                        $otherItemsCount = $order->items->count() - 1;
+                        $totalQuantity = $order->items->sum('quantity');
+                    @endphp
 
-                        {{-- Middle: Status Badge (Enhanced) --}}
-                        <div class="mt-4 md:mt-0 flex flex-col">
-                            <span
-                                class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Process_Status</span>
+                    <a href="{{ route('member.archive.show_order', $order->id) }}"
+                        class="group relative bg-white dark:bg-[#0a0a0a] p-10 border border-black/5 dark:border-white/5 overflow-hidden transition-all duration-500 hover:z-10 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_30px_60px_-15px_rgba(255,255,255,0.05)]">
 
-                            @php
-                                $statusStyles = [
-                                    'pending' => 'border-amber-500 text-amber-500',
-                                    'paid' => 'border-blue-500 text-blue-500',
-                                    'shipped' => 'border-purple-500 text-purple-500',
-                                    'completed' => 'border-emerald-500 text-emerald-500',
-                                    'cancelled' => 'border-rose-600 text-rose-600 opacity-50',
-                                ];
-                                $currentStyle = $statusStyles[$order->status] ?? 'border-black dark:border-white';
-                            @endphp
+                        {{-- Background Decor --}}
+                        <span
+                            class="absolute top-10 right-10 text-8xl font-black italic opacity-[0.03] group-hover:opacity-[0.07] transition-opacity select-none">
+                            {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                        </span>
 
-                            <div class="flex items-center gap-2">
-                                <span
-                                    class="text-2xs font-black uppercase px-3 py-1 border {{ $currentStyle }} w-fit italic tracking-widest">
+                        <div class="relative z-10 space-y-10">
+                            {{-- Top: Status & Date --}}
+                            <div class="flex justify-between items-start">
+                                <div
+                                    class="px-3 py-1 border {{ $statusTheme }} text-[9px] font-black uppercase tracking-widest">
                                     {{ $order->status }}
-                                </span>
-
-                                {{-- Penanda jika masih bisa dicancel (Under 10 mins) --}}
-                                @if ($order->status === 'pending' && $order->created_at->diffInMinutes(now()) < 10)
-                                    <span class="w-2 h-2 bg-rose-600 animate-ping rounded-full"
-                                        title="Cancelable"></span>
-                                @endif
-                            </div>
-                        </div>
-
-                        {{-- Right Side: Amount & Action --}}
-                        <div
-                            class="flex items-center justify-between md:justify-end gap-12 mt-6 md:mt-0 w-full md:w-auto pt-6 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-white/5">
-                            <div class="text-left md:text-right">
+                                </div>
                                 <span
-                                    class="text-[9px] font-black opacity-30 uppercase tracking-[0.2em] mb-1">Total_Amount</span>
-                                <p class="text-2xl font-black italic tracking-tighter">
-                                    IDR {{ number_format($order->total_price, 0, ',', '.') }}
-                                </p>
+                                    class="text-2xs font-mono opacity-30">{{ $order->created_at->format('M.d.Y') }}</span>
                             </div>
 
-                            <a href="{{ route('member.archive.show_order', $order->id) }}"
-                                class="inline-block text-2xs font-black border border-black dark:border-white px-8 py-4 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all uppercase tracking-widest italic">
-                                VIEW_DETAILS
-                            </a>
+                            {{-- Mid: Order ID & Items Preview --}}
+                            <div class="space-y-4">
+                                <div>
+                                    <p
+                                        class="text-2xs font-black uppercase tracking-[0.3em] opacity-30 mb-2 group-hover:text-rose-600 group-hover:opacity-100 transition-all">
+                                        ORDER NUMBER
+                                    </p>
+                                    <h2
+                                        class="text-4xl font-black tracking-tighter italic uppercase group-hover:scale-[1.02] origin-left transition-transform duration-500">
+                                        #{{ $order->order_number }}
+                                    </h2>
+                                </div>
+
+                                {{-- Product Preview --}}
+                                <div class="flex items-center gap-3">
+                                    <p class="text-[11px] font-bold uppercase tracking-wider opacity-60">
+                                        @if ($firstItem)
+                                            {{ $firstItem->product_name ?? 'Unknown Product' }}
+                                            @if ($otherItemsCount > 0)
+                                                <span class="text-rose-600"> +{{ $otherItemsCount }} More Items</span>
+                                            @endif
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+
+                            {{-- Bottom: Info --}}
+                            <div
+                                class="pt-8 border-t border-black/5 dark:border-white/5 flex justify-between items-end">
+                                <div class="flex gap-10">
+                                    {{-- Total Quantity --}}
+                                    <div class="pr-10 border-r border-black/5 dark:border-white/5">
+                                        <p class="text-[9px] font-black uppercase opacity-30 mb-1">Quantity</p>
+                                        <p class="text-xl font-black tracking-tighter">{{ $totalQuantity }} <span
+                                                class="text-2xs opacity-40 italic">PCS</span></p>
+                                    </div>
+
+                                    {{-- Total Payable --}}
+                                    <div>
+                                        <p class="text-[9px] font-black uppercase opacity-30 mb-1">Total Payable</p>
+                                        <p class="text-xl font-black tracking-tighter">IDR
+                                            {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="w-12 h-12 bg-black dark:bg-white flex items-center justify-center group-hover:bg-rose-600 transition-colors duration-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 text-white dark:text-black group-hover:text-white" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M14 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 @empty
-                    <div class="py-24 text-center">
-                        <span class="text-xs font-black opacity-20 uppercase tracking-[1em]">Empty_Archive</span>
+                    <div class="col-span-full">
+                        <x-empty-state title="No Orders Found" message="You haven't placed any orders yet."
+                            buttonText="Refresh" />
                     </div>
                 @endforelse
             </div>
+
+            {{-- Pagination --}}
+            @if ($orders->hasPages())
+                <div class="mt-12 flex justify-center">
+                    <div class="w-full p-2 bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5">
+                        {{ $orders->links() }}
+                    </div>
+                </div>
+            @endif
         </main>
     </div>
 </x-member-layout>

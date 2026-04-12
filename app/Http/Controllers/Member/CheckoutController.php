@@ -124,7 +124,7 @@ class CheckoutController extends Controller
             // --- 1. CEK STOK DULU SEBELUM ORDER ---
             foreach ($itemsToProcess as $item) {
                 if ($item->variant->stock < $item->quantity) {
-                    throw new \Exception("Stok {$item->product->name} ({$item->variant->attribute_value}) tidak mencukupi.");
+                    throw new \Exception("Stock {$item->product->name} ({$item->variant->attribute_value}) not available.");
                 }
             }
 
@@ -141,12 +141,9 @@ class CheckoutController extends Controller
                 'order_number' => 'TRX-' . strtoupper(Str::random(10)),
                 'total_price' => $totalPrice,
                 'status' => $orderStatus,
-                'shipping_address' => implode(' | ', [
-                    $address->recipient_name,
-                    $address->phone,
-                    $address->address,
-                ]),
-                'ordered_at' => now(), // Tambahkan kolom ini di migrasi jika belum ada untuk fitur 10 menit
+                'shipping_address' =>
+                $address->recipient_name . ' - ' . $address->recipient_phone . ', ' . $address->province . ', ' . $address->city . ', ' . $address->address,
+                'ordered_at' => now(),
             ]);
 
             foreach ($itemsToProcess as $item) {
@@ -183,7 +180,7 @@ class CheckoutController extends Controller
             session()->forget('direct_checkout_product');
 
             DB::commit();
-            return redirect()->route('member.archive.show_order', $order->id)->with('success', 'Order Placed!');
+            return redirect()->route('member.archive.show_order', $order->id)->with('success', 'Order placed successfully! Please wait for confirmation.');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->with('error', $e->getMessage());
@@ -256,11 +253,11 @@ class CheckoutController extends Controller
 
         // Cek durasi (10 menit)
         if ($order->created_at->diffInMinutes(now()) > 10) {
-            return back()->with('error', 'Waktu pembatalan (10 menit) sudah habis.');
+            return back()->with('error', 'Time limit for cancellation has passed. You can contact support for assistance.');
         }
 
         if ($order->status !== 'pending') {
-            return back()->with('error', 'Pesanan tidak bisa dibatalkan karena sudah diproses.');
+            return back()->with('error', 'Time limit for cancellation has passed. You can contact support for assistance.');
         }
 
         DB::beginTransaction();
@@ -274,10 +271,10 @@ class CheckoutController extends Controller
             $order->payment->update(['status' => 'failed']);
 
             DB::commit();
-            return back()->with('success', 'Pesanan berhasil dibatalkan. Stok telah dikembalikan.');
+            return back()->with('success', 'Order successfully cancelled. Stock has been returned.');
         } catch (\Exception $e) {
             DB::rollback();
-            return back()->with('error', 'Gagal membatalkan pesanan.');
+            return back()->with('error', 'Failed to cancel order.');
         }
     }
 }
