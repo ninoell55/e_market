@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
-use App\Models\Order; // Pastikan Model Order di-import
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -99,7 +99,7 @@ class ArchiveController extends Controller
         }
 
         Alert::success('Success', 'New shipping record has been archived.');
-        return redirect()->route('member.archive.addresses'); // Update route name
+        return redirect()->route('member.archive.addresses'); 
     }
 
     public function editAddress(Address $address)
@@ -136,7 +136,7 @@ class ArchiveController extends Controller
         $address->update($validated);
 
         Alert::success('Success', 'Address record updated.');
-        return redirect()->route('member.archive.addresses'); // Update route name
+        return redirect()->route('member.archive.addresses');
     }
 
     public function setDefaultAddress(Address $address)

@@ -1,91 +1,98 @@
-# 🛍️ E-Market Fashion: Website Laravel Pertama Saya
+# 🛍️ E-Market Fashion: Professional Laravel E-Commerce
 
-Selamat datang di repositori proyek **E-Market Fashion**. Ini adalah aplikasi web e-commerce sederhana yang dibangun menggunakan framework Laravel sebagai bagian dari proses belajar saya dalam mengembangkan aplikasi web modern dan dinamis.
+Welcome to the **E-Market Fashion** repository. This is a robust e-commerce web application built using the latest Laravel ecosystem. This project serves as a comprehensive implementation of modern web development patterns, focusing on scalability, clean UI, and efficient inventory management.
 
 ---
 
-## 👤 Profil Pengembang
+## 👤 Developer Profile
 
-- **Nama:** Nino Adityo Nugroho
+- **Lead Developer:** Nino Adityo Nugroho
 - **GitHub:** [@ninoell55](https://github.com/ninoell55)
+- **Institution:** SMKN 1 Cirebon (XI-RPL 2)
 
 ---
 
-## 📝 Deskripsi Proyek
+## 📝 Project Overview
 
-**E-Market Fashion** adalah platform toko online yang berfokus pada penjualan produk fashion kekinian. Proyek ini dirancang untuk menangani manajemen produk, kategori fashion, dan memberikan pengalaman berbelanja yang mudah bagi pengguna.
+**E-Market Fashion** is a high-performance fashion retail platform. Beyond basic shopping, it integrates advanced logic for inventory tracking, role-based access control (Admin & Courier), and automated business reporting.
 
-### Fitur Utama:
+### Core Features:
 
-- **Katalog Produk:** Menampilkan koleksi pakaian terbaru dengan kategori yang rapi.
-- **Sistem Otentikasi:** Login dan Register untuk pembeli serta admin.
-- **Manajemen Inventaris (Admin):** Menambah, mengedit, dan menghapus produk (CRUD).
-- **Keranjang Belanja:** Memungkinkan pengguna untuk memilih produk sebelum checkout.
-- **Responsive Design:** Tampilan yang optimal baik di desktop maupun perangkat mobile.
-
----
-
-## 🛠️ Teknologi yang Digunakan
-
-- **Framework:** [Laravel 10+](https://laravel.com/)
-- **Bahasa Pemrograman:** PHP
-- **Database:** MySQL
-- **Frontend:** Blade Templating, Bootstrap / Tailwind CSS
-- **Icons:** FontAwesome / Lucide Icons
+- **Dynamic Catalog:** Real-time product filtering and category management.
+- **Advanced Authentication:** Secure multi-role authentication (Admin, Courier, and Customer).
+- **E-Kantin Logic Integration:** Specialized pre-ordering system with transaction scheduling.
+- **Digital Receipt Protocol:** Automated, aesthetic thermal-style digital receipts for every successful transaction.
+- **Executive Analytics:** Automated PDF reporting for monthly revenue, top-selling stock, and inventory audits.
+- **Modern UI/UX:** Built with a "Clean & Interactive" philosophy, featuring minimized sidebars and responsive layouts.
 
 ---
 
-## 🚀 Cara Menjalankan Proyek di Lokal
+## 🛠️ Tech Stack
 
-Ikuti langkah-langkah berikut untuk menjalankan website ini di komputer Anda:
+- **Backend:** [Laravel 12 (Latest)](https://laravel.com/)
+- **Frontend:** [Tailwind CSS v4](https://tailwindcss.com/), [Alpine.js](https://alpinejs.dev/)
+- **Templating:** Blade Engine
+- **Database:** MySQL (Relational Schema with optimized indexing)
+- **PDF Engine:** DomPDF / Barryvdh-Dompdf
+- **Icons:** Lucide Icons / Heroicons
 
-1.  **Clone Repositori**
+---
+
+## 🚀 Local Installation
+
+Follow these steps to set up the development environment:
+
+1.  **Clone the Repository**
 
     ```bash
-    git clone [https://github.com/ninoell55/nama-repo-kamu.git](https://github.com/ninoell55/nama-repo-kamu.git)
-    cd nama-repo-kamu
+    git clone https://github.com/ninoell55/e_market.git
+    cd e-market-fashion
     ```
 
-2.  **Instalasi Dependency**
+2.  **Install Dependencies**
 
     ```bash
     composer install
     npm install && npm run dev
     ```
 
-3.  **Pengaturan Environment**
-    Salin file `.env.example` menjadi `.env` dan sesuaikan konfigurasi database Anda.
+3.  **Environment Configuration**
+    Create your environment file and generate the application key.
 
     ```bash
     cp .env.example .env
     php artisan key:generate
     ```
 
-4.  **Migrasi Database**
+4.  **Database Setup**
+    Configure your `.env` database settings, then run the migrations.
 
     ```bash
-    php artisan migrate
+    php artisan migrate --seed
     ```
 
-5.  **Jalankan Server**
+5.  **Launch Application**
     ```bash
     php artisan serve
     ```
-    Buka `http://127.0.0.1:8000` di browser Anda.
+    Visit `http://127.0.0.1:8000` or `http://e_market.test` in your browser.
 
 ---
 
-## 📸 Tampilan Website
+## 📊 Business Intelligence & Reporting
 
-> _Tips: Tambahkan screenshot website kamu di folder `public/img/screenshot.png` lalu panggil di sini._
-> ![Dashboard Preview](https://via.placeholder.com/800x400?text=Tampilan+E-Market+Fashion)
+This project includes an **Executive Summary Generator** that exports professional PDF reports including:
 
----
-
-## 🤝 Kontribusi
-
-Karena ini adalah proyek belajar pertama saya, kritik dan saran sangat terbuka lebar. Silakan buat _issue_ atau kirimkan _pull request_ untuk membantu saya berkembang!
+- **Net Revenue Tracking**
+- **Inventory Velocity Analysis** (Top vs. Under-performing stock)
+- **Transaction Audit Logs**
 
 ---
 
-Copyright © 2026 **Nino Adityo Nugroho**
+## 🤝 Contribution & Feedback
+
+As this project is part of my continuous learning journey in Software Engineering, I highly value technical feedback. Feel free to open an _issue_ or submit a _pull request_.
+
+---
+
+Copyright © 2026 **Nino Adityo Nugroho** | The Archive Digital Protocol

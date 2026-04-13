@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,22 +15,18 @@ class ProductController extends Controller
         $category = Category::where('slug', $slug)->firstOrFail();
         $isAccessory = strtolower($category->category_name) == 'accessories';
 
-        // Inisialisasi variabel filter agar tidak error di compact/view
         $availableSizes = null;
         $availableColors = null;
 
-        // --- LOGIKA PENGAMBILAN ATTRIBUTE DINAMIS ---
         if ($isAccessory) {
-            // Jika Accessories, ambil warna unik
-            $availableColors = \App\Models\ProductVariant::whereHas('product', function ($q) use ($category) {
+            $availableColors = ProductVariant::whereHas('product', function ($q) use ($category) {
                 $q->where('category_id', $category->id);
             })
                 ->where('attribute_name', 'color')
                 ->distinct()
                 ->pluck('attribute_value');
         } else {
-            // Jika Baju/Sepatu, ambil ukuran unik
-            $availableSizes = \App\Models\ProductVariant::whereHas('product', function ($q) use ($category) {
+            $availableSizes = ProductVariant::whereHas('product', function ($q) use ($category) {
                 $q->where('category_id', $category->id);
             })
                 ->where('attribute_name', 'size')
@@ -42,15 +39,12 @@ class ProductController extends Controller
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');
             })
-            // Filter Size (untuk Baju/Sepatu)
             ->when($request->size, function ($query, $size) {
                 $query->whereHas('variants', fn($q) => $q->where('attribute_name', 'size')->where('attribute_value', $size));
             })
-            // Filter Color (untuk Accessories)
             ->when($request->color, function ($query, $color) {
                 $query->whereHas('variants', fn($q) => $q->where('attribute_name', 'color')->where('attribute_value', $color));
             })
-            // --- LOGIKA SORTIR ---
             ->when($request->sort, function ($query, $sort) {
                 switch ($sort) {
                     case 'price_high':
@@ -72,7 +66,6 @@ class ProductController extends Controller
 
         $title = "Collection / " . $category->category_name;
 
-        // Tambahkan availableColors ke compact
         $viewData = compact('category', 'products', 'title', 'availableSizes', 'availableColors');
         $viewPath = "member.collection.{$slug}";
 
@@ -83,14 +76,10 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        // 1. Load relasi (Eager Loading)
         $product->load(['category', 'variants']);
 
-        // 2. Format varian ke JSON untuk Alpine.js (KUNCI UTAMA)
-        // Kita petakan variant ID sebagai Key dan harganya sebagai Value
         $variantsJson = $product->variants->pluck('price', 'id')->toJson();
 
-        // 3. Ambil produk terkait
         $relatedProducts = Product::where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)
             ->inRandomOrder()
@@ -101,7 +90,7 @@ class ProductController extends Controller
             'title' => $product->name . ' - Detail',
             'product' => $product,
             'related' => $relatedProducts,
-            'variantsJson' => $variantsJson // Kirim variabel ini ke Blade
+            'variantsJson' => $variantsJson 
         ]);
     }
 }

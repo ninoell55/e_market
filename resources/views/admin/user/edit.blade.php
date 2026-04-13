@@ -67,12 +67,11 @@
                                 <div class="relative">
                                     <select name="role" required
                                         class="w-full px-6 py-4 bg-gray-50 dark:bg-gray-950 border-none rounded-2xl focus:ring-2 focus:ring-rose-600/20 dark:text-white outline-none transition-all font-semibold appearance-none cursor-pointer">
-                                        <option value="superadmin"
-                                            {{ old('role', $user->role) == 'superadmin' ? 'selected' : '' }}>Super
-                                            Admin</option>
                                         <option value="admin"
                                             {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin
                                         </option>
+                                        <option value="courier"
+                                            {{ old('role', $user->role) == 'courier' ? 'selected' : '' }}>Courier</option>
                                         <option value="member"
                                             {{ old('role', $user->role) == 'member' ? 'selected' : '' }}>Member
                                         </option>

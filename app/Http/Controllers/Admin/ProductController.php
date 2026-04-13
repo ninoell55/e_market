@@ -12,9 +12,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $categories = Category::all();
@@ -25,21 +22,15 @@ class ProductController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.product.index', ['title' => 'List Products'], compact('products', 'categories'));
+        return view('admin.product.index', ['title' => 'Products List'], compact('products', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Category::all();
-        return view('admin.product.create', ['title' => 'Create Product'], compact('categories'));
+        return view('admin.product.create', ['title' => 'Create New Product'], compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -50,10 +41,9 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_best' => 'boolean',
 
-            // Validasi untuk varian
             'variants' => 'required|array|min:1',
-            'variants.*.attribute_name' => 'required|string',  // e.g., Size
-            'variants.*.attribute_value' => 'required|string', // e.g., XL
+            'variants.*.attribute_name' => 'required|string',  
+            'variants.*.attribute_value' => 'required|string', 
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.stock' => 'required|integer|min:0',
         ]);
@@ -88,26 +78,17 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Product $product)
     {
         return view('admin.product.show', ['title' => 'Product Details'], compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Product $product)
     {
         $categories = Category::all();
         return view('admin.product.edit', ['title' => 'Edit Product'], compact('product', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
@@ -123,19 +104,16 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_best' => 'nullable|boolean',
 
-            // Validasi array variants
             'variants' => 'required|array|min:1',
-            'variants.*.id' => 'nullable|exists:product_variants,id', // ID bisa null kalau varian baru
+            'variants.*.id' => 'nullable|exists:product_variants,id',
             'variants.*.attribute_name' => 'required|string',
             'variants.*.attribute_value' => 'required|string',
             'variants.*.price' => 'required|numeric|min:0',
             'variants.*.stock' => 'required|integer|min:0',
         ]);
 
-        // Handle Image Upload
         $fileName = $product->image;
         if ($request->hasFile('image')) {
-            // Hapus foto lama jika ada
             if ($product->image && Storage::disk('public')->exists('uploads/' . $product->image)) {
                 Storage::disk('public')->delete('uploads/' . $product->image);
             }
@@ -143,7 +121,6 @@ class ProductController extends Controller
             $request->image->storeAs('uploads', $fileName, 'public');
         }
 
-        // 1. Update data produk utama
         $product->update([
             'name' => $validated['name'],
             'category_id' => $validated['category_id'],
@@ -153,18 +130,12 @@ class ProductController extends Controller
             'is_best' => $request->has('is_best')
         ]);
 
-        // --- LOGIC VARIANT SYNC ---
-
-        // Ambil semua ID varian yang datang dari form
         $formVariantIds = collect($request->variants)->pluck('id')->filter()->toArray();
 
-        // 2. Hapus varian di database yang tidak ada lagi di dalam form
         $product->variants()->whereNotIn('id', $formVariantIds)->delete();
 
-        // 3. Loop untuk Update atau Create varian
         foreach ($request->variants as $variantData) {
             if (isset($variantData['id'])) {
-                // Jika ada ID, berarti update varian lama
                 $product->variants()->where('id', $variantData['id'])->update([
                     'attribute_name' => $variantData['attribute_name'],
                     'attribute_value' => $variantData['attribute_value'],
@@ -172,7 +143,6 @@ class ProductController extends Controller
                     'stock' => $variantData['stock'],
                 ]);
             } else {
-                // Jika ID kosong, berarti ini varian baru yang ditambah di form edit
                 $product->variants()->create([
                     'attribute_name' => $variantData['attribute_name'],
                     'attribute_value' => $variantData['attribute_value'],
@@ -186,9 +156,6 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Product $product)
     {
         if ($product->image && Storage::disk('public')->exists('uploads/' . $product->image)) {

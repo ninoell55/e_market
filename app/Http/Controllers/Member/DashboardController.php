@@ -17,11 +17,8 @@ class DashboardController extends Controller
 
         $categories = Category::all();
 
-        // 1. Banner Utama: Produk yang paling baru ditambahkan
         $featuredProduct = Product::with(['category'])->latest()->first();
 
-        // 2. Tiga Kotak: Produk terbaik (is_best) dari kategori yang berbeda
-        // Kita ambil 3 produk yang is_best, di-group berdasarkan kategori agar variatif
         $bestProducts = Product::with(['category'])
             ->where('is_best', true)
             ->latest()
@@ -30,7 +27,6 @@ class DashboardController extends Controller
             ->take(3)
             ->flatten();
 
-        // 3. Semua produk untuk bagian catalog (Pagination)
         $products = Product::with(['category', 'variants'])
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'like', '%' . $search . '%');

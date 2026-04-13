@@ -43,7 +43,7 @@ Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
     ->name('password.reset');
 Route::post('reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')
-    ->name('password.update');
+    ->name('password.store');
 
 // Email verification
 Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])

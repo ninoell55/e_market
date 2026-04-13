@@ -69,7 +69,7 @@ Breadcrumbs::for('admin.product.show', function (BreadcrumbTrail $trail, $produc
 
 // Produk > Edit [Nama Produk]
 Breadcrumbs::for('admin.product.edit', function (BreadcrumbTrail $trail, $product) {
-    $trail->parent('admin.product.index'); // Atau bisa ke .show jika mau lebih dalam
+    $trail->parent('admin.product.index');
     $trail->push('Edit: ' . $product->name, route('admin.product.edit', $product->id));
 });
 

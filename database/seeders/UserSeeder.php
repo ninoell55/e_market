@@ -14,21 +14,21 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Super Admin',
-            'username' => 'superadmin',
-            'email' => 'superadmin@example.com',
-            'email_verified_at' => now(),
-            'role' => 'superadmin',
-            'password' => bcrypt('password'),
-            'remember_token' => Str::random(10),
-        ]);
-
-        User::create([
             'name' => 'Admin',
             'username' => 'admin',
             'email' => 'admin@example.com',
             'email_verified_at' => now(),
             'role' => 'admin',
+            'password' => bcrypt('password'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        User::create([
+            'name' => 'Courier',
+            'username' => 'courier',
+            'email' => 'courier@example.com',
+            'email_verified_at' => now(),
+            'role' => 'courier',
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
         ]);
@@ -53,8 +53,8 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        User::factory()->count(1)->superadmin()->create();
         User::factory()->count(2)->admin()->create();
+        User::factory()->count(1)->courier()->create();
         User::factory()->count(3)->member()->create();
     }
 }

@@ -32,12 +32,6 @@
                     class="text-2xs font-black uppercase tracking-widest text-gray-500 group-focus-within:text-rose-600 transition-colors">
                     Password
                 </label>
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}"
-                        class="text-[9px] font-black text-gray-400 hover:text-rose-600 uppercase tracking-tighter italic">
-                        Forgot?
-                    </a>
-                @endif
             </div>
             <input type="password" name="password" required
                 class="block w-full px-5 py-4 bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-800 focus:border-gray-900 dark:focus:border-rose-600 focus:ring-0 rounded-none transition-all duration-300 placeholder:text-gray-300 font-bold"

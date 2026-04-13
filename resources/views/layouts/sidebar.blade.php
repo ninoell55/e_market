@@ -25,10 +25,10 @@ $watch('isMinimized', val => {
                 '-translate-x-full': !sidebarOpen,
                 'translate-x-0': sidebarOpen
             }"
-            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-black border-r border-gray-100 dark:border-white/5 transition-all duration-500 z-50 flex flex-col lg:translate-x-0 shadow-2xl lg:shadow-none">
+            class="fixed lg:sticky top-0 left-0 h-screen bg-white dark:bg-black border-r border-dashed border-gray-300 dark:border-gray-600 transition-all duration-500 z-50 flex flex-col lg:translate-x-0 shadow-2xl lg:shadow-none">
 
             <div
-                class="h-24 flex items-center px-6 overflow-hidden shrink-0 border-b border-gray-50 dark:border-white/3">
+                class="h-24 flex items-center px-6 overflow-hidden shrink-0 border-b border-dashed border-gray-300 dark:border-gray-600">
                 <div class="flex items-center gap-4 group cursor-pointer">
                     <div class="relative shrink-0">
                         <div
@@ -46,8 +46,7 @@ $watch('isMinimized', val => {
                     <a href="{{ route(Auth::user()->getDashboardRouteName()) }}" class="flex flex-col whitespace-nowrap"
                         x-show="!isMinimized" x-transition:enter="transition ease-out duration-300"
                         x-transition:enter-start="opacity-0 -translate-x-4">
-                        <span
-                            class="text-xl font-black tracking-tight text-gray-900 dark:text-white uppercase">
+                        <span class="text-xl font-black tracking-tight text-gray-900 dark:text-white uppercase">
                             AURA<span class="text-rose-600 italic font-light">ADMIN</span>
                         </span>
                         <span
@@ -58,35 +57,40 @@ $watch('isMinimized', val => {
             </div>
 
             <nav class="flex-1 px-4 py-8 space-y-1 overflow-y-auto custom-scrollbar">
-                <x-sidebar-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())">
-                    <x-slot name="icon">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11v-5m0 0V9m0 5h.01" />
-                        </svg>
-                    </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Dashboard') }}</span>
-                </x-sidebar-link>
+                @if (Auth::user()->isAdmin())
+                    <x-sidebar-link :href="route(Auth::user()->getDashboardRouteName())" :active="request()->routeIs(Auth::user()->getDashboardRouteName())">
+                        <x-slot name="icon">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M3 12l2-3m0 0l7-4 7 4M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9m-9 11v-5m0 0V9m0 5h.01" />
+                            </svg>
+                        </x-slot>
+                        <span x-show="!isMinimized" x-transition.opacity
+                            class="font-semibold">{{ __('Dashboard') }}</span>
+                    </x-sidebar-link>
+                @endif
 
                 <div class="pt-8 pb-3 px-6">
                     <p x-show="!isMinimized" x-transition.opacity
                         class="text-2xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em]">
-                        Management</p>
+                        {{ Auth::user()->isAdmin() ? 'Management' : 'Operations' }}</p>
                     <div x-show="isMinimized" class="w-full h-px bg-gray-100 dark:bg-white/10"></div>
                 </div>
 
-                <div class="space-y-1">
-                    <x-sidebar-dropdown label="Catalog" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
-                        <x-slot name="icon">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                            </svg>
-                        </x-slot>
-                        <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">Products</x-sidebar-sublink>
-                        <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">Categories</x-sidebar-sublink>
-                    </x-sidebar-dropdown>
-                </div>
+                @if (Auth::user()->isAdmin())
+                    <div class="space-y-1">
+                        <x-sidebar-dropdown label="Catalog" :active="request()->routeIs('admin.product.*') || request()->routeIs('admin.category.*')">
+                            <x-slot name="icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                            </x-slot>
+                            <x-sidebar-sublink :href="route('admin.product.index')" :active="request()->routeIs('admin.product.*')">Products</x-sidebar-sublink>
+                            <x-sidebar-sublink :href="route('admin.category.index')" :active="request()->routeIs('admin.category.*')">Categories</x-sidebar-sublink>
+                        </x-sidebar-dropdown>
+                    </div>
+                @endif
 
                 <x-sidebar-link :href="route('admin.checkout.index')" :active="request()->routeIs('admin.checkout.*')">
                     <x-slot name="icon">
@@ -95,35 +99,40 @@ $watch('isMinimized', val => {
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                     </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Checkout') }}</span>
+                    <span x-show="!isMinimized" x-transition.opacity
+                        class="font-semibold">{{ Auth::user()->isAdmin() ? 'Checkout' : 'Delivery Orders' }}</span>
                 </x-sidebar-link>
 
-                <div class="pt-8 pb-3 px-6">
-                    <p x-show="!isMinimized" x-transition.opacity
-                        class="text-2xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em]">
-                        System</p>
-                    <div x-show="isMinimized" class="w-full h-px bg-gray-100 dark:bg-white/10"></div>
-                </div>
+                @if (Auth::user()->isAdmin())
+                    <div class="pt-8 pb-3 px-6">
+                        <p x-show="!isMinimized" x-transition.opacity
+                            class="text-2xs font-black text-gray-400 dark:text-gray-600 uppercase tracking-[0.3em]">
+                            System</p>
+                        <div x-show="isMinimized" class="w-full h-px bg-gray-100 dark:bg-white/10"></div>
+                    </div>
 
-                <x-sidebar-link :href="route('admin.report.index')" :active="request()->routeIs('admin.report.*')">
-                    <x-slot name="icon">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                d="M9 19v-6a2 2 0 012-2h6M9 19h6m-6 0l3.293-3.293a1 1 0 011.414 0L15 19M5 19h.01M5 19a2 2 0 110-4 .01.01 0 010 4zm7-10h.01M12 9a2 2 0 110-4 .01.01 0 010 4zm7 4h.01M19 13a2 2 0 110-4 .01.01 0 010 4z" />
-                        </svg>
-                    </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Reports') }}</span>
-                </x-sidebar-link>
+                    <x-sidebar-link :href="route('admin.report.index')" :active="request()->routeIs('admin.report.*')">
+                        <x-slot name="icon">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M9 19v-6a2 2 0 012-2h6M9 19h6m-6 0l3.293-3.293a1 1 0 011.414 0L15 19M5 19h.01M5 19a2 2 0 110-4 .01.01 0 010 4zm7-10h.01M12 9a2 2 0 110-4 .01.01 0 010 4zm7 4h.01M19 13a2 2 0 110-4 .01.01 0 010 4z" />
+                            </svg>
+                        </x-slot>
+                        <span x-show="!isMinimized" x-transition.opacity
+                            class="font-semibold">{{ __('Reports') }}</span>
+                    </x-sidebar-link>
 
-                <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
-                    <x-slot name="icon">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
-                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        </svg>
-                    </x-slot>
-                    <span x-show="!isMinimized" x-transition.opacity class="font-semibold">{{ __('Settings') }}</span>
-                </x-sidebar-link>
+                    <x-sidebar-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.*')">
+                        <x-slot name="icon">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            </svg>
+                        </x-slot>
+                        <span x-show="!isMinimized" x-transition.opacity
+                            class="font-semibold">{{ __('Settings') }}</span>
+                    </x-sidebar-link>
+                @endif
             </nav>
 
             <div class="p-6 mt-auto border-t border-gray-50 dark:border-white/3">
@@ -163,7 +172,7 @@ $watch('isMinimized', val => {
 
         <div class="flex-1 flex flex-col min-w-0">
             <header
-                class="sticky top-0 z-40 h-20 bg-white dark:bg-black backdrop-blur-xl border-b border-gray-50 dark:border-gray-900 flex items-center justify-between px-4 sm:px-8">
+                class="sticky top-0 z-40 h-24 bg-white dark:bg-black backdrop-blur-xl border-b border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-between px-4 sm:px-8">
                 <div class="flex items-center gap-4 sm:gap-6">
                     <button @click="window.innerWidth < 1024 ? sidebarOpen = !sidebarOpen : isMinimized = !isMinimized"
                         class="text-gray-400 hover:text-rose-600 dark:hover:text-rose-500 transition-colors duration-200">
@@ -207,7 +216,7 @@ $watch('isMinimized', val => {
                                 class="flex items-center gap-3 sm:gap-4 sm:pl-6 sm:border-l border-gray-100 dark:border-gray-800 cursor-pointer group select-none">
                                 <div class="text-right flex flex-col justify-center">
                                     <p
-                                        class="text-2xs sm:text-xs font-black text-gray-900 dark:text-white uppercase tracking-tighter leading-tight group-hover:text-rose-600 transition-colors">
+                                        class="text-2xs sm:text-xs font-black text-gray-900 dark:text-white tracking-tighter leading-tight group-hover:text-rose-600 transition-colors">
                                         {{ Auth::user()->name }}
                                     </p>
                                     <p
@@ -238,7 +247,7 @@ $watch('isMinimized', val => {
 
                             <div class="p-1.5">
                                 <x-dropdown-link :href="route('profile.edit')"
-                                    class="rounded-lg text-2xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 hover:text-gray-600 transition-all">
+                                    class="text-2xs font-bold uppercase tracking-widest hover:bg-rose-600 text-gray-600 dark:text-gray-400 hover:text-white transition-all">
                                     {{ __('Edit Profile') }}
                                 </x-dropdown-link>
 
@@ -247,7 +256,7 @@ $watch('isMinimized', val => {
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <x-dropdown-link :href="route('logout')"
-                                        class="confirm-delete-btn rounded-lg text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all cursor-pointer"
+                                        class="confirm-delete-btn text-2xs font-bold uppercase tracking-widest text-rose-600 transition-all cursor-pointer"
                                         data-confirm-title="Ready to Sign Out?"
                                         data-confirm-text="You will need to login again to manage your luxury collection."
                                         data-confirm-button="SIGN OUT" onclick="event.preventDefault();">

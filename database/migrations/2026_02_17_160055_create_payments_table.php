@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->enum('method', ['COD', 'Transfer'])->default('COD');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount', 20, 2);
             $table->enum('status', ['Pending', 'Completed', 'Failed'])->default('Pending');
             $table->string('transaction_id')->nullable()->unique();
             $table->string('proof_image')->nullable();

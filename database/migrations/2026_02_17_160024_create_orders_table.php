@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('order_number')->unique();
-            $table->decimal('total_price', 10, 2); 
+            $table->decimal('total_price', 20, 2); 
             $table->enum('status', ['pending', 'paid', 'shipped', 'completed', 'cancelled'])->default('pending');
             $table->text('shipping_address')->nullable();
             $table->timestamp('ordered_at')->useCurrent();

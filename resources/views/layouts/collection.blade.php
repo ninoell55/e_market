@@ -15,7 +15,7 @@
                     <div
                         class="flex items-center gap-4 mb-4 opacity-0 group-hover:opacity-100 transition-all duration-700 -translate-y-2 group-hover:translate-y-0">
                         <span class="h-px w-6 bg-rose-600"></span>
-                        <span class="text-[8px] font-black tracking-[0.6em] text-rose-600 uppercase">Fashion_Aura</span>
+                        <span class="text-[8px] font-black tracking-[0.6em] text-rose-600 uppercase">Fashion Aura</span>
                         <span class="h-px w-6 bg-rose-600"></span>
                     </div>
 
@@ -33,7 +33,7 @@
                         <p
                             class="text-2xs font-black text-gray-950 dark:text-white uppercase tracking-[0.4em] flex items-center gap-2">
                             <span class="w-1 h-1 bg-rose-600 rounded-full animate-ping"></span>
-                            {{ $category->category_name ?? 'Global' }}_Collection
+                            {{ $category->category_name ?? 'Global' }} Collection
                         </p>
                         <span class="hidden md:block text-gray-200 dark:text-gray-800">/</span>
                         <span
@@ -55,9 +55,9 @@
                         <span class="w-2 h-2 bg-rose-600"></span>
                         <span class="text-[9px] font-black text-gray-950 dark:text-white uppercase tracking-[0.3em]">
                             @if (isset($category))
-                                {{ strtolower($category->category_name) == 'accessories' ? 'Color_Selection' : 'Size_Library' }}
+                                {{ strtolower($category->category_name) == 'accessories' ? 'Color Selection' : 'Size Library' }}
                             @else
-                                Category_Explore
+                                Category Explore
                             @endif
                         </span>
                     </div>
@@ -77,7 +77,7 @@
                         {{ !request($param)
                             ? 'bg-rose-600 border-rose-600 text-white shadow-lg shadow-rose-600/20'
                             : 'bg-white dark:bg-gray-950 border-gray-200 dark:border-white/10 text-gray-400 hover:border-rose-600 hover:text-rose-600' }}">
-                                All_Items
+                                All Items
                             </a>
 
                             @foreach ($items as $item)
@@ -107,7 +107,7 @@
                     {{-- New Refined Sort --}}
                     <div class="flex flex-col items-end gap-2">
                         <span
-                            class="text-[7px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.4em]">Sort_Order:</span>
+                            class="text-[7px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.4em]">Sort Order:</span>
                         <div class="flex items-center gap-6">
                             @php
                                 $sorts = [

@@ -115,7 +115,7 @@
                                     @php
                                         $roleColor =
                                             [
-                                                'superadmin' =>
+                                                'courier' =>
                                                     'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20',
                                                 'admin' =>
                                                     'bg-yellow-50 text-yellow-600 border-yellow-100 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20',

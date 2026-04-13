@@ -10,12 +10,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
-        // Mengambil list role unik untuk filter tabs
         $roles = User::distinct()->pluck('role');
 
         $users = User::query()
@@ -29,26 +25,20 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.user.index', ['title' => 'Read'], compact('users', 'roles'));
+        return view('admin.user.index', ['title' => 'Users List'], compact('users', 'roles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.user.create', ['title' => 'Create']);
+        return view('admin.user.create', ['title' => 'Add New User']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
-            'role' => 'required|in:superadmin,admin,member',
+            'role' => 'required|in:admin,courier,member',
             'password' => 'required|string|min:8|confirmed'
         ]);
 
@@ -65,23 +55,17 @@ class UserController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
-        return view('admin.user.edit', ['title' => 'Edit'], compact('user'));
+        return view('admin.user.edit', ['title' => 'Edit User Data'], compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'role' => 'required|in:superadmin,admin,member',
+            'role' => 'required|in:admin,courier,member',
             'password' => 'nullable|string|min:8|confirmed'
         ]);
 
@@ -99,9 +83,6 @@ class UserController extends Controller
         return redirect()->route('admin.user.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         $user->delete();

@@ -34,7 +34,6 @@ class ReportController extends Controller
             $q->where('status', 'completed');
         });
 
-        // Filter Waktu (Hari, Bulan, Tahun)
         if ($request->filled('date')) {
             $query->whereDate('created_at', $request->date);
             $itemQuery->whereDate('created_at', $request->date);
@@ -45,11 +44,9 @@ class ReportController extends Controller
             $itemQuery->whereMonth('created_at', $month)->whereYear('created_at', $year);
         }
 
-        // 1. Laporan Keuangan
         $totalRevenue = $query->sum('total_price');
         $totalOrders = $query->count();
 
-        // 2. Produk Terlaris (Top 5)
         $bestSellers = OrderItem::select('product_name', DB::raw('SUM(quantity) as total_qty'), DB::raw('SUM(subtotal) as total_sales'))
             ->whereHas('order', function ($q) use ($request) {
                 $q->where('status', 'completed');
@@ -61,8 +58,6 @@ class ReportController extends Controller
             ->take(5)
             ->get();
 
-        // 3. Produk Kurang Laku (Low Performing)
-        // Kita ambil produk yang ada di sistem tapi tidak ada di OrderItem pada periode tersebut
         $soldProductNames = $bestSellers->pluck('product_name')->toArray();
         $slowMoving = Product::whereNotIn('name', $soldProductNames)
             ->take(5)

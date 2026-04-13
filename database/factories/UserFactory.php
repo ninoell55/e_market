@@ -36,14 +36,14 @@ class UserFactory extends Factory
         ];
     }
 
-    public function superadmin()
-    {
-        return $this->state(fn() => ['role' => 'superadmin']);
-    }
-
     public function admin()
     {
         return $this->state(fn() => ['role' => 'admin']);
+    }
+
+    public function courier()
+    {
+        return $this->state(fn() => ['role' => 'courier']);
     }
 
     public function member()

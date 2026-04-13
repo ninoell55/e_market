@@ -15,8 +15,6 @@ class Payment extends Model
         'proof_image',
     ];
 
-    protected $casts = ['paid_at' => 'datetime'];
-
     public function order()
     {
         return $this->belongsTo(Order::class);

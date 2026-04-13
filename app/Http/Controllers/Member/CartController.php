@@ -15,22 +15,19 @@ class CartController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Ambil cart milik user beserta items, produk, dan variannya dalam satu query (Eager Loading)
         $cart = Cart::with(['items.product.category', 'items.variant'])
             ->where('user_id', $user->id)
             ->first();
 
-        // Jika cart belum ada, kita set items sebagai collection kosong agar view tidak error
         $cartItems = $cart ? $cart->items : collect();
 
-        // Hitung total harga
         $total = $cartItems->sum(function ($item) {
             return $item->variant->price * $item->quantity;
         });
 
         return view('member.cart.index', [
             'title' => 'Your Archive - Cart',
-            'cart' => $cart, // Kirim object cart
+            'cart' => $cart,
             'cartItems' => $cartItems,
             'total' => $total
         ]);
@@ -44,10 +41,8 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1'
         ]);
 
-        // 1. Ambil atau buat Cart untuk user ini
         $cart = Auth::user()->cart ?: Cart::create(['user_id' => Auth::id()]);
 
-        // 2. Cek apakah item dengan produk & varian yang sama sudah ada di cart_items
         $existingItem = $cart->items()
             ->where('product_id', $request->product_id)
             ->where('product_variant_id', $request->product_variant_id)
@@ -70,7 +65,6 @@ class CartController extends Controller
     {
         $request->validate(['quantity' => 'required|integer|min:1']);
 
-        // Pastikan item milik user yang login via relasi cart
         if ($item->cart->user_id === Auth::id()) {
             $item->update(['quantity' => $request->quantity]);
         }

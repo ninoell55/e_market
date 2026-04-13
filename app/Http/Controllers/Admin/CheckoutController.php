@@ -13,7 +13,6 @@ class CheckoutController extends Controller
         $query = Order::with(['user', 'payment'])
             ->where('status', '!=', 'cancelled');
 
-        // Filter Search
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('order_number', 'LIKE', "%{$request->search}%")
@@ -23,37 +22,32 @@ class CheckoutController extends Controller
             });
         }
 
-        // Filter Status (dari Tabs)
         if ($request->status) {
             $query->where('status', $request->status);
         }
 
-        // Filter Payment Method
         if ($request->payment) {
             $query->whereHas('payment', function ($q) use ($request) {
                 $q->where('method', $request->payment);
             });
         }
 
-        // Filter Tanggal
         if ($request->date) {
             $query->whereDate('created_at', $request->date);
         }
 
-        // Sortir
         $sort = $request->sort == 'oldest' ? 'asc' : 'desc';
         $orders = $query->orderBy('created_at', $sort)->paginate(10);
 
-        return view('admin.checkout.index', ['title' => 'Checkout Management'], compact('orders'));
+        return view('admin.checkout.index', ['title' => 'Transaction Management'], compact('orders'));
     }
 
     public function show($id)
     {
         $order = Order::with(['user', 'items.product', 'items.variant', 'payment'])->findOrFail($id);
-        return view('admin.checkout.show', ['title' => 'Order Details'], compact('order'));
+        return view('admin.checkout.show', ['title' => 'Transaction Details'], compact('order'));
     }
 
-    // Mengonfirmasi Pembayaran (Untuk Transfer)
     public function approvePayment($id)
     {
         $order = Order::findOrFail($id);
@@ -68,7 +62,6 @@ class CheckoutController extends Controller
         return back()->with('success', 'Payment confirmed. Order status: PAID');
     }
 
-    // Mengirim Barang (Simulasi 24 Jam)
     public function shipOrder($id)
     {
         $order = Order::findOrFail($id);
@@ -77,7 +70,6 @@ class CheckoutController extends Controller
         return back()->with('success', 'Order is on the way (SHIPPED)');
     }
 
-    // Menyelesaikan Order (Kurir konfirmasi sampai/dibayar COD)
     public function completeOrder($id)
     {
         $order = Order::findOrFail($id);
@@ -86,7 +78,6 @@ class CheckoutController extends Controller
             return back()->with('error', 'Payment record not found.');
         }
 
-        // Jika COD, sekalian selesaikan status payment-nya
         if ($order->payment->method === 'COD') {
             $order->payment->update(['status' => 'completed']);
         }

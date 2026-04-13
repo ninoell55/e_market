@@ -67,8 +67,8 @@
                                     {{-- appearance-none ditambahkan untuk menghilangkan panah default browser --}}
                                     <select name="role" required
                                         class="w-full px-6 py-4 bg-gray-50 dark:bg-gray-950 border-none rounded-2xl focus:ring-2 focus:ring-rose-600/20 dark:text-white outline-none transition-all font-semibold appearance-none cursor-pointer">
-                                        <option value="superadmin">Super Admin</option>
                                         <option value="admin">Admin</option>
+                                        <option value="courier">Courier</option>
                                         <option value="member">Member</option>
                                     </select>
                                 </div>

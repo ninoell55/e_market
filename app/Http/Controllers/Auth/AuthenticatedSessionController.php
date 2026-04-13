@@ -30,7 +30,8 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         $defaultDashboard = match ($user->role) {
-            'admin', 'superadmin' => route('admin.dashboard'),
+            'admin',  => route('admin.dashboard'),
+            'courier' => route('admin.checkout.index'),
             'member'  => route('member.dashboard'),
             default => abort(403),
         };

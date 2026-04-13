@@ -327,7 +327,7 @@
                         </h2>
 
                         <p class="max-w-xl text-xl font-medium text-gray-600 leading-relaxed">
-                            Join the revolution of style. We don't just sell clothes; we provide the confidence to
+                            Join the revolution of style. We don't just sell fashion; we provide the confidence to
                             redefine who you are in every single thread.
                         </p>
 
@@ -754,8 +754,7 @@
                     </div>
                 </div>
 
-                <div
-                    class="w-full lg:w-1/2 bg-gray-950 p-6 lg:p-16 xl:p-24 flex items-center border-y lg:border-y-0 lg:border-l border-white/5">
+                <div class="w-full lg:w-1/2 bg-gray-950 p-6 lg:p-16 xl:p-24 flex items-center border-y lg:border-y-0 lg:border-l border-white/5">
                     <div class="grid grid-cols-2 gap-6 lg:gap-10 w-full">
                         @forelse ($clothes->products as $product)
                             <a href="{{ route('member.product.show', $product) }}"

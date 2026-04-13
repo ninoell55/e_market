@@ -22,7 +22,7 @@
 
                     {{-- Overlay Decorative Elements --}}
                     <div class="absolute top-12 left-12 hidden md:block">
-                        <p class="font-anton text-rose-600 text-6xl leading-none opacity-20 italic select-none">AURA_S26
+                        <p class="font-anton text-rose-600 text-6xl leading-none opacity-20 italic select-none">AURA S26
                         </p>
                     </div>
 
@@ -37,7 +37,7 @@
                                 <div class="flex items-center gap-4">
                                     <span
                                         class="px-4 py-1 bg-rose-600 text-white font-anton text-2xs tracking-[0.3em] uppercase italic">
-                                        NEW_EVOLUTION
+                                        NEW EVOLUTION
                                     </span>
                                     <div class="h-px w-24 bg-white/20 hidden md:block"></div>
                                     <span class="font-sans text-2xs font-bold text-white/60 uppercase tracking-[0.4em]">
@@ -66,7 +66,7 @@
                                     <a href="#catalog"
                                         class="group/btn relative overflow-hidden bg-white text-black px-10 py-5 rounded-full font-anton text-xs uppercase tracking-widest transition-all duration-500 hover:pr-16">
                                         <span
-                                            class="relative z-10 group-hover/btn:text-white transition-colors duration-500">SHOP_COLLECTION</span>
+                                            class="relative z-10 group-hover/btn:text-white transition-colors duration-500">SHOP COLLECTION</span>
                                         {{-- Background Fill Animation --}}
                                         <div
                                             class="absolute inset-0 bg-rose-600 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500">
@@ -87,11 +87,11 @@
                         <div
                             class="mt-16 pt-8 border-t border-white/10 flex justify-between items-center text-[8px] font-black text-white/30 tracking-[0.5em] uppercase">
                             <div class="flex gap-8 italic">
-                                <span>01_CORE_AESTHETIC</span>
-                                <span>02_INDUSTRIAL_DNA</span>
+                                <span>01 CORE AESTHETIC</span>
+                                <span>02 INDUSTRIAL DNA</span>
                             </div>
                             <div class="hidden md:block">
-                                EST_2026 // FASHION_AURA
+                                EST 2026 // FASHION AURA
                             </div>
                         </div>
 
@@ -110,7 +110,7 @@
             </h3>
             <a href="#catalog"
                 class="group flex items-center gap-3 text-2xs font-black dark:text-white uppercase tracking-[0.3em] hover:text-rose-600 transition-all">
-                EXPLORE_ALL_UNITS
+                EXPLORE ALL UNITS
                 <span
                     class="w-10 h-px bg-black dark:bg-white group-hover:bg-rose-600 group-hover:w-16 transition-all"></span>
             </a>
@@ -148,7 +148,7 @@
                                 </h4>
                                 <span
                                     class="mt-6 px-6 py-2 border border-white/20 text-[9px] text-white uppercase tracking-widest group-hover:bg-rose-600 group-hover:border-rose-600 transition-all">
-                                    VIEW_UNIT
+                                    VIEW UNIT
                                 </span>
                             </div>
                         </a>
@@ -176,14 +176,14 @@
     <script>
         const swiper = new Swiper('.bestProductsSwiper', {
             slidesPerView: 'auto',
-            spaceBetween: 20, // Jarak antar produk
+            spaceBetween: 20,
             loop: true,
-            speed: 5000, // Kecepatan jalan (makin besar makin lambat/halus)
-            allowTouchMove: true, // Bisa digeser manual
+            speed: 5000,
+            allowTouchMove: true,
             autoplay: {
                 delay: 0,
                 disableOnInteraction: false,
-                pauseOnMouseEnter: true, // BERHENTI PAS DI-HOVER
+                pauseOnMouseEnter: true,
             },
             grabCursor: true,
             breakpoints: {

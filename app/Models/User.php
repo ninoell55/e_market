@@ -67,7 +67,17 @@ class User extends Authenticatable
 
     public function getDashboardRouteName()
     {
-        return $this->role === 'admin' || $this->role === 'superadmin' ? 'admin.dashboard' : 'member.dashboard';
+        return $this->role === 'admin' ? 'admin.dashboard' : ($this->role === 'courier' ? 'admin.checkout.index' : 'member.dashboard');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isCourier()
+    {
+        return $this->role === 'courier';
     }
 
     public function addresses(): HasMany

@@ -18,14 +18,10 @@ use Illuminate\Validation\Rule;
 
 class CheckoutController extends Controller
 {
-    /**
-     * TAMPILAN CHECKOUT
-     */
     public function index(Request $request)
     {
         $user = Auth::user();
 
-        // Check if this is direct checkout from session
         if ($request->query('source') === 'cart') {
             session()->forget('direct_checkout_product');
         }
@@ -33,7 +29,6 @@ class CheckoutController extends Controller
         $directCheckoutData = session('direct_checkout_product');
 
         if ($directCheckoutData) {
-            // Direct checkout: build cart-like structure from session
             $product = Product::with('variants')->findOrFail($directCheckoutData['product_id']);
             $variant = $product->variants()->findOrFail($directCheckoutData['product_variant_id']);
 
@@ -51,7 +46,6 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // Regular checkout from cart
         $cart = Cart::where('user_id', $user->id)
             ->with(['items.product', 'items.variant'])
             ->first();
@@ -73,9 +67,6 @@ class CheckoutController extends Controller
         ]);
     }
 
-    /**
-     * PROSES SIMPAN ORDER (POST)
-     */
     public function store(Request $request)
     {
         /** @var User $user */
@@ -103,7 +94,6 @@ class CheckoutController extends Controller
         $directCheckoutData = session('direct_checkout_product');
         $isDirectCheckout = !is_null($directCheckoutData);
 
-        // Ambil data items (Direct atau Cart)
         if ($isDirectCheckout) {
             $variant = ProductVariant::with('product')->findOrFail($directCheckoutData['product_variant_id']);
             $itemsToProcess = [
@@ -121,7 +111,6 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // --- 1. CEK STOK DULU SEBELUM ORDER ---
             foreach ($itemsToProcess as $item) {
                 if ($item->variant->stock < $item->quantity) {
                     throw new \Exception("Stock {$item->product->name} ({$item->variant->attribute_value}) not available.");
@@ -130,11 +119,7 @@ class CheckoutController extends Controller
 
             $totalPrice = collect($itemsToProcess)->sum(fn($i) => $i->variant->price * $i->quantity);
 
-            // --- 2. TENTUKAN STATUS AWAL ---
-            // Jika COD, status langsung 'confirmed' (siap kirim) karena tidak butuh cek bukti transfer
-            // Jika Transfer, status 'pending' (menunggu verifikasi admin)
             $orderStatus = ($request->method === 'COD') ? 'pending' : 'pending';
-            // Catatan: Keduanya mulai dari pending, tapi COD akan diproses admin ke 'shipped' lebih cepat.
 
             $order = Order::create([
                 'user_id' => $user->id,
@@ -147,7 +132,6 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($itemsToProcess as $item) {
-                // --- 3. POTONG STOK ---
                 $item->variant->decrement('stock', $item->quantity);
 
                 OrderItem::create([
@@ -162,7 +146,6 @@ class CheckoutController extends Controller
                 ]);
             }
 
-            // --- 4. PEMBAYARAN ---
             $proofPath = $request->hasFile('proof_image')
                 ? $request->file('proof_image')->store('payments/proofs', 'public')
                 : null;
@@ -171,7 +154,7 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
                 'method' => $request->method,
                 'amount' => $totalPrice,
-                'status' => 'pending', // Transfer: Pending admin. COD: Pending sampai kurir terima uang.
+                'status' => 'pending', 
                 'transaction_id' => 'PAY-' . strtoupper(Str::random(12)),
                 'proof_image' => $proofPath,
             ]);
@@ -187,15 +170,11 @@ class CheckoutController extends Controller
         }
     }
 
-    /**
-     * STRUK DIGITAL UNTUK SCAN QR (Simulasi)
-     */
     public function digitalReceipt(Request $request, $id = null)
     {
         $user = Auth::user();
         $date = now()->format('d/m/Y H:i');
 
-        // Jika scan QR dari Direct Checkout
         if ($request->query('type') === 'direct') {
             $directData = session('direct_checkout_product');
             if (!$directData) return abort(404, 'Session Expired');
@@ -203,7 +182,6 @@ class CheckoutController extends Controller
             $product = Product::findOrFail($directData['product_id']);
             $variant = ProductVariant::findOrFail($directData['product_variant_id']);
 
-            // Buat mock object supaya view receipt tidak error
             $cart = (object)[
                 'id' => 'DIRECT',
                 'items' => collect([(object)[
@@ -217,16 +195,12 @@ class CheckoutController extends Controller
             return view('member.checkout.receipt', compact('cart', 'total', 'date'));
         }
 
-        // Jika scan QR dari Cart Normal
         $cart = Cart::where('id', $id)->where('user_id', $user->id)->with(['items.product', 'items.variant'])->firstOrFail();
         $total = $cart->items->sum(fn($item) => $item->variant->price * $item->quantity);
 
         return view('member.checkout.receipt', compact('cart', 'total', 'date'));
     }
 
-    /**
-     * DIRECT CHECKOUT - Save product to session and proceed to checkout
-     */
     public function directCheckout(Request $request)
     {
         $request->validate([
@@ -235,7 +209,6 @@ class CheckoutController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Store direct checkout data in session (isolated from cart)
         session([
             'direct_checkout_product' => [
                 'product_id' => $request->product_id,
@@ -251,7 +224,6 @@ class CheckoutController extends Controller
     {
         $order = Order::where('user_id', Auth::id())->findOrFail($id);
 
-        // Cek durasi (10 menit)
         if ($order->created_at->diffInMinutes(now()) > 10) {
             return back()->with('error', 'Time limit for cancellation has passed. You can contact support for assistance.');
         }
@@ -262,7 +234,6 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // --- KEMBALIKAN STOK ---
             foreach ($order->items as $item) {
                 $item->variant->increment('stock', $item->quantity);
             }
