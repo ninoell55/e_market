@@ -31,6 +31,9 @@ class ProductSeeder extends Seeder
 
             $files = File::files($imagePath);
 
+            // Acak urutan file agar produk tidak selalu dalam urutan alfabetik
+            shuffle($files);
+
             foreach ($files as $file) {
                 // Pastikan folder target di storage tersedia
                 $uploadsPath = storage_path('app/public/uploads');
