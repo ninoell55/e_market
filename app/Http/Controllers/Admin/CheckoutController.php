@@ -86,4 +86,27 @@ class CheckoutController extends Controller
 
         return back()->with('success', 'Transaction finished (COMPLETED)');
     }
+
+    public function cancelOrder($id)
+    {
+        $order = Order::findOrFail($id);
+
+        if ($order->status === 'completed') {
+            return back()->with('error', 'Cannot cancel a completed order.');
+        }
+
+        // Restore stock
+        foreach ($order->items as $item) {
+            if ($item->variant) {
+                $item->variant->increment('stock', $item->quantity);
+            } elseif ($item->product) {
+                // If no variant, assume product has stock, but in this model, stock is in variants
+                // For now, skip or handle accordingly
+            }
+        }
+
+        $order->update(['status' => 'cancelled']);
+
+        return back()->with('success', 'Order cancelled and stock restored.');
+    }
 }

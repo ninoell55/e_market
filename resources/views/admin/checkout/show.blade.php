@@ -204,12 +204,34 @@
                                 </form>
                             @endif
 
+                            @if ($order->status === 'pending')
+                                <form action="{{ route('admin.checkout.cancel', $order->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to cancel this order? This will restore the product stock.')">
+                                    @csrf
+                                    <button
+                                        class="confirm-delete-btn w-full py-4 bg-red-500 text-white text-2xs font-black uppercase tracking-widest rounded-2xl hover:bg-red-600 transition-all active:scale-95 shadow-xl shadow-red-900/20"
+                                        title="Cancel Order" data-confirm-title="Are you sure?"
+                                        data-confirm-text="This action cannot be undone and will restore the product stock."
+                                        data-confirm-button="YES, CANCEL IT">
+                                        Cancel Order
+                                    </button>
+                                </form>
+                            @endif
+
                             @if ($order->status === 'completed')
                                 <div
                                     class="p-6 border border-white/20 rounded-2xl text-center bg-white/5 backdrop-blur-sm">
                                     <span
                                         class="text-2xs font-black text-white/70 uppercase tracking-widest">Transaction
                                         Closed</span>
+                                </div>
+                            @endif
+
+                            @if ($order->status === 'cancelled')
+                                <div
+                                    class="p-6 border border-white/20 rounded-2xl text-center bg-red-500/10 backdrop-blur-sm">
+                                    <span class="text-2xs font-black text-red-400 uppercase tracking-widest">Order
+                                        Cancelled</span>
                                 </div>
                             @endif
                         </div>

@@ -25,4 +25,5 @@ Route::middleware(['auth', 'role:admin,courier'])->prefix('admin')->name('admin.
     Route::post('/checkout/{id}/approve', [CheckoutController::class, 'approvePayment'])->name('checkout.approve');
     Route::post('/checkout/{id}/ship', [CheckoutController::class, 'shipOrder'])->name('checkout.ship');
     Route::post('/checkout/{id}/complete', [CheckoutController::class, 'completeOrder'])->name('checkout.complete');
+    Route::post('/checkout/{id}/cancel', [CheckoutController::class, 'cancelOrder'])->name('checkout.cancel');
 });
