@@ -274,8 +274,8 @@
                                         </div>
                                         <div
                                             class="w-24 bg-gray-100 dark:bg-white/5 overflow-hidden relative z-10">
-                                            @if ($item->product->image)
-                                                <img src="{{ asset('storage/uploads/' . $item->product->image) }}"
+                                            @if ($item->product_image)
+                                                <img src="{{ asset('storage/uploads/' . $item->product_image) }}"
                                                     class="w-full object-cover aspect-square contrast-125 brightness-90 group-hover:scale-110 transition-all duration-1000">
                                             @endif
                                         </div>

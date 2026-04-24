@@ -158,10 +158,6 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->image && Storage::disk('public')->exists('uploads/' . $product->image)) {
-            Storage::disk('public')->delete('uploads/' . $product->image);
-        }
-
         $product->delete();
 
         Alert::success('Success', 'Product deleted successfully!');
